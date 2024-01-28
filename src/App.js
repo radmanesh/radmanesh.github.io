@@ -1,33 +1,24 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import ProTip from './ProTip';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { Route, BrowserRouter as Router, Routes, Navigate } from "react-router-dom";
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Resume from './pages/Resume';
+import MainLayout from './pages/MainLayout';
 
 export default function App() {
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Material UI Create React App example
-        </Typography>
-        <ProTip />
-        <Copyright />
-      </Box>
-    </Container>
+    <Router future={{ v7_startTransition: true }}>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route exact path="/home" element={<Home />} />
+          <Route exact path="/" element={<Navigate to="/home" replace />} />
+          <Route exact path="/cv" element={<Resume />} />
+        </Route>
+        <Route path="/" element={<MainLayout />} >
+          <Route exact path="/notFound" element={<NotFound />} /> {/* Add a route for the 404 page */}
+          <Route path="*" element={<Navigate to="/notFound" replace />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
