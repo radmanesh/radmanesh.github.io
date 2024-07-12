@@ -1,5 +1,6 @@
 # Arman Radmanesh
 #### My Resume
-![cv1](https://www.armanradmanesh.com/public/cv1.jpg)
-![cv2](https://www.armanradmanesh.com/public/cv2.jpg)
-![cv3](https://www.armanradmanesh.com/public/cv3.jpg)
+
+![cv1](https://raw.githubusercontent.com/radmanesh/radmanesh.github.io/main/public/cv1.png)
+![cv2](https://raw.githubusercontent.com/radmanesh/radmanesh.github.io/main/public/cv2.png)
+![cv3](https://raw.githubusercontent.com/radmanesh/radmanesh.github.io/main/public/cv1.png)
