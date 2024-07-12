@@ -1,5 +1,5 @@
 # Arman Radmanesh
 #### My Resume
-![](./public/cv1.jpg)
-![](./public/cv2.jpg)
-![](./public/cv3.jpg)
+![cv1](https://www.armanradmanesh.com/public/cv1.jpg)
+![cv2](https://www.armanradmanesh.com/public/cv2.jpg)
+![cv3](https://www.armanradmanesh.com/public/cv3.jpg)
