@@ -30,8 +30,8 @@ export function Headline() {
         </h1>
         <h2 className="text-base md:text-xl text-muted-foreground selection:text-muted-foreground/80 tracking-tighter font-light">
           I turn complex ideas into seamless digital experiences by blending
-          design and functionality, paying attention to the little details
-          because even the smallest things can make a big difference.
+          design and functionality with a keen eye on the small things as the
+          small things can make a big difference.
         </h2>
       </div>
       <Button
