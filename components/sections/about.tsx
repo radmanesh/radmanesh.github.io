@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { ReactBadge } from "../badges/react";
-import { AnimatedLink } from "../animated-link";
+import { AnimatedLink } from "../shared/animated-link";
 
 // --------- LAYOUT ---------
 export function About() {
