@@ -10,8 +10,8 @@ export function About() {
       <h2 className="font-bold text-xl md:text-2xl underline decoration-wavy underline-offset-8">
         Meet me
       </h2>
-      <div className="grid grid-cols-1 gap-4 leading-relaxed md:leading-normal tracking-tight">
-        <p className="font-semibold">Hey, Ahmed Ismail here!</p>
+      <div className="grid grid-cols-1 gap-4 leading-relaxed md:leading-normal tracking-tight text-muted-foreground selection:text-muted-foreground/80">
+        <p className="font-semibold">Hello, Ahmed Ismail here!</p>
         <p>
           An ambitious frontend software engineer from Egypt with 5 years of
           experience in building single page apps with <ReactBadge />. With a
