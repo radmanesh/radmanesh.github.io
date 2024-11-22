@@ -42,7 +42,11 @@ export function Headline() {
         Icon={ArrowDownRightIcon}
         className="rounded-full"
       >
-        <Link href="/about" download>
+        <Link
+          download
+          target="_blank noreferrer"
+          href="/docs/ahmed-ismail-resume.pdf"
+        >
           Get my resume
         </Link>
       </Button>
