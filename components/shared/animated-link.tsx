@@ -12,7 +12,7 @@ export function AnimatedLink({
     <Link
       {...props}
       href={href}
-      className="group flex items-center relative w-fit font-medium after:absolute after:bottom-0 after:right-0 after:h-[1px] after:w-0 after:bg-current hover:after:w-full after:transition-all after:duration-300 hover:after:left-0 hover:after:right-auto"
+      className="group text-foreground flex items-center relative w-fit font-medium after:absolute after:bottom-0 after:right-0 after:h-[1px] after:w-0 after:bg-current hover:after:w-full after:transition-all after:duration-300 hover:after:left-0 hover:after:right-auto"
     >
       {children}
       <span className="relative ml-2 w-4 h-4 overflow-hidden">
