@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ThemeToggle } from "./theme-toggle";
+import { ThemeToggle } from "../shared/theme-toggle";
 
-export default function Header() {
+// --------- COMPONENT ---------
+export function Header() {
   return (
     <header>
       <div className="px-4 sm:px-6">
