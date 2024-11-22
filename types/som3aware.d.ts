@@ -1,12 +1,15 @@
 declare module "som3aware" {
   export type Project = {
     id: string;
+    url: string;
     title: string;
-    logoPath: string;
-    codeLink: string;
-    previewLink: string;
+    logo: LucideIcon;
+    featured: boolean;
     description: string;
-    stackIconPath: string;
-    technologies: string[];
   };
+
+  export type NavigationItem = {
+    name: string;
+    href: string
+  }
 }
