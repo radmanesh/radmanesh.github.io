@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import "./globals.css";
-import Header from "@/components/header";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Header } from "@/components/layout/header";
+import { ThemeProvider } from "@/components/shared/theme-provider";
+import { MaxWidthWrapper } from "@/components/layout/max-width-wrapper";
 
 // --------- FONTS ---------
 const geistSans = localFont({
@@ -43,7 +44,7 @@ export default function RootLayout({
         >
           <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
             <Header />
-            {children}
+            <MaxWidthWrapper>{children}</MaxWidthWrapper>
           </div>
         </ThemeProvider>
       </body>
