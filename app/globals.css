@@ -69,4 +69,7 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  .project-logo {
+    @apply w-5 h-5 text-zinc-900 dark:text-zinc-100;
+  }
 }
