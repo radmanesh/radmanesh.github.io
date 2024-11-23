@@ -1,10 +1,12 @@
 import { Project } from "som3aware";
 import { ComponentProps } from "react";
 
+// --------- COMPONENT PROPS ---------
 interface ProjectCardProps extends ComponentProps<"a"> {
   project: Project;
 }
 
+// --------- COMPONENT LAYOUT ---------
 export function ProjectCard({ project, ...props }: ProjectCardProps) {
   return (
     <a href={project.url} {...props}>

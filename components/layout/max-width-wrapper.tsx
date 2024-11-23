@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-// --------- COMPONENT ---------
+// --------- COMPONENT LAYOUT ---------
 export function MaxWidthWrapper({ children }: { children: ReactNode }) {
   return (
     <main className="px-4 md:px-6">
