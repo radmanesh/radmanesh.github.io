@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 
 // --------- SECTION COMPONENT ---------
@@ -16,11 +17,14 @@ interface SectionTitleProps extends ComponentProps<"h2"> {
   text: string;
 }
 
-function SectionTitle({ text, ...props }: SectionTitleProps) {
+function SectionTitle({ text, className, ...props }: SectionTitleProps) {
   return (
     <h2
       {...props}
-      className="font-bold text-xl md:text-2xl underline decoration-wavy underline-offset-8"
+      className={cn(
+        "font-bold text-xl md:text-2xl underline decoration-wavy underline-offset-8",
+        className
+      )}
     >
       {text}
     </h2>
