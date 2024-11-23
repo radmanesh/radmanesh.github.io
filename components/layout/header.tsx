@@ -7,12 +7,17 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import NAVIGATION_ITEMS from "@/content/navigation";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
-// --------- COMPONENT ---------
+// --------- COMPONENT LAYOUT ---------
 export function Header() {
-  const [isMobile, setIsMobile] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -26,41 +31,46 @@ export function Header() {
   }, []);
 
   return (
-    <header>
-      <div className="px-4 sm:px-6">
-        <div className="mx-auto mb-16 flex h-16 w-full max-w-3xl items-center justify-between border-b border-border/70">
+    <header className="sticky z-50 mb-16 top-0 backdrop-blur-md bg-zinc-50/75 dark:bg-zinc-900/75">
+      <div className="px-6 md:px-4">
+        <div className="mx-auto flex h-16 w-full max-w-3xl items-center justify-between border-b border-border">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 {open ? (
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4 text-zinc-500" />
                 ) : (
-                  <Menu className="h-4 w-4" />
+                  <Menu className="h-4 w-4 text-zinc-500" />
                 )}
               </Button>
             </SheetTrigger>
             <SheetContent
               side={isMobile ? "bottom" : "top"}
               className={`
-                bg-zinc-100 dark:bg-zinc-900 border-zinc-800 dark:border-zinc-800
+                bg-zinc-100 dark:bg-zinc-900 border-zinc-800 dark:border-zinc-800 backdrop-blur-md
                 ${
                   isMobile
-                    ? "h-fit rounded-t-[20px] pb-8"
-                    : "h-fit mt-16 rounded-b-[20px] pb-8"
+                    ? "h-fit rounded-t-3xl pb-8"
+                    : "h-fit mt-16 rounded-3xl pb-8"
                 }
                 ${isMobile ? "" : "max-w-3xl mx-auto left-0 right-0"}
               `}
             >
-              <nav className="flex flex-col gap-2 mt-6">
-                {NAVIGATION_ITEMS.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="text-lg hover:opacity-80"
-                  >
-                    {item.name}
-                  </Link>
+              <SheetTitle className="hidden"></SheetTitle>
+              <nav className="flex flex-col mt-6">
+                {NAVIGATION_ITEMS.map((item, index) => (
+                  <div key={item.name}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="block py-3 text-lg hover:opacity-80"
+                    >
+                      {item.name}
+                    </Link>
+                    {index !== NAVIGATION_ITEMS.length - 1 && (
+                      <div className="h-[1px] bg-zinc-200 dark:bg-zinc-800" />
+                    )}
+                  </div>
                 ))}
               </nav>
             </SheetContent>
