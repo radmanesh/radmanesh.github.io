@@ -5,14 +5,17 @@ import { PaginationButton } from "@/components/shared/pagination-button";
 
 // --------- PAGE PROPS---------
 interface ProjectsPageProps {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }
 
 // --------- PAGE ---------
-export default function ProjectsPage({ searchParams }: ProjectsPageProps) {
+export default async function ProjectsPage({
+  searchParams,
+}: ProjectsPageProps) {
+  const { page } = await searchParams;
   const start = 0;
   const ITEMS_PER_PAGE = 6;
-  const currentPage = Number(searchParams.page) || 1;
+  const currentPage = Number(page) || 1;
   const end = ITEMS_PER_PAGE * currentPage;
 
   const visibleProjects = PROJECTS.slice(start, end);
