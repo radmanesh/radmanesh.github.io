@@ -31,7 +31,7 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky z-50 mb-16 top-0 backdrop-blur-md bg-zinc-50/75 dark:bg-zinc-900/75">
+    <header className="sticky z-50 mb-8 top-0 backdrop-blur-md bg-zinc-50/75 dark:bg-zinc-900/75">
       <div className="px-6 md:px-4">
         <div className="mx-auto flex h-16 w-full max-w-3xl items-center justify-between border-b border-border">
           <Sheet open={open} onOpenChange={setOpen}>
