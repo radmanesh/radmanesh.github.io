@@ -83,43 +83,35 @@ body {
   }
 
   .prose {
-    @apply space-y-6
+    @apply space-y-6;
   }
 
   .prose table th {
-    @apply uppercase text-xs md:text-sm
+    @apply text-xs md:text-sm p-2 text-left;
   }
 
-  .prose table p,td {
-    @apply text-xs md:text-sm
+  .prose table p,
+  td {
+    @apply text-xs md:text-sm;
   }
 
   .prose table td {
-    @apply p-2
+    @apply p-2;
   }
 
   .prose table thead {
-    @apply border-b border-b
+    @apply border-b border-b;
   }
 
   .prose table tr {
-    @apply border-b border-border
+    @apply border-b border-border;
   }
 
   .prose table tr:last-of-type {
-    @apply border-none
+    @apply border-none;
   }
 
-  #toc ul {
-    list-style-type: none;
-  }
-  
-  #toc a {
-    text-decoration: none;
-  }
-  
-  #toc a:hover {
-    color: antiquewhite;
-    text-decoration: underline;
+  .prose ul {
+    @apply list-disc px-6 text-muted-foreground;
   }
 }

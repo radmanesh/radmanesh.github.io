@@ -46,8 +46,8 @@ export default async function PostPage({ params }: PostPageProps) {
           width={640}
           height={320}
           src={post.cover}
-          className="rounded-lg w-full shadow-md shadow-stone-900 dark:shadow-stone-700"
           alt={`${post.title}'s cover image`}
+          className="rounded-lg w-full shadow-sm shadow-stone-900 dark:shadow-stone-700"
         />
         <div className="space-y-1 text-center tracking-tight">
           <h1 className="font-bold text-2xl md:text-3xl">{post.title}</h1>

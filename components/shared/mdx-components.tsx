@@ -3,8 +3,8 @@ import { ComponentProps } from "react";
 import type { MDXComponents } from "mdx/types";
 
 // --------- CUSTOM MDX COMPONENTS ---------
-function NextImage({alt, ...props}: ComponentProps<typeof Image>) {
-  return <Image alt={alt} className="rounded-lg" {...props} />;
+function NextImage({ alt, ...props }: ComponentProps<typeof Image>) {
+  return <Image alt={alt} className="rounded-lg w-full" {...props} />;
 }
 
 function TOC({ children }: { children: any }) {
@@ -23,7 +23,11 @@ export const mdxComponents: MDXComponents = {
       {children}
     </h2>
   ),
-  h3: ({children}) => <h3 className='font-medium text-foreground/80 tracking-tight leading-relaxed md:leading-normal'>{children}</h3>,
+  h3: ({ children }) => (
+    <h3 className="font-medium text-foreground/80 tracking-tight leading-relaxed md:leading-normal">
+      {children}
+    </h3>
+  ),
   p: ({ children }) => (
     <p className="text-sm md:text-base text-justify text-muted-foreground tracking-tight font-normal">
       {children}
@@ -32,7 +36,7 @@ export const mdxComponents: MDXComponents = {
   a: ({ children, href }) => (
     <a
       href={href!.toString()}
-      className="underline decoration-solid underline-offset-2"
+      className="underline decoration-dotted underline-offset-2"
     >
       {children}
     </a>
