@@ -15,7 +15,7 @@ export function ProjectCard({ project, ...props }: ProjectCardProps) {
           <div className="flex-shrink-0 mr-4">{project.logo}</div>
           <div className="flex-grow min-w-0 tracking-tight font-light">
             <h2 className="font-semibold truncate">{project.title}</h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground truncate">
               {project.description}
             </p>
           </div>
