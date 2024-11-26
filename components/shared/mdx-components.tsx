@@ -1,28 +1,42 @@
 import Image from "next/image";
+import { ComponentProps } from "react";
 import type { MDXComponents } from "mdx/types";
 
-export const mdxComponents: MDXComponents = {
-  h1: ({ children }) => (
-    <h1 className="font-bold text-xl tracking-tight leading-relaxed md:leading-normal">
+// --------- CUSTOM MDX COMPONENTS ---------
+function NextImage({alt, ...props}: ComponentProps<typeof Image>) {
+  return <Image alt={alt} className="rounded-lg" {...props} />;
+}
+
+function TOC({ children }: { children: any }) {
+  return (
+    <details id="toc" className="hover:cursor-pointer">
+      <summary className="uppercase text-lg">On this Page</summary>
       {children}
-    </h1>
-  ),
+    </details>
+  );
+}
+
+// --------- EXPORTED MDX COMPONENTS ---------
+export const mdxComponents: MDXComponents = {
   h2: ({ children }) => (
-    <h2 className="font-semibold text-base tracking-tight leading-relaxed md:leading-normal">
+    <h2 className="font-semibold text-xl tracking-tight leading-relaxed md:leading-normal">
       {children}
     </h2>
   ),
+  h3: ({children}) => <h3 className='font-medium text-foreground/80 tracking-tight leading-relaxed md:leading-normal'>{children}</h3>,
   p: ({ children }) => (
-    <p className="text-sm text-muted-foreground tracking-tight font-light">
+    <p className="text-sm md:text-base text-justify text-muted-foreground tracking-tight font-normal">
       {children}
     </p>
   ),
-  img: ({ alt, src }) => (
-    <Image
-      width={640}
-      height={320}
-      src={src!.toString()}
-      alt={alt!.toString()}
-    />
+  a: ({ children, href }) => (
+    <a
+      href={href!.toString()}
+      className="underline decoration-solid underline-offset-2"
+    >
+      {children}
+    </a>
   ),
+  TOC,
+  NextImage,
 };
