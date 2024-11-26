@@ -14,10 +14,9 @@ export function BlogPosts() {
           .sort((a, b) =>
             compareDesc(new Date(a.publishedAt), new Date(b.publishedAt))
           )
-          .filter((p) => p.featured)
           .map((post) => (
             <PostCard post={post} key={post._id} />
-          )).slice(0, 6)}
+          )).slice(0, 5)}
       </div>
       <div className="flex justify-end">
         <AnimatedLink href="/blog">View all posts</AnimatedLink>
