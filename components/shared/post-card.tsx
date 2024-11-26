@@ -26,7 +26,7 @@ export function PostCard({ post, ...props }: PostCardProps) {
         <div className="flex items-center p-4">
           <div className="flex-shrink-0 mr-4">{getTagIcon(post.tag)}</div>
           <div className="flex-grow min-w-0 tracking-tight font-light">
-            <p className="text-sm text-muted-foreground/80">{`${format(
+            <p className="text-xs text-muted-foreground/80 uppercase">{`${format(
               post.publishedAt,
               "LLL dd, yyyy"
             )} • ${post.readingTime} ${
