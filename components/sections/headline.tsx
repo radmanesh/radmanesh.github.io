@@ -1,12 +1,7 @@
-import {
-  ArrowDownRightIcon,
-  ArrowRightIcon,
-  ArrowUpRightIcon,
-} from "lucide-react";
 import Link from "next/link";
+import { ArrowDownRightIcon } from "lucide-react";
 
-import { Button } from "../ui/button";
-import { ReactBadge } from "../badges/react";
+import { Button } from "@/components/ui/button";
 
 // --------- LAYOUT ---------
 export function Headline() {
