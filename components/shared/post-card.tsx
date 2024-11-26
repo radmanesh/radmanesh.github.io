@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { ComponentProps } from "react";
-import { Code, Book } from "lucide-react";
+import { Code, Book, SquareDashedBottomCode } from "lucide-react";
 
 import type { Post } from "contentlayer/generated";
 
@@ -14,11 +14,13 @@ interface PostCardProps extends ComponentProps<"a"> {
 // --------- COMPONENT LAYOUT ---------
 export function PostCard({ post, ...props }: PostCardProps) {
   function getTagIcon(tag: string) {
-    return tag === "technical" ? (
-      <Code className="project-logo" />
-    ) : (
-      <Book className="project-logo" />
-    );
+    if (tag === "technical") {
+      return <Code className="project-logo" />;
+    } else if (tag === "tips") {
+      return <SquareDashedBottomCode className="project-logo" />;
+    } else {
+      return <Book className="project-logo" />;
+    }
   }
   return (
     <a href={post.url} {...props}>
