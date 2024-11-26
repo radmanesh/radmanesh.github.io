@@ -69,7 +69,13 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
+  pre {
+    @apply text-xs border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 my-4;
+  }
+
   .project-logo {
     @apply w-5 h-5 text-zinc-900 dark:text-zinc-100;
   }
+
 }
