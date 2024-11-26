@@ -1,0 +1,265 @@
+---
+title: Streamlining the Hiring Process with OpenAI and LangChain Part 1
+publishedAt: 2023-08-14
+summary: How to empower Large Language Models like GPT-4 & frameworks like LangChain to streamline the hiring process
+featured: true
+cover: /posts/streamlining-the-hiring-procese-part-1.webp
+tag: technical
+---
+
+## The Spotlight Dilemma: Sorting Stars from Stardom
+
+Imagine you're the director of the most incredible talent show in town,
+searching for the brightest stars to light up the stage. Your job? To find the
+most dazzling performers who will leave the audience in awe. In the past,
+you'd have a stack of audition tapes to watch, which could be overwhelming.
+But now, with the rise of digital technology, you're flooded with videos from
+all around the world. It's like trying to find a needle in a haystack!
+
+<NextImage
+  priority
+  width={600}
+  height={400}
+  alt="needle in a haystack"
+  src="/posts/needle-in-the-haystack.webp"
+/>
+
+## Navigating Recruitment Challenges: Unveiling Unseen Talent Gems
+
+Here's the kicker: sometimes you might accidentally pick a performer just
+because they remind you of someone you know. That means you might miss out on
+some incredible acts that bring fresh and unique flavors to your show. And
+trust me, you don't want to miss out on the next superstar because they dance
+to a different beat.
+
+Traditionally, you might have relied on word-of-mouth or the familiar faces
+you've seen before. But think about it, that might mean you're passing up on
+the chance to discover a hidden gem - a performer with a new style that the
+world has yet to see.
+
+<NextImage
+  priority
+  width={600}
+  height={400}
+  alt="familiar face"
+  src="/posts/familiar-face.webp"
+/>
+
+Ever had that moment when you're singing one song in your head, but your
+friend is humming a completely different tune? Well, imagine you've got a
+group of judges, each with their own musical taste. What one judge loves,
+another might not be crazy about. It's like trying to pick the best ice cream
+flavor, and everyone has their own favorite.
+
+<NextImage
+  priority
+  width={600}
+  height={400}
+  alt="three men eating ice cream"
+  src="/posts/ice-cream.webp"
+/>
+
+Now, picture this: the whole talent search process taking so long that amazing
+acts get snatched up by other shows. It's like watching a magician disappear
+in a puff of smoke before you even say "ta-da!" And if you're not crystal
+clear about how you're choosing your acts, they might feel like they're
+solving a puzzle without all the pieces.
+
+But hey, what if you had a magical assistant who could watch all the
+auditions, spot the real gems, and help you tackle these challenges head-on?
+This incredible sidekick could make your job as a talent show director a
+breeze, and your stage would be graced with even more extraordinary
+performances!
+
+That's where **LLMs** - our modern-day magic helpers - come in for HR
+recruiters. They can help unearth the top talents, conquer these hurdles, and
+let recruiters focus on the most exciting parts of their gig. It's like having
+a team of assistants who always know the perfect act to steal the show.
+
+<NextImage
+  priority
+  width={600}
+  height={400}
+  alt="i am not seeing it's magic but it's meme"
+  src="/posts/magic.webp"
+/>
+
+## Unveiling the Bot: Your Backstage Buddy for Talent Hunting!
+
+Introducing the Talent Scouter Bot - your trusty assistant, powered by
+super-smart technology. It's like having a backstage helper who can chat about
+all those audition tapes, just like friends discussing their favorite acts.
+
+You share the job description and what you're looking for in a superstar
+performer, and the Bot jumps into action. It chats with you like a friendly
+colleague, asking questions, and even provides a scorecard for each act's
+relevance to the role.
+
+But here's where the magic happens. The Bot isn't just about numbers. It
+actually understands the resumes, just like you would read a story. It figures
+out who danced their way through college, who's a master at magic tricks, and
+who's a stand-up comedy sensation.
+
+Now, let's dive into how this genius works:
+
+This is the resume we're going to use throughout this guide: [John-Doe's PDF
+Resume](https://upload.wikimedia.org/wikipedia/commons/c/cc/Resume.pdf)
+
+## Process
+
+### Step 1 - Audition Files
+
+Imagine your Bot grabbing the audition tapes (resumes) and giving them a good watch (reading). It's like flipping through pages, but way faster. We're using special tools from **LangChain**, `PyMuPDFLoader`, to make this happen.
+
+`PyMuPDFLoader` will load the contents of every page in the resume and store them in a `Document` object. We can access the content of each page using the `page_content` attribute.
+
+```python showLineNumbers
+from langchain.document_loaders import PyMuPDFLoader
+
+resume_path = "./resumes/john-doe.pdf"
+loader = PyMuPDFLoader(file_path=resume_path)
+resume_content = loader.load()
+print(resume_content[0].page_content)
+
+```
+
+<NextImage
+  priority
+  width={600}
+  height={400}
+  unoptimized
+  alt="loading resume's content"
+  src="/posts/loading-content.gif"
+/>
+
+### Step 2 - Spotlight Highlights
+
+The Bot is a pro at finding the golden nuggets. It picks out the coolest parts of each act and creates a quick summary. Think of it like the highlights reel of a sports game – only for resumes. To make this happen, we’re going to use summarize chains and chat models modules from LangChain as well, specifically `load_summarize_chain` and `ChatOpenAI`.
+
+`load_summarize_chain` would take the resume's content and make a concise summary for it based on the prompt we pass to it, `SUMMARY_PROMPT`, here.
+
+```python showLineNumbers
+from langchain.chains.summarize import load_summarize_chain
+from langchain.chat_models import ChatOpenAI
+from langchain.prompts import PromptTemplate
+
+# Summarization Prompt
+single_resume_tempate =
+"""
+You are an expert at extracting information from a resume.
+Use the given resumes text to write a concise summary.
+The summary must include the following sections:
+
+1. Name
+2. Contact Information
+3. Professional Summary or Objective
+4. Work Experience
+5. Internships
+6. Education
+7. Skills
+8. Achievements and Accomplishments
+9. Relevant Projects
+10. Certifications
+11. Volunteer Work and Extracurricular Activities
+12. Publications and Presentations
+13. Personal Interests
+14. Extra Useful Information such as years of experience,
+    working environment (On-site,remote or hybrid), will to
+    relocate for a job (yes or no), military status (exempted,
+    completed, required)...etc.
+    {text}
+    Your final answer must not exceed 1000 words. """
+    SUMMARY_PROMPT = PromptTemplate(template=single_resume_tempate,
+    input_variables=['text'])
+
+# Chat Model
+llm = ChatOpenAI(model_name='gpt-4', temperature=0)
+
+# Summarize Chain
+single_summary_chain = load_summarize_chain(
+llm=llm,
+chain_type='stuff',
+prompt=SUMMARY_PROMPT
+)
+
+# Print Summary
+print single_summary_chain.run(resume_content)
+
+```
+
+<NextImage
+  priority
+  width={600}
+  height={400}
+  unoptimized
+  alt="summarizing resume's content"
+  src="/posts/summarize-resume.gif"
+/>
+
+### Step 3 - Storing Magic
+
+Just like you have a drawer for your favorite things, the Bot has a digital space to keep those resume summaries. This makes it easy to find and chat about each act later on. It's like organizing your superhero cards. In order to do this, we’re going to utilize embeddings and vector stores from LangChain, especially `OpenAIEmbeddings` and `Chroma`.
+
+`Chroma` is our vector store. It would use the `OpenAIEmbeddings` to embed the resume's content and store them for retrieval. Think of `Chroma` as a database that stores data about our resume.
+
+```python showLineNumbers
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.docstore.document import Document
+from langchain.vectorstores import Chroma
+
+resume_summary = single_summary_chain.run(data)
+summary_documents = [Document(page_content=str(resume_summary),
+metadata={'source': resume_path})]
+embeddings = OpenAIEmbeddings()
+vectorstore = Chroma.from_documents(documents=summary_documents,
+embedding=embeddings)
+
+```
+
+### Step 4 - Chat Showtime
+
+This is where the magic comes alive. The Bot turns into a lively conversation, ready to discuss the acts. You throw questions like confetti, and the Bot pulls out the perfect answers from its magic hat. In order to make this happen, we are going to use the chains module from LangChain, specifically `ConversationalRetrievalChain`.
+
+`ConversationalRetrievalChain` allows us to have a conversation with LLM about our resumes. The `ConversationBufferMemory` powers our `ConversationalRetrievalChain` with memory, like human memory, so we can ask questions using pronouns like he, she, they...etc. instead of using the names every single time.
+
+```python showLineNumbers
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationalRetrievalChain
+
+memory = ConversationBufferMemory(
+memory_key='chat_history',
+return_messages=True
+)
+chain = ConversationalRetrievalChain.from_llm(
+llm=llm,
+memory=memory,
+verbose=False, chain_type='stuff',
+retriever=vectorstore.as_retriever()
+)
+
+question = 'Who is the resume about?'
+result = chain({'question': question})
+
+print result['answer']
+
+# The resume is about John Doe
+```
+
+<NextImage
+  priority
+  width={600}
+  height={400}
+  unoptimized
+  alt="conversation about resume video"
+  src="/posts/conversational-chain.gif"
+/>
+
+With a wave of LangChain's wizardry, we've created a Bot that can chat about talents, just like
+you'd talk about your favorite show. 🎤🎭 And guess what? You don't need to be a tech wizard to
+use it - it's all designed to make your talent-hunting adventure easy and fun.
+
+So, next time you're searching for the brightest star in your talent galaxy, let the Talent
+Scouter Bot be your guide. It's like having a chatty sidekick who's always ready to help you find
+the next big sensation! 🎉🎵🤖
+
+See [part 2](/posts/streamlining-the-hiring-procese-part-2) to know more about Langchain, LLMs and more.
