@@ -74,8 +74,52 @@ body {
     @apply text-xs border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 my-4;
   }
 
+  p code {
+    @apply text-xs md:text-sm border border-border bg-muted/80 rounded-md p-1;
+  }
+
   .project-logo {
     @apply w-5 h-5 text-zinc-900 dark:text-zinc-100;
   }
 
+  .prose {
+    @apply space-y-6
+  }
+
+  .prose table th {
+    @apply uppercase text-xs md:text-sm
+  }
+
+  .prose table p,td {
+    @apply text-xs md:text-sm
+  }
+
+  .prose table td {
+    @apply p-2
+  }
+
+  .prose table thead {
+    @apply border-b border-b
+  }
+
+  .prose table tr {
+    @apply border-b border-border
+  }
+
+  .prose table tr:last-of-type {
+    @apply border-none
+  }
+
+  #toc ul {
+    list-style-type: none;
+  }
+  
+  #toc a {
+    text-decoration: none;
+  }
+  
+  #toc a:hover {
+    color: antiquewhite;
+    text-decoration: underline;
+  }
 }
