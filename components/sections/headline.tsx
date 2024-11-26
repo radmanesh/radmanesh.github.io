@@ -21,12 +21,12 @@ export function Headline() {
           <span className="text-amber-600 dark:text-amber-400 selection:bg-amber-200/80 dark:selection:bg-amber-800/80">
             delight
           </span>{" "}
-          users.
+          users
         </h1>
         <h2 className="text-base md:text-xl text-muted-foreground selection:text-muted-foreground/80 tracking-tighter font-light">
           I turn complex ideas into seamless digital experiences by blending
           design and functionality with a keen eye on the small things as the
-          small things can make a big difference.
+          small things can make a big difference
         </h2>
       </div>
       <Button
