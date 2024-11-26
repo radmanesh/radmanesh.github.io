@@ -16,10 +16,12 @@ const fontMono = localFont({
 
 const fontDisplay = Figtree({
   variable: "--font-display",
+  subsets: ['latin']
 });
 
 const fontSans = Karla({
   variable: "--font-sans",
+  subsets: ['latin']
 });
 
 // --------- METADATA ---------
