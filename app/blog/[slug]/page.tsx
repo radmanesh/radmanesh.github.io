@@ -1,11 +1,14 @@
 // app/posts/[slug]/page.tsx
 import Image from "next/image";
 import { format } from "date-fns";
+import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { allPosts } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer2/hooks";
 
+import { Button } from "@/components/ui/button";
 import { mdxComponents } from "@/components/shared/mdx-components";
+import Link from "next/link";
 
 // --------- PAGE PROPS ---------
 type PostPageProps = {
@@ -40,7 +43,12 @@ export default async function PostPage({ params }: PostPageProps) {
 
   const MDXContent = getMDXComponent(post.body.code);
   return (
-    <article className="mx-auto flex w-full flex-1 flex-col gap-6 px-4 pt-10 md:px-7 md-pt-12 max-w-3xl">
+    <article className="mx-auto flex w-full flex-1 flex-col gap-6 px-4 pt-4 md:px-7 md-pt-6 max-w-3xl">
+      <div className="flex justify-start">
+        <Link href="/blog" className="p-2 border border-border rounded-md bg-zinc-50/80 dark:bg-zinc-900/80 hover:bg-accent hover:text-accent-foreground">
+          <ArrowLeft className="h-4 w-4" />
+        </Link>
+      </div>
       <div className="flex flex-col justify-center items-center gap-4">
         <Image
           width={640}
