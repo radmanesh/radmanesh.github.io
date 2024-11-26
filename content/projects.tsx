@@ -33,7 +33,7 @@ const PROJECTS = [
     title: "Sharp Studio",
     url: "https://sharpstudio.vercel.app/",
     logo: <Hash className="project-logo" />,
-    description: "Convert, resize and compress your images with precision and ease!",
+    description: "Hackable image processing",
   },
   {
     id: "4",
