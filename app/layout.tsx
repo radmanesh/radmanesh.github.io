@@ -21,8 +21,32 @@ const geistMono = localFont({
 
 // --------- METADATA ---------
 export const metadata: Metadata = {
-  title: { default: "Som3aware", template: "% | Som3aware" },
+  metadataBase: new URL('https://som3aware.vercel.app/'),
+  title: { default: "Som3aware", template: "%s | Som3aware" },
   description: "Crafting elegant products that captivate and delight users ✨",
+  openGraph: {
+    title: 'Som3aware',
+    description: 'Crafting elegant products that captivate and delight users ✨',
+    url: 'https://som3aware.vercel.app/',
+    siteName: 'Som3aware',
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  twitter: {
+    title: 'Som3aware',
+    card: 'summary_large_image',
+  },
 };
 
 // --------- LAYOUT ---------
