@@ -22,7 +22,7 @@ function SectionTitle({ text, className, ...props }: SectionTitleProps) {
     <h2
       {...props}
       className={cn(
-        "font-bold text-xl md:text-2xl underline decoration-wavy underline-offset-8",
+        "font-bold text-xl md:text-2xl underline decoration-1 decoration-wavy underline-offset-8",
         className
       )}
     >

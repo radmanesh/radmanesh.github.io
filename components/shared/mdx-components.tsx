@@ -29,14 +29,14 @@ export const mdxComponents: MDXComponents = {
     </h3>
   ),
   p: ({ children }) => (
-    <p className="text-sm md:text-base text-justify text-muted-foreground tracking-tight font-normal">
+    <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
       {children}
     </p>
   ),
   a: ({ children, href }) => (
     <a
       href={href!.toString()}
-      className="underline decoration-dotted underline-offset-2"
+      className="underline decoration-dotted decoration-1 underline-offset-4 text-muted-foreground/90"
     >
       {children}
     </a>

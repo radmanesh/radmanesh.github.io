@@ -11,7 +11,7 @@ export function About() {
       <SectionTitle text="Meet me" />
       <div className="grid grid-cols-1 gap-4 leading-relaxed md:leading-normal tracking-tight text-muted-foreground selection:text-muted-foreground/80">
         <p className="font-semibold md:text-lg">Hello, Ahmed Ismail here!</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
           <p>
             An ambitious frontend software engineer from Egypt with 5 years of
             experience in building single page apps with <ReactBadge />.

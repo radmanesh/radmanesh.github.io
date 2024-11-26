@@ -29,7 +29,7 @@ export const Post = defineDocumentType(() => ({
 
 const prettyCodeOptions = {
   // Use one of Shiki's packaged themes
-  theme: "kanagawa-wave",
+  theme: "rose-pine",
   // Set to true to keep the background color
   keepBackground: true,
   onVisitLine(node: any) {

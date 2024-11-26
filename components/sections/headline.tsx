@@ -8,7 +8,7 @@ export function Headline() {
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <h1 className="mx-auto font-sans max-w-3xl font-bold text-3xl leading-none tracking-tight text-foreground md:text-5xl">
+        <h1 className="mx-auto font-display max-w-3xl font-bold text-3xl leading-none tracking-tight text-foreground md:text-5xl">
           Crafting{" "}
           <span className="text-green-600 dark:text-green-400 selection:bg-green-200/80 dark:selection:bg-green-800/80">
             elegant

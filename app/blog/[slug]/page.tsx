@@ -59,7 +59,7 @@ export default async function PostPage({ params }: PostPageProps) {
         />
         <div className="space-y-1 text-center tracking-tight">
           <h1 className="font-bold text-2xl md:text-3xl">{post.title}</h1>
-          <h2 className="text-muted-foreground text-base md:text-lg">
+          <h2 className="text-muted-foreground font-semibold text-base md:text-lg">
             {post.summary}
           </h2>
           <div className="flex items-center justify-center gap-2 text-xs text-foreground/50 md:text-sm uppercase">

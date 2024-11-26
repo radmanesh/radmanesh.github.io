@@ -12,6 +12,8 @@ export default {
       fontFamily: {
         sans: ["var(--font-geist-sans)"],
         mono: ["var(--font-geist-mono)"],
+        body: ["var(--font-body)"],
+        display: ["var(--font-display)"],
       },
       colors: {
         background: "hsl(var(--background))",

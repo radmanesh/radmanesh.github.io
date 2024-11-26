@@ -71,11 +71,11 @@ body {
   }
 
   pre {
-    @apply text-sm border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 my-4;
+    @apply text-xs border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 my-4 text-wrap;
   }
 
   p code {
-    @apply text-xs md:text-sm border border-border bg-muted/80 rounded-md p-1;
+    @apply text-xs border border-border bg-muted/80 rounded-md p-1;
   }
 
   .project-logo {
@@ -113,5 +113,9 @@ body {
 
   .prose ul {
     @apply list-disc px-6 text-muted-foreground;
+  }
+
+  .prose table+code{
+    @apply text-xs border border-border bg-muted/80 rounded-md p-1;
   }
 }
