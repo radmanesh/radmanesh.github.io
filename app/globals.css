@@ -100,7 +100,7 @@ body {
   }
 
   .prose table thead {
-    @apply border-b border-b;
+    @apply border-b border-border;
   }
 
   .prose table tr {
