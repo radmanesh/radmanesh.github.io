@@ -8,9 +8,9 @@ import { ThemeProvider } from "@/components/shared/theme-provider";
 import { MaxWidthWrapper } from "@/components/layout/max-width-wrapper";
 
 // --------- FONTS ---------
-const geistMono = localFont({
+const fontMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+  variable: "--font-mono",
   weight: "100 900",
 });
 
@@ -18,8 +18,8 @@ const fontDisplay = Figtree({
   variable: "--font-display",
 });
 
-const fontBody = Karla({
-  variable: "--font-body",
+const fontSans = Karla({
+  variable: "--font-sans",
 });
 
 // --------- METADATA ---------
@@ -62,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistMono.variable} ${fontDisplay.variable} ${fontBody.variable} font-body bg-zinc-50 selection:bg-zinc-200 dark:bg-zinc-900 dark:selection:bg-zinc-700 scroll-smooth antialiased`}
+        className={`${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable} font-sans bg-zinc-50 selection:bg-zinc-200 dark:bg-zinc-900 dark:selection:bg-zinc-700 scroll-smooth antialiased`}
       >
         <ThemeProvider
           enableSystem
