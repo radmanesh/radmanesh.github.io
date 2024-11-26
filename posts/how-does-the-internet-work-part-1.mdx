@@ -1,0 +1,109 @@
+---
+title: How Does the Internet Work? Part 1 - Browsing a Website
+summary: What happens behind the scenes when you browse a website
+publishedAt: 2019-09-09
+featured: true
+cover: /posts/how-does-the-internet-work-part-1.webp
+tag: technical
+---
+
+## Introduction
+
+Who doesn't use the internet at least once during the day? Almost everyone,
+right? You start by opening up your browser (Firefox, chrome, safari...etc.),
+write down your favourite website's **URL** (dev.to, Google.com...etc.) in the
+browser's address bar, you hit go and BOOM the website shows up, but have you
+ever considered how does this happen? what happens behind the scenes so once
+you gave the browser the website's address, it shows up?
+
+Understanding how the Internet works is very important. Lots of people usually
+skims through the surface of the concepts behind the working mechanism of the
+internet without fully understanding how everything works together. Without
+these foundations, it becomes very difficult to think about performance,
+optimizing sites and so on. Therefore, I decided to share with you what I know
+about that, and I decided to post it as a series so that the post won't take
+you too much time reading it.
+
+## Browsing the Internet
+
+### Decoding URLs
+
+When you enter a website's URL (Google.com ...E.g.) in your browser's address
+bar and hit the go button, the browser first needs to know the **IP address**
+of this domain you want to visit in order to navigate to it. Therefore, the
+browser checks its cache which keeps **DNS** records for (2-30 minutes). If it
+is not there, the browser sends a request to your internet router asking it
+_"Who is this Google.com fellow?"_ Your router does the same by checking its
+own cache for DNS records. If it is not there either, it sends the same
+request to your **ISP** asking the same question _"Do you know this
+google.com?"_ Your ISP sends the same request one more time to its DNS cache.
+The DNS replies back to the ISP: _"I don't know who google.com is but I have
+its address, here it is 127.217.7.23"_. The ISP returns the IP Address back to
+the router which in turn sends it back to your browser.
+
+### Navigating to the Website
+
+Once the browser receives the IP Address, it sends a HTTP request to that
+address asking for establishing a connection between the browser and the
+website's web servers. The Web servers handle the request, and reply back to
+the browser by sending the website's **HTML**, **CSS** and **JavaScript**
+which the browser renders so that you can view the website's page as it should
+be.
+
+## Highlighted Keywords
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>Definition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DNS (Domain Name System)</td>
+      <td>
+        A decentralized system translating human-readable domain names (e.g.,
+        www.example.com) into numerical IP addresses for efficient internet data
+        routing.
+      </td>
+    </tr>
+    <tr>
+      <td>IP Address (Internet Protocol)</td>
+      <td>
+        A unique numerical label assigned to each device on a computer network
+        that utilizes the Internet Protocol for communication.
+      </td>
+    </tr>
+    <tr>
+      <td>URL (Uniform Resource Locator)</td>
+      <td>
+        A web address specifying the location of a resource on the internet,
+        typically starting with a protocol (e.g., http://) followed by a domain
+        name or IP address.
+      </td>
+    </tr>
+    <tr>
+      <td>HTML (Hypertext Markup Language)</td>
+      <td>
+        The standard language for creating and structuring documents on the web,
+        utilizing tags to define content elements, links, and multimedia.
+      </td>
+    </tr>
+    <tr>
+      <td>CSS (Cascading Style Sheets)</td>
+      <td>
+        A style language enhancing the presentation of HTML documents,
+        specifying layout, design, and formatting for web pages.
+      </td>
+    </tr>
+    <tr>
+      <td>JavaScript</td>
+      <td>
+        A versatile programming language enabling the creation of dynamic and
+        interactive elements on web pages, facilitating actions like form
+        validation and animations.
+      </td>
+    </tr>
+  </tbody>
+</table>
