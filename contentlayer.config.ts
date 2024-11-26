@@ -1,9 +1,8 @@
 // file: contentlayer.config.ts
-import rehypePrettyCode from 'rehype-pretty-code';
+import rehypePrettyCode from "rehype-pretty-code";
 
-import { calculateReadingTime } from '@/lib/content';
+import { calculateReadingTime } from "@/lib/content";
 import { defineDocumentType, makeSource } from "contentlayer2/source-files";
-
 
 export const Post = defineDocumentType(() => ({
   name: "Post",
@@ -23,9 +22,9 @@ export const Post = defineDocumentType(() => ({
       resolve: (post) => `/blog/${post._raw.flattenedPath}`,
     },
     readingTime: {
-      type: 'number',
+      type: "number",
       resolve: (post) => calculateReadingTime(post.body.raw),
-    }
+    },
   },
 }));
 
@@ -33,7 +32,7 @@ const prettyCodeOptions = {
   // Use one of Shiki's packaged themes
   theme: "kanagawa-wave",
   // Set to true to keep the background color
-  keepBackground: true ,
+  keepBackground: true,
   onVisitLine(node: any) {
     if (node.children.length === 0) {
       node.children = [{ type: "text", value: " " }];
@@ -47,4 +46,8 @@ const prettyCodeOptions = {
   },
 };
 
-export default makeSource({ contentDirPath: "posts", documentTypes: [Post], mdx: {rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]]} });
+export default makeSource({
+  contentDirPath: "posts",
+  documentTypes: [Post],
+  mdx: { rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]] },
+});
