@@ -71,7 +71,7 @@ body {
   }
 
   pre {
-    @apply text-xs border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 my-4;
+    @apply text-sm border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 my-4;
   }
 
   p code {
