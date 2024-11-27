@@ -80,7 +80,7 @@ export function Header() {
             aria-label="Home"
             className="absolute left-1/2 -translate-x-1/2"
           >
-            <h1 className="font-mono hover:opacity-50 font-bold">Som3aware</h1>
+            <h1 className="font-logo hover:opacity-50 font-bold">Som3aware</h1>
           </Link>
           <ThemeToggle />
         </div>
