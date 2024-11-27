@@ -14,22 +14,22 @@ Hey there, web wizards! 🧙‍♂️ Last time we dove into the essentials of H
 
 First things first, let's strip away those default styles that browsers apply to lists. This is like setting a blank canvas before you start painting:
 
-```css showLineNumbers
-ul,
-ol {
-  list-style-type: none; /* No bullets or numbers */
-  padding: 0;
-  margin: 0;
-}
-```
+<CodeBlock
+  lang="css"
+  code={`ul, ol {
+    list-style-type: none; /* No bullets or numbers */
+    padding: 0;
+    margin: 0;
+}`}
+/>
 
 <NextImage
   priority
   width={600}
   height={400}
   unoptimized
-  alt="an ordered and un-ordered lists with no bullet points nor numbering"
   src="/posts/clear-style.webp"
+  alt="an ordered and un-ordered lists with no bullet points nor numbering"
 />
 
 This CSS removes bullets/numbers and resets padding and margins, giving you full control over the list's appearance.
@@ -40,11 +40,12 @@ This CSS removes bullets/numbers and resets padding and margins, giving you full
 
 Now, let's add our own style! For unordered lists, you might go for something simple yet classy:
 
-```css showLineNumbers
-ul {
-  list-style-type: square; /* Or circle, disc, etc. */
-}
-```
+<CodeBlock
+  lang="css"
+  code={`ul {
+    list-style-type: square; /* Or circle, disc, etc. */
+}`}
+/>
 
 <NextImage
   priority
@@ -57,11 +58,12 @@ ul {
 
 For ordered lists, choosing a different numbering style could spice things up:
 
-```css showLineNumbers
-ol {
-  list-style-type: upper-roman; /* Classic Roman numerals */
-}
-```
+<CodeBlock
+  lang="css"
+  code={`ol {
+    list-style-type: upper-roman; /* Classic Roman numerals */
+}`}
+/>
 
 <NextImage
   priority
@@ -76,25 +78,22 @@ ol {
 
 Want to get more creative? Replace standard bullets with images or emojis. This is like choosing the perfect accessories for your outfit:
 
-```css showLineNumbers
-ul.custom-bullets {
-  list-style-type: none;
+<CodeBlock lang="css" code={`ul.custom-bullets {
+    list-style-type: none;
 }
 
 ul.custom-bullets li::before {
-content: "🌟"; /_ Sparkle bullets! _/
-padding-right: 10px;
-}
-
-```
+    content: "🌟"; /_ Sparkle bullets! _/
+    padding-right: 10px;
+}`}/>
 
 <NextImage
   priority
   width={600}
   height={400}
   unoptimized
-  alt="an un-ordered list with sparkle emoji as bullets"
   src="/posts/emoji-ul.webp"
+  alt="an un-ordered list with sparkle emoji as bullets"
 />
 
 This CSS uses a pseudo-element to add a sparkle emoji before each list item, making your list pop with personality!
@@ -103,13 +102,11 @@ This CSS uses a pseudo-element to add a sparkle emoji before each list item, mak
 
 Spacing is key to making your list readable. Let's adjust the padding and margin to ensure your content breathes:
 
-```css showLineNumbers
-ul,
+<CodeBlock lang="css" code={`ul,
 ol {
-  padding-left: 20px; /* Adds space inside the list */
-  margin-bottom: 20px; /* Adds space below the list */
-}
-```
+    padding-left: 20px; /* Adds space inside the list */
+    margin-bottom: 20px; /* Adds space below the list */
+}`}/>
 
 <NextImage
   priority
@@ -126,11 +123,9 @@ These adjustments help your lists stand out from the rest of the content, making
 
 Sometimes, the default positioning of list markers doesn't cut it. Use `list-style-position` to tweak where your bullets or numbers sit:
 
-```css showLineNumbers
-ul {
-  list-style-position: inside; /* Bullets inside the content area */
-}
-```
+<CodeBlock lang="css" code={`ul {
+    list-style-position: inside; /* Bullets inside the content area */
+}`}/>
 
 <NextImage
   priority
@@ -147,8 +142,7 @@ Setting it to `inside` can change the look dramatically, often used for a more s
 
 Let's see everything in action with a fully styled list:
 
-```html showLineNumbers
-<!DOCTYPE html>
+<CodeBlock lang="html" code={`<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -178,8 +172,7 @@ Let's see everything in action with a fully styled list:
       <li>Interactive Elements</li>
     </ul>
   </body>
-</html>
-```
+</html>`}/>
 
 This setup not only makes your list unique but also integrates seamlessly with your site's overall design.
 

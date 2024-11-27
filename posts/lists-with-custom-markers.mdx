@@ -14,15 +14,13 @@ Hey there, web enthusiasts! 🧙‍♂️ Ready to shake things up with your HTM
 
 First, let's swap out those standard markers with something more expressive. Here's how you can use the `::before` pseudo-element to introduce emojis into your unordered and ordered lists:
 
-```css showLineNumbers
-ul {
-  list-style-type: none;
+<CodeBlock lang="css" code={`ul {
+    list-style-type: none;
 }
 
 li::before {
-  content: "🚀 ";
-}
-```
+    content: "🚀 ";
+}`} />
 
 <NextImage
   priority
@@ -40,39 +38,37 @@ In this example, every list item in `ul` starts with a rocket, blasting off each
 Using the `nth-child` CSS selector, we could apply different emojis based on certain conditions. Let's add an emoji that
 represents the mood on every day of the week.
 
-```css showLineNumbers
-ul {
-  list-style-type: none;
+<CodeBlock lang="css" code={`ul {
+    list-style-type: none;
 }
 
 li:nth-child(7n + 1)::before {
-  content: "😊"; /* Monday - Happy */
+    content: "😊"; /* Monday - Happy */
 }
 
 li:nth-child(7n + 2)::before {
-  content: "😔"; /* Tuesday - Sad */
+    content: "😔"; /* Tuesday - Sad */
 }
 
 li:nth-child(7n + 3)::before {
-  content: "😄"; /* Wednesday - Joyful */
+    content: "😄"; /* Wednesday - Joyful */
 }
 
 li:nth-child(7n + 4)::before {
-  content: "😡"; /* Thursday - Angry */
+    content: "😡"; /* Thursday - Angry */
 }
 
 li:nth-child(7n + 5)::before {
-  content: "😅"; /* Friday - Relieved */
+    content: "😅"; /* Friday - Relieved */
 }
 
 li:nth-child(7n + 6)::before {
-  content: "😴"; /* Saturday - Sleepy */
+    content: "😴"; /* Saturday - Sleepy */
 }
 
 li:nth-child(7n + 7)::before {
-  content: "🎉"; /* Sunday - Celebratory */
-}
-```
+    content: "🎉"; /* Sunday - Celebratory */
+}`} />
 
 <NextImage
   priority

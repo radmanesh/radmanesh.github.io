@@ -18,33 +18,35 @@ Before diving into the complex world of CSS counters, let's get familiar with tw
 
 With the `start` attribute, this list kicks off at 5 instead of the default 1, proving handy for continued lists or chapters.
 
-```html showLineNumbers
-<ol start="5">
-  <li>Item 5</li>
-  <li>Item 6</li>
-</ol>
-```
+<CodeBlock
+  lang="html"
+  code={`<ol start="5">
+    <li>Item 5</li>
+    <li>Item 6</li>
+</ol>`}
+/>
 
 <NextImage
   priority
   width={600}
   height={400}
   unoptimized
-  alt="an ordered list with two items starting from numer 5"
   src="/posts/ol-start-attr.webp"
+  alt="an ordered list with two items starting from numer 5"
 />
 
 ### Reversing the List Order
 
 The `reversed` attribute flips the order, ideal for countdowns or ranking items from first to last place.
 
-    ```html showLineNumbers
-    <ol reversed>
-      <li>Gold medal</li>
-      <li>Silver medal</li>
-      <li>Bronze medal</li>
-    </ol>
-    ```
+<CodeBlock
+  lang="html"
+  code={`<ol reversed>
+    <li>Gold medal</li>
+    <li>Silver medal</li>
+    <li>Bronze medal</li>
+</ol>`}
+/>
 
 <NextImage
   priority
@@ -63,26 +65,29 @@ Now that we've seen what HTML can do, let's amplify our control with CSS counter
 
 CSS counters let you define and manipulate your own numbering systems. This code sets up a counter, increments it for each item, and then displays it.
 
-```css showLineNumbers
-ol {
-  counter-reset: my-awesome-counter;
+<CodeBlock
+  lang="css"
+  code={`ol {
+    counter-reset: my-awesome-counter;
 }
+
 ol li {
-  counter-increment: my-awesome-counter;
-  list-style-type: none;
+    counter-increment: my-awesome-counter;
+    list-style-type: none;
 }
+
 ol li::before {
-  content: counter(my-awesome-counter) ". ";
-}
-```
+    content: counter(my-awesome-counter) ". ";
+}`}
+/>
 
 <NextImage
   priority
   width={600}
   height={400}
   unoptimized
-  alt="an ordered list with three items starting from numer 1"
   src="/posts/css-counter.webp"
+  alt="an ordered list with three items starting from number 1"
 />
 
 ### Advanced Counter Management
@@ -93,16 +98,16 @@ Want to manage multiple counters or reset them in the middle of a list? Here's h
 
 If you need a new sequence within the same list, Sure, here's how it integrates seamlessly into the post:
 
-    ```html showLineNumbers
-    <ol>
-      <li>Phase One</li>
-      <li>Phase Two</li>
-      <li style="counter-reset: my-awesome-counter 0;">New Start</li>
-      <li>Phase One Again</li>
-    </ol>
-    ```
+<CodeBlock
+  lang="html"
+  code={`<ol>
+    <li>Phase One</li>
+    <li>Phase Two</li>
+    <li style="counter-reset: my-awesome-counter 0;">New Start</li>
+    <li>Phase One Again</li>
+</ol>`}
+/>
 
-{" "}
 <NextImage
   priority
   width={600}
@@ -118,20 +123,20 @@ When you're deep in the world of CSS customization, you might find scenarios whe
 
 To set your CSS counter to start at any number you choose, you simply adjust the `counter-reset` property accordingly. Here's how to make it start at 10:
 
-```css showLineNumbers
-ol {
-  counter-reset: my-awesome-counter 9; /* Start counting from 10 */
-}
-```
+<CodeBlock
+  lang="css"
+  code={`ol {
+    counter-reset: my-awesome-counter 9; /* Start counting from 10 */
+}`}
+/>
 
-{" "}
 <NextImage
   priority
   width={600}
   height={400}
   unoptimized
-  alt="an ordered list with 3 items starting from numer 10"
   src="/posts/custom-counter-start-index.webp"
+  alt="an ordered list with 3 items starting from number 10"
 />
 
 By setting `my-awesome-counter` to 9, the next number in the sequence (when the counter is incremented for the first list item) is 10. This feature is particularly handy when your lists need to maintain continuity across different sections or pages.
@@ -140,20 +145,21 @@ By setting `my-awesome-counter` to 9, the next number in the sequence (when the 
 
 You can also style your counters just like any other text element:
 
-```css showLineNumbers
-ol li::before {
-  content: counter(my-awesome-counter) ". ";
-  color: red;
-  font-weight: bold;
-}
-```
+<CodeBlock
+  lang="css"
+  code={`ol li::before {
+    content: counter(my-awesome-counter) ". ";
+    color: red;
+    font-weight: bold;
+}`}
+/>
 
 <NextImage
   priority
   width={600}
   height={400}
   unoptimized
-  alt="an ordered list with 3 items starting from numer 10 with bullet numbers colored red"
+  alt="an ordered list with 3 items starting from number 10 with bullet numbers colored red"
   src="/posts/styled-counters.webp"
 />
 
