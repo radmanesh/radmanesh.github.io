@@ -39,7 +39,7 @@ export function PostCard({ post, ...props }: PostCardProps) {
             )} • ${post.readingTime} ${
               post.readingTime === 1 ? "min" : "mins"
             } read`}</p>
-            <h2 className="font-semibold truncate">{post.title}</h2>
+            <h2 className="font-bold truncate leading-relaxed">{post.title}</h2>
             <p className="text-sm text-muted-foreground">{post.summary}</p>
           </div>
         </div>
