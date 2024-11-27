@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Figtree, Karla } from "next/font/google";
+import { Figtree, Karla, Fira_Code } from "next/font/google";
 
 import "./globals.css";
 import { Header } from "@/components/layout/header";
@@ -8,20 +8,26 @@ import { ThemeProvider } from "@/components/shared/theme-provider";
 import { MaxWidthWrapper } from "@/components/layout/max-width-wrapper";
 
 // --------- FONTS ---------
-const fontMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+const fontLogo = localFont({
+  src: './fonts/GeistMonoVF.woff',
+  variable: "--font-logo",
+  weight: '100 900'
+});
+
+const fontMono = Fira_Code({
+  subsets: ["latin"],
   variable: "--font-mono",
-  weight: "100 900",
+  weight: "400",
 });
 
 const fontDisplay = Figtree({
+  subsets: ["latin"],
   variable: "--font-display",
-  subsets: ['latin']
 });
 
 const fontSans = Karla({
+  subsets: ["latin"],
   variable: "--font-sans",
-  subsets: ['latin']
 });
 
 // --------- METADATA ---------
@@ -64,7 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable} font-sans bg-zinc-50 selection:bg-zinc-200 dark:bg-zinc-900 dark:selection:bg-zinc-700 scroll-smooth antialiased`}
+        className={`${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable} ${fontLogo.variable} font-sans bg-zinc-50 selection:bg-zinc-200 dark:bg-zinc-900 dark:selection:bg-zinc-700 scroll-smooth antialiased`}
       >
         <ThemeProvider
           enableSystem
