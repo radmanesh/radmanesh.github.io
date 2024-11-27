@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
+        logo: ["var(--font-logo)"],
         display: ["var(--font-display)"],
       },
       colors: {
