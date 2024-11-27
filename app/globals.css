@@ -1,3 +1,4 @@
+/* file: globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -70,9 +71,17 @@ body {
     @apply bg-background text-foreground;
   }
 
-  pre {
-    @apply text-xs border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 my-4 text-wrap;
-  }
+  pre.shiki {
+    @apply text-xs border border-border rounded-lg p-2 leading-normal text-wrap;
+    counter-reset: codeblock-line;
+    .line {
+      counter-increment: codeblock-line;
+      &::before {
+        content: counter(codeblock-line);
+        @apply inline-block mr-4 w-6 text-right text-muted-foreground;
+      }
+    }
+  }  
 
   p code {
     @apply text-xs border border-border bg-muted/80 rounded-md p-1;
@@ -115,7 +124,7 @@ body {
     @apply list-disc px-6 text-muted-foreground;
   }
 
-  .prose table+code{
+  .prose table + code {
     @apply text-xs border border-border bg-muted/80 rounded-md p-1;
   }
 }
