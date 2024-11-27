@@ -2,9 +2,19 @@ import Image from "next/image";
 import { ComponentProps } from "react";
 import type { MDXComponents } from "mdx/types";
 
+import { CodeBlock } from "@/components/shared/code-block";
+
 // --------- CUSTOM MDX COMPONENTS ---------
 function NextImage({ alt, ...props }: ComponentProps<typeof Image>) {
-  return <Image alt={alt} placeholder='blur' blurDataURL={props.src.toString()} className="rounded-lg w-full" {...props} />;
+  return (
+    <Image
+      alt={alt}
+      placeholder="blur"
+      blurDataURL={props.src.toString()}
+      className="rounded-lg w-full"
+      {...props}
+    />
+  );
 }
 
 function TOC({ children }: { children: any }) {
@@ -43,4 +53,5 @@ export const mdxComponents: MDXComponents = {
   ),
   TOC,
   NextImage,
+  CodeBlock,
 };
