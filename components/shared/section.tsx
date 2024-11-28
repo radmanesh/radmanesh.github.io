@@ -31,5 +31,24 @@ function SectionTitle({ text, className, ...props }: SectionTitleProps) {
   );
 }
 
+// --------- SECTION SUBTITLE COMPONENT ---------
+interface SectionSubtitleProps extends ComponentProps<"p"> {
+  text: string;
+}
+
+function SectionSubtitle({ text, className, ...props }: SectionSubtitleProps) {
+  return (
+    <p
+      {...props}
+      className={cn(
+        "text-lg md:text-xl font-medium",
+        className
+      )}
+    >
+      {text}
+    </p>
+  );
+}
+
 // --------- EXPORTS ---------
-export { Section, SectionTitle };
+export { Section, SectionTitle, SectionSubtitle };

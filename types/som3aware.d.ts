@@ -10,6 +10,14 @@ declare module "som3aware" {
 
   export type NavigationItem = {
     name: string;
-    href: string
-  }
+    href: string;
+  };
+
+  export type SectionItem = {
+    endDate: Date | 'present';
+    entity:string;
+    image: string;
+    startDate: Date;
+    description: string;
+  };
 }
