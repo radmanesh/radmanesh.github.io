@@ -3,7 +3,11 @@
 import { useTheme } from "next-themes";
 import { Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
-import { createHighlighter, BundledLanguage, BundledTheme } from "shiki";
+import {
+  createHighlighter,
+  BundledLanguage,
+  BundledTheme,
+} from "shiki/bundle/web";
 
 import { Button } from "@/components/ui/button";
 
@@ -26,7 +30,8 @@ export function CodeBlock({ code, lang }: CodeBlockProps) {
         langs: [lang],
       });
 
-      const currentTheme = theme === "dark" ? "github-dark-default" : "github-light";
+      const currentTheme =
+        theme === "dark" ? "github-dark-default" : "github-light";
       const html = highlighter.codeToHtml(code, {
         lang: lang,
         theme: currentTheme as BundledTheme,
@@ -47,8 +52,8 @@ export function CodeBlock({ code, lang }: CodeBlockProps) {
   return (
     <div className="relative group rounded-lg">
       <Button
-        size='icon'
-        variant='outline'
+        size="icon"
+        variant="outline"
         onClick={copyToClipboard}
         className="absolute right-2 top-2 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-50/80 hover:dark:bg-zinc-900/80"
       >
