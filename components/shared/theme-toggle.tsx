@@ -17,7 +17,7 @@ export function ThemeToggle() {
         aria-label="Toggle dark mode"
       />
       <label
-        className="relative inline-flex size-9 cursor-pointer items-center justify-center rounded-lg border border-transparent bg-zinc-50 dark:bg-zinc-900 p-2 ring-offset-background transition-shadow peer-focus-visible:border-ring peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-ring/30 peer-focus-visible:ring-offset-2"
+        className="relative inline-flex size-9 cursor-pointer items-center justify-center rounded-full border border-transparent hover:bg-zinc-100 hover:dark:bg-zinc-800 p-2 ring-offset-background transition-shadow peer-focus-visible:border-ring peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-ring/30 peer-focus-visible:ring-offset-2"
         htmlFor="theme-toggle"
         aria-hidden="true"
       >
