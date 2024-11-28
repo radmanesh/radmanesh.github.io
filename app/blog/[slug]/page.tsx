@@ -45,7 +45,7 @@ export default async function PostPage({ params }: PostPageProps) {
   return (
     <article className="mx-auto flex w-full flex-1 flex-col gap-6 px-4 pt-4 md:px-7 md-pt-6 max-w-3xl">
       <div className="flex justify-start">
-        <Link href="/blog" className="p-2 border border-border rounded-md bg-zinc-50/80 dark:bg-zinc-900/80 hover:bg-accent hover:text-accent-foreground">
+        <Link href="/blog" className="p-2 border border-border rounded-full bg-zinc-50/80 dark:bg-zinc-900/80 hover:bg-zinc-100 hover:dark:bg-zinc-800 hover:text-accent-foreground">
           <ArrowLeft className="h-4 w-4" />
         </Link>
       </div>
