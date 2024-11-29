@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio ✨
 
-## Getting Started
+My personal portfolio built with Next.js 15 & contentlayer.
 
-First, run the development server:
+## Built With
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [Next.js](https://nextjs.org/) for bootstrapping the project.
+- [Contentlayer](https://contentlayer.dev/) for content management.
+- [Tailwindcss](https://tailwindcss.com/) for styling.
+- [Shiki](https://shiki.style/) for syntax highlighting.
+- [Lucide React](https://lucide.dev/) for icons.
+- [Shadcn/ui](https://ui.shadcn.com/) for components.
+- [Enhanced version of shadcn-button component](https://enhanced-button.vercel.app/) for better shadcn buttons.
+- [Origin UI](https://originui.com/) for extended shadcn components.
+- [Deployment](https://vercel.com/) for deployment.
+
+## Running Locally
+
+```sh
+git clone https://github.com/ahmedsomaa/portfolio
+cd portfolio
+bun install
+bun run content:build && bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How to use
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Fonts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+I use 4 font variables. Change them to your own styles in `app/layer.tsx`.
 
-## Learn More
+- `font-logo` for the website's logo.
+- `font-display` for the landing page headline.
+- `font-sans` for the website's body.
+- `font-mono` for code blocks.
 
-To learn more about Next.js, take a look at the following resources:
+### Content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Replace my content under the `/content` directory with yours. This includes:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Navigation items.
+- Social links.
+- Projects.
+- Education & Experience.
 
-## Deploy on Vercel
+### Blog Posts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+I use contentlayer alongside mdx. Delete the files under `/posts`, and add your own.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Syntax Highlighting
+
+I made a custom cod block component `/components/code-block.tsx` using shiki. Change your
+light & dark themes there.
