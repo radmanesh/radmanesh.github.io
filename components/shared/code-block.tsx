@@ -26,12 +26,12 @@ export function CodeBlock({ code, lang }: CodeBlockProps) {
   useEffect(() => {
     const highlight = async () => {
       const highlighter = await createHighlighter({
-        themes: ["github-light", "github-dark-default"],
+        themes: ["github-light", "poimandres"],
         langs: [lang],
       });
 
       const currentTheme =
-        theme === "dark" ? "github-dark-default" : "github-light";
+        theme === "dark" ? "poimandres" : "github-light";
       const html = highlighter.codeToHtml(code, {
         lang: lang,
         theme: currentTheme as BundledTheme,
