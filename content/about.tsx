@@ -1,56 +1,67 @@
-import { SectionItem } from "som3aware";
+import { Education, Experience } from "som3aware";
 
 const ABOUT = {
   education: [
     {
-      image: "asu.webp",
-      startDate: new Date("2022-01-01"),
-      endDate: new Date("2023-12-31"),
-      entity: "Arizona State University",
-      description: "Masters of Science in Engineering in Software Engineering",
+      id: "1",
+      institute: "Arizona State University",
+      period: { from: "Jan, 2022", to: "Dec, 2023" },
+      degree: "Masters of Science in Engineering in Software Engineering",
     },
     {
-      image: "auc.webp",
-      startDate: new Date("2014-09-01"),
-      endDate: new Date("2019-08-01"),
-      entity: "The American University in Cairo",
-      description: "Bachelor of Science in Computer Engineering",
+      id: "2",
+      institute: "The American University in Cairo",
+      period: { from: "Sep, 2014", to: "Aug, 2019" },
+      degree: "Bachelor of Science in Computer Engineering",
     },
   ],
   experience: [
     {
-      image: "reconciled.webp",
-      startDate: new Date("2024-01-01"),
-      endDate: "present",
-      entity: "Reconciled",
-      description:
-        "Founding Engineer",
+      id: "1",
+      period: { to: "present", from: "Jan, 2024" },
+      company: { name: "Reconciled", url: "https://reconciled.io" },
+      role: {
+        title: "Founding Engineer",
+        description:
+          "Building the first reverse invoice management platform for staffing agencies",
+      },
     },
     {
-      image: "nodogoro.webp",
-      startDate: new Date("2023-05-15"),
-      endDate: new Date("2023-12-31"),
-      entity: "Nodogoro",
-      description:
-        "Software Engineer II",
+      id: "2",
+      period: { to: "Dec, 2023", from: "May, 2023" },
+      company: { name: "Nodogoro", url: "https://www.nodogoro.com/" },
+      role: {
+        title: "Software Engineer II",
+        description:
+          "Built multiple AI-powered applications using OpenAI, LangChain and Next.js.",
+      },
     },
     {
-      image: "new-smart-egypt.webp",
-      startDate: new Date("2021-11-01"),
-      endDate: new Date("2023-05-14"),
-      entity: "New Smart Egypt",
-      description:
-        "Software Engineer I",
+      id: "3",
+      period: { to: "May, 2023", from: "Nov, 2021" },
+      company: {
+        name: "New Smart Egypt",
+        url: "https://www.linkedin.com/company/new-smart-egypt-integrated-solutions",
+      },
+      role: {
+        title: "Software Engineer I",
+        description:
+          "Worked on building web/mobile apps & developing APIs to integrate between multiple systems including Odoo, ZKTeco..etc.",
+      },
     },
     {
-      image: "vois.webp",
-      startDate: new Date("2020-07-01"),
-      endDate: new Date("2021-10-30"),
-      entity: "VOIS",
-      description:
-        "Software Engineer",
+      id: "4",
+      company: { name: "VOIS", url: "" },
+      period: { to: "Oct, 2021", from: "Jul, 2020" },
+      role: {
+        title: "Software Engineer",
+        description:
+          "Worked on building and providing technical support for multiple web apps including HR Management System, Covid-19 tracker, CRM...etc.",
+      },
     },
   ],
-} satisfies Record<"education" | "experience", SectionItem[]>;
+} satisfies
+  | Record<"education", Education[]>
+  | Record<"experience", Experience[]>;
 
 export default ABOUT;
