@@ -1,5 +1,15 @@
 import Link from "next/link";
 
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDescription,
+  TimelineItem,
+  TimelineLink,
+  TimelineTime,
+  TimelineTitle,
+} from "@/components/ui/timeline";
 import ABOUT from "@/content/about";
 import {
   Section,
@@ -8,10 +18,10 @@ import {
 } from "@/components/shared/section";
 import { NextBadge } from "@/components/badges/next";
 import { ReactBadge } from "@/components/badges/react";
-import { SectionCard } from "@/components/shared/section-card";
 import { TypeScriptBadge } from "@/components/badges/typescript";
 import { TailwindCssBadge } from "@/components/badges/tailwindcss";
 
+// --------- PAGE LAYOUT ---------
 export default function AboutPage() {
   return (
     <Section>
@@ -48,16 +58,45 @@ export default function AboutPage() {
         </p>
       </div>
       <SectionSubtitle text="Education" />
-      <div className="grid grid-cols-1 gap-4">
-        {ABOUT.education.map((item) => (
-          <SectionCard key={item.entity} item={item} />
-        ))}
+      <div className="grid grid-cols-1 gap-4 px-2">
+        <Timeline>
+          {ABOUT.education.map((item) => (
+            <TimelineItem key={item.id}>
+              <TimelineConnector />
+              <TimelineTime>
+                {`${item.period.from} - ${item.period.to}`}
+              </TimelineTime>
+              <TimelineContent>
+                <TimelineTitle>{item.institute}</TimelineTitle>
+                <TimelineDescription>{item.degree}</TimelineDescription>
+              </TimelineContent>
+            </TimelineItem>
+          ))}
+        </Timeline>
       </div>
       <SectionSubtitle text="Experience" />
-      <div className="grid grid-cols-1 gap-4">
-        {ABOUT.experience.map((item) => (
-          <SectionCard key={item.entity} item={item} />
-        ))}
+      <div className="grid grid-cols-1 gap-4 px-2">
+        <Timeline>
+          {ABOUT.experience.map((item) => (
+            <TimelineItem key={item.id}>
+              <TimelineConnector />
+              <TimelineTime>
+                {`${item.period.from} - ${item.period.to}`}
+              </TimelineTime>
+              <TimelineContent>
+                <TimelineTitle>{item.role.title}</TimelineTitle>
+                <TimelineLink
+                  target="_blank"
+                  href={item.company.url}
+                  referrerPolicy="no-referrer"
+                >
+                  {item.company.name}
+                </TimelineLink>
+              </TimelineContent>
+              <TimelineDescription>{item.role.description}</TimelineDescription>
+            </TimelineItem>
+          ))}
+        </Timeline>
       </div>
     </Section>
   );
