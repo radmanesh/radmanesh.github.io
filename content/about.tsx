@@ -24,31 +24,31 @@ const ABOUT = {
       endDate: "present",
       entity: "Reconciled",
       description:
-        "Building the first reverse invoice management platform for staffing agencies",
+        "Founding Engineer",
     },
     {
       image: "nodogoro.webp",
-      startDate: new Date("2023-05-01"),
+      startDate: new Date("2023-05-15"),
       endDate: new Date("2023-12-31"),
       entity: "Nodogoro",
       description:
-        "Worked on building multiple AI-powered apps using OpenAI, LangChain and Next.js",
+        "Software Engineer II",
     },
     {
       image: "new-smart-egypt.webp",
-      startDate: new Date("2024-01-01"),
-      endDate: "present",
+      startDate: new Date("2021-11-01"),
+      endDate: new Date("2023-05-14"),
       entity: "New Smart Egypt",
       description:
-        "Worked on building web/mobile apps & developing APIs to integrate between multiple systems including Odoo & ZKTeco",
+        "Software Engineer I",
     },
     {
       image: "vois.webp",
-      startDate: new Date("2024-01-01"),
-      endDate: "present",
+      startDate: new Date("2020-07-01"),
+      endDate: new Date("2021-10-30"),
       entity: "VOIS",
       description:
-        "Worked on building and providing technical support for multiple web apps including HR Management System, Covid-19 tracker & CRM",
+        "Software Engineer",
     },
   ],
 } satisfies Record<"education" | "experience", SectionItem[]>;
