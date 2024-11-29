@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Figtree, Karla, Fira_Code } from "next/font/google";
+import { Figtree, Karla } from "next/font/google";
 
 import "./globals.css";
 import { Header } from "@/components/layout/header";
@@ -14,10 +14,10 @@ const fontLogo = localFont({
   weight: '100 900'
 });
 
-const fontMono = Fira_Code({
-  subsets: ["latin"],
+const fontMono = localFont({
+  src: './fonts/GeistMonoVF.woff',
   variable: "--font-mono",
-  weight: "400",
+  weight: '100 900'
 });
 
 const fontDisplay = Figtree({
