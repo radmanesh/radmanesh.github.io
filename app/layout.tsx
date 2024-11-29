@@ -4,20 +4,21 @@ import { Figtree, Karla } from "next/font/google";
 
 import "./globals.css";
 import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { MaxWidthWrapper } from "@/components/layout/max-width-wrapper";
 
 // --------- FONTS ---------
 const fontLogo = localFont({
-  src: './fonts/GeistMonoVF.woff',
+  src: "./fonts/GeistMonoVF.woff",
   variable: "--font-logo",
-  weight: '100 900'
+  weight: "100 900",
 });
 
 const fontMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
+  src: "./fonts/GeistMonoVF.woff",
   variable: "--font-mono",
-  weight: '100 900'
+  weight: "100 900",
 });
 
 const fontDisplay = Figtree({
@@ -78,9 +79,10 @@ export default function RootLayout({
           defaultTheme="system"
           disableTransitionOnChange
         >
-          <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
+          <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip mb-6">
             <Header />
             <MaxWidthWrapper>{children}</MaxWidthWrapper>
+            <Footer />
           </div>
         </ThemeProvider>
       </body>
