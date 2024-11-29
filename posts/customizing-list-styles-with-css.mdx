@@ -8,7 +8,7 @@ tag: technical
 
 ## Introduction
 
-Hey there, web wizards! 🧙‍♂️ Last time we dove into the essentials of HTML lists, understanding how they help us organize content in a user-friendly way. Now, let’s jazz things up a bit! It's time to move from basic lists to beautifully styled masterpieces with the magic of CSS. Just as Edna from _The Incredibles_ says, “Darling, it's all about detail.” So, let's get those details right!
+Hey there, web wizards! 🧙‍♂️ Last time we dove into the essentials of HTML lists, understanding how they help us organize content in a user-friendly way. Now, let's jazz things up a bit! It's time to move from basic lists to beautifully styled masterpieces with the magic of CSS. Just as Edna from _The Incredibles_ says, “Darling, it's all about detail.” So, let's get those details right!
 
 ## Step 1: Clearing the Default Styling 🚫
 
@@ -17,7 +17,7 @@ First things first, let's strip away those default styles that browsers apply to
 <CodeBlock
   lang="css"
   code={`ul, ol {
-    list-style-type: none; /* No bullets or numbers */
+    list-style-type: none;
     padding: 0;
     margin: 0;
 }`}
@@ -43,7 +43,7 @@ Now, let's add our own style! For unordered lists, you might go for something si
 <CodeBlock
   lang="css"
   code={`ul {
-    list-style-type: square; /* Or circle, disc, etc. */
+    list-style-type: square;
 }`}
 />
 
@@ -52,8 +52,8 @@ Now, let's add our own style! For unordered lists, you might go for something si
   width={600}
   height={400}
   unoptimized
-  alt="an un-ordered list with squared bullet points"
   src="/posts/square-ul.webp"
+  alt="an un-ordered list with squared bullet points"
 />
 
 For ordered lists, choosing a different numbering style could spice things up:
@@ -61,7 +61,7 @@ For ordered lists, choosing a different numbering style could spice things up:
 <CodeBlock
   lang="css"
   code={`ol {
-    list-style-type: upper-roman; /* Classic Roman numerals */
+    list-style-type: upper-roman;
 }`}
 />
 
@@ -70,8 +70,8 @@ For ordered lists, choosing a different numbering style could spice things up:
   width={600}
   height={400}
   unoptimized
-  alt="an ordered list with roman numbers"
   src="/posts/roman-ol.webp"
+  alt="an ordered list with roman numbers"
 />
 
 ### Getting Creative with Custom Bullets
@@ -83,7 +83,7 @@ Want to get more creative? Replace standard bullets with images or emojis. This 
 }
 
 ul.custom-bullets li::before {
-    content: "🌟"; /_ Sparkle bullets! _/
+    content: "🌟";
     padding-right: 10px;
 }`}/>
 
@@ -104,8 +104,8 @@ Spacing is key to making your list readable. Let's adjust the padding and margin
 
 <CodeBlock lang="css" code={`ul,
 ol {
-    padding-left: 20px; /* Adds space inside the list */
-    margin-bottom: 20px; /* Adds space below the list */
+    padding-left: 20px;
+    margin-bottom: 20px;
 }`}/>
 
 <NextImage
@@ -113,8 +113,8 @@ ol {
   width={600}
   height={400}
   unoptimized
-  alt="an ordered and un-ordered lists with 20px left padding and bottom margin"
   src="/posts/lists-spacing.webp"
+  alt="an ordered and un-ordered lists with 20px left padding and bottom margin"
 />
 
 These adjustments help your lists stand out from the rest of the content, making them easier on the eyes.
@@ -132,8 +132,8 @@ Sometimes, the default positioning of list markers doesn't cut it. Use `list-sty
   width={600}
   height={400}
   unoptimized
-  alt="an un-ordered list with list style position inside"
   src="/posts/list-style-position.webp"
+  alt="an un-ordered list with list style position inside"
 />
 
 Setting it to `inside` can change the look dramatically, often used for a more streamlined appearance.
