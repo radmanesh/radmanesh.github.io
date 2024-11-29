@@ -2,13 +2,13 @@ import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 
 // --------- SECTION COMPONENT ---------
-interface SectionProps extends ComponentProps<"div"> {}
+interface SectionProps extends ComponentProps<"section"> {}
 
 function Section({ children, ...props }: SectionProps) {
   return (
-    <div {...props} className="space-y-8 tracking-tight font-light">
+    <section {...props} className="space-y-8 tracking-tight font-light">
       {children}
-    </div>
+    </section>
   );
 }
 
