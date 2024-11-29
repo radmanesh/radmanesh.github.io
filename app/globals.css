@@ -72,8 +72,22 @@ body {
   }
 
   pre {
-    @apply text-xs border border-border rounded-lg p-6 leading-normal text-wrap;
-  }  
+    @apply text-xs border border-border rounded-lg p-6 leading-normal overflow-x-auto whitespace-pre-wrap break-words w-full;
+    min-width: 0;
+  }
+
+  .shiki {
+    @apply w-full overflow-x-auto min-w-0;
+  }
+
+  .shiki code {
+    @apply whitespace-pre-wrap break-words w-full;
+  }
+
+  /* Ensure pre elements inside shiki are properly contained */
+  .shiki pre {
+    @apply min-w-0;
+  }
 
   p code {
     @apply text-xs border border-border bg-muted/80 rounded-md p-1;

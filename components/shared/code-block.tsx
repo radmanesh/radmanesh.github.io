@@ -30,8 +30,7 @@ export function CodeBlock({ code, lang }: CodeBlockProps) {
         langs: [lang],
       });
 
-      const currentTheme =
-        theme === "dark" ? "poimandres" : "github-light";
+      const currentTheme = theme === "dark" ? "poimandres" : "github-light";
       const html = highlighter.codeToHtml(code, {
         lang: lang,
         theme: currentTheme as BundledTheme,
@@ -58,12 +57,15 @@ export function CodeBlock({ code, lang }: CodeBlockProps) {
         className="absolute right-2 top-2 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-50/80 hover:dark:bg-zinc-900/80"
       >
         {copied ? (
-          <Check className="h-4 w-4 text-green-400" />
+          <Check className="h-4 w-4 text-emerald-400" />
         ) : (
           <Copy className="h-4 w-4 text-gray-300" />
         )}
       </Button>
-      <div className="text-wrap" dangerouslySetInnerHTML={{ __html: html }} />
+      <div
+        className="overflow-hidden max-w-full"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </div>
   );
 }
