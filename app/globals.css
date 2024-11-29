@@ -71,8 +71,8 @@ body {
     @apply bg-background text-foreground;
   }
 
-  pre.shiki {
-    @apply text-xs border border-border rounded-lg p-6 leading-normal text-nowrap;
+  pre {
+    @apply text-xs border border-border rounded-lg p-6 leading-normal text-wrap;
   }  
 
   p code {
