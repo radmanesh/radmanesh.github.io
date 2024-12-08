@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { MaxWidthWrapper } from "@/components/layout/max-width-wrapper";
+import { FreePalestineBanner } from "@/components/banners/free-palestine";
 
 // --------- FONTS ---------
 const fontLogo = localFont({
@@ -93,6 +94,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip mb-6">
+            <FreePalestineBanner />
             <Header />
             <MaxWidthWrapper>{children}</MaxWidthWrapper>
             <Footer />
