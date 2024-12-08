@@ -67,6 +67,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: "Som3aware",
+    site: "Som3aware",
+    creator: "@som3aware",
+    description:
+      "Crafting elegant products that captivate and delight users ✨",
     card: "summary_large_image",
   },
 };
