@@ -36,6 +36,7 @@ export async function generateMetadata({ params }: PostPageProps) {
       description: post.summary,
       url: "https://som3aware.vercel.app/blog/" + slug,
       images: [post.cover],
+      site: "Som3aware",
     },
     twitter: {
       title: post.title,
