@@ -36,6 +36,15 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://som3aware.vercel.app/"),
   title: { default: "Som3aware", template: "%s | Som3aware" },
   description: "Crafting elegant products that captivate and delight users ✨",
+  keywords: [
+    "Som3aware",
+    "Software Engineering",
+    "Career",
+    "Events",
+    "Blog",
+    "About",
+    "Contact",
+  ],
   openGraph: {
     title: "Som3aware",
     description:

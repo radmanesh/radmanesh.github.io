@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: PostPageProps) {
   return {
     title: post.title,
     description: post.summary,
+    keywords: ["Som3aware", "Blog", post.tag],
     openGraph: {
       title: post.title,
       description: post.summary,
