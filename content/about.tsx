@@ -33,7 +33,7 @@ const ABOUT = {
       role: {
         title: "Software Engineer II",
         description:
-          "Built multiple AI-powered applications using OpenAI, LangChain and Next.js.",
+          "Developed multiple AI-powered applications using OpenAI, LangChain and Next.js",
       },
     },
     {
@@ -46,7 +46,7 @@ const ABOUT = {
       role: {
         title: "Software Engineer I",
         description:
-          "Worked on building web/mobile apps & developing APIs to integrate between multiple systems including Odoo, ZKTeco..etc.",
+          "Worked on building web/mobile apps and integrating between multiple vendor systems",
       },
     },
     {
@@ -56,7 +56,7 @@ const ABOUT = {
       role: {
         title: "Software Engineer",
         description:
-          "Worked on building and providing technical support for multiple web apps including HR Management System, Covid-19 tracker, CRM...etc.",
+          "Worked on building and providing technical support for multiple web apps",
       },
     },
   ],
