@@ -10,12 +10,13 @@ import {
   TimelineTime,
   TimelineTitle,
 } from "@/components/ui/timeline";
-import ABOUT from "@/content/about";
 import {
   Section,
   SectionSubtitle,
   SectionTitle,
 } from "@/components/shared/section";
+
+import ABOUT from "@/content/about";
 import { NextBadge } from "@/components/badges/next";
 import { ReactBadge } from "@/components/badges/react";
 import { TypeScriptBadge } from "@/components/badges/typescript";
@@ -51,10 +52,10 @@ export default function AboutPage() {
           with a thoughtful aesthetic.
         </p>
         <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
-          When I'm not coding, you'll likely find me reading, writing, or
-          experimenting with new technologies. I'm always hungry to learn and
-          grow, whether it's through diving into new programming paradigms or
-          exploring the latest trends in UX/UI design.
+          Outside of coding, I find solace in reading, particularly history and
+          technology-related topics. I also enjoy writing and experimenting with
+          new technologies. I'm a lifelong learner, always excited to dive into
+          new programming paradigms or the latest UX/UI design trends.
         </p>
       </div>
       <SectionSubtitle text="Education" />
