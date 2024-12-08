@@ -130,6 +130,14 @@ body {
     @apply list-disc px-6 text-muted-foreground;
   }
 
+  .prose ul code {
+    @apply text-xs md:text-sm border border-border bg-muted/80 rounded-md p-1;
+  }
+
+  .prose ol {
+    @apply list-decimal px-6 text-muted-foreground;
+  }
+
   .prose table + code {
     @apply text-xs border border-border bg-muted/80 rounded-md p-1;
   }
