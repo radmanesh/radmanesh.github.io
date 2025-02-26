@@ -4,15 +4,15 @@ const ABOUT = {
   education: [
     {
       id: "1",
-      institute: "Arizona State University",
-      period: { from: "Jan, 2022", to: "Dec, 2023" },
-      degree: "Masters of Science in Engineering in Software Engineering",
+      institute: "The University of Oklahoma",
+      period: { from: "Jan, 2024", to: "Dec, 2026" },
+      degree: "Masters of Science in Data Science and Analytics",
     },
     {
       id: "2",
-      institute: "The American University in Cairo",
-      period: { from: "Sep, 2014", to: "Aug, 2019" },
-      degree: "Bachelor of Science in Computer Engineering",
+      institute: "Amirkabir University of Technology",
+      period: { from: "Sep, 2004", to: "Aug, 2011" },
+      degree: "Bachelor of Science in Software Engineering",
     },
   ],
   experience: [

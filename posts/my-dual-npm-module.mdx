@@ -1,0 +1,145 @@
+---
+title: Writing a JavaScript Module That Works in Both CommonJS and ESM
+publishedAt: 2025-02-25
+summary: A guide on how to write a module that works in both CoommonJS and ESM
+cover: /posts/my-dual-npm-module.webp
+tag: technical javascript module commonjs esm
+---
+
+## Introduction
+JavaScript module systems have evolved significantly over the years. While CommonJS (CJS) has been the standard for Node.js, ECMAScript Modules (ESM) have gained traction due to their modern syntax and support in both browsers and Node.js. However, maintaining compatibility between both module systems can be a challenge for developers publishing NPM packages.
+
+In this article, I will walk you through my journey of building a JavaScript module that seamlessly supports both CommonJS and ESM. You can find the complete project and tutorial in my GitHub repository: [my-dual-npm-module](https://github.com/radmanesh/my-dual-npm-module).
+
+## Why Support Both CommonJS and ESM?
+
+Many projects and libraries still rely on CommonJS, while modern tooling and frameworks prefer ESM. Supporting both ensures your module remains versatile and accessible to a broader range of users.
+
+Some key reasons to support both:
+
+* **Backward Compatibility:** Many Node.js projects still use CommonJS.
+
+* **Future-Proofing:** ESM is the standard moving forward.
+
+* **Interoperability:** Some build tools expect one format over another.
+
+* **Better Tree Shaking:** ESM enables more efficient tree shaking for smaller bundle sizes.
+
+---
+
+## The Challenges of Dual Support
+
+While Node.js now supports ESM natively, CommonJS and ESM have fundamental differences:
+
+* **Import/Export Syntax:** require() vs. import.
+
+* File Extensions: .cjs for CommonJS and .mjs for ESM.
+
+* Package.json Configuration: type field determines module system behavior.
+
+* Default Exports Handling: CommonJS uses module.exports, whereas ESM uses export default.
+
+These differences mean you need a strategy to ensure smooth interoperability.
+
+---
+
+
+##Steps to Build a Dual-Compatible Module
+
+###1. Project Setup
+Create your project and initialize an NPM package:
+
+```
+mkdir my-dual-module && cd my-dual-module
+npm init -y
+```
+
+Modify package.json to support both module systems:
+
+```
+{
+  "name": "my-dual-module",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
+```
+
+###2. Writing the Module Code
+
+Create a src/index.ts file with the following content:
+
+```javascript
+export function greet(name: string) {
+  return `Hello, ${name}!`;
+}
+```
+
+For CommonJS compatibility, create a wrapper:
+
+```javascript
+// src/index.cjs.ts
+const { greet } = await import("./index.mjs");
+module.exports = { greet };
+```
+
+###3. Compiling for Both Formats
+
+Use TypeScript to compile the code for both CommonJS and ESM. Create a tsconfig.json file:
+
+```javascript
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "ESNext",
+    "target": "ES6",
+    "moduleResolution": "node",
+    "declaration": true,
+    "esModuleInterop": true
+  },
+  "include": ["src"]
+}
+```
+Run the build command:
+
+```
+npm run build
+```
+
+###4. Using the Module
+
+For CommonJS:
+```javascript
+const { greet } = require("my-dual-module");
+console.log(greet("World"));
+```
+For ESM:
+
+```javascript
+import { greet } from "my-dual-module";
+console.log(greet("World"));
+```
+
+##Conclusion
+
+Building a JavaScript module that works in both CommonJS and ESM ensures compatibility and longevity. While it requires additional configuration, the benefits outweigh the effort, making your package usable across different environments.
+
+If you're interested in seeing the full implementation, check out my repository: my-dual-npm-module. I’d love to hear your thoughts and experiences with dual-module development!
+
+Let’s keep the discussion going in the comments!
+
+## More Resources
+
+- [Node.js Documentation on Modules](https://nodejs.org/api/packages.html#dual-commonjses-module-packages)
+- [Package.json Exports Field](https://nodejs.org/api/packages.html#exports)

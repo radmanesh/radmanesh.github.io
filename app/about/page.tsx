@@ -29,17 +29,19 @@ export default function AboutPage() {
       <SectionTitle text="About me" />
       <div className="grid grid-cols-1 gap-4">
         <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
-          Hello world! I'm Ahmed Ismail, a Full-Stack Software Engineer based in
-          Tanta, Egypt, with a deep passion for front-end development.
-          Currently, I'm working as a founding engineer at{" "}
+          Hello world! I'm Arman Radmanesh, a Full-Stack Software Engineer and Data Analyst currently studying
+          Master of Data Science at The Oklahoma University.
+          Currently, I'm working as a GRA at the University of Oklahoma, and as a Research Developer on at{" "}
           <Link
-            href="https://reconciled.io"
+            href="https://jamasp.app"
             className="underline decoration-dotted decoration-1 underline-offset-4 text-muted-foreground/90"
           >
-            Reconciled
+            Jamasp
           </Link>
-          , where I get to blend creativity with technical skills to craft
-          beautiful, functional, and intuitive user experiences.
+          , is set to transform wearable device research by providing seamless integration from data collection to
+          advanced analysis. Together, our tools embody our commitment to fostering innovation, improving accessibility,
+          and supporting meaningful research that drives societal progress. Whether it’s academic exploration, health
+          sciences, or organizational studies, CutSocial is here to make impactful research more efficient and achievable.
         </p>
         <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
           I'm all about creating software that not only works but feels right.
