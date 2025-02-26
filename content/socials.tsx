@@ -1,4 +1,4 @@
-import { Social } from "som3aware";
+import { Social } from "portfolioManager";
 
 const SOCIALS = [
   { title: "email", href: "mailto:abokahfa@gmail.com" },

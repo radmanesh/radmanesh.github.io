@@ -1,4 +1,4 @@
-declare module "som3aware" {
+declare module "portfolioManager" {
   export type Project = {
     id: string;
     url: string;

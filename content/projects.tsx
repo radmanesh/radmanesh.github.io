@@ -1,4 +1,4 @@
-import { Project } from "som3aware";
+import { Project } from "portfolioManager";
 import {
   Boxes,
   Bug,

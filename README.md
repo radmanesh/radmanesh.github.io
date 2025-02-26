@@ -1,6 +1,6 @@
 # Portfolio ✨
 
-My personal portfolio built with Next.js 15 & contentlayer.
+Original work and forked from [ahmedsomaa/portfolio](https://github.com/ahmedsomaa/portfolio). My personal portfolio built with Next.js 15 & [contentlayer.](https://github.com/radmanesh/portfolio)
 
 ## Built With
 
@@ -17,7 +17,7 @@ My personal portfolio built with Next.js 15 & contentlayer.
 ## Running Locally
 
 ```sh
-git clone https://github.com/ahmedsomaa/portfolio
+git clone https://github.com/radmanesh/portfolio
 cd portfolio
 bun install
 bun run content:build && bun run dev

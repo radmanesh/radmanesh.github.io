@@ -1,4 +1,4 @@
-import { Education, Experience } from "som3aware";
+import { Education, Experience } from "portfolioManager";
 
 const ABOUT = {
   education: [
@@ -18,12 +18,12 @@ const ABOUT = {
   experience: [
     {
       id: "1",
-      period: { to: "present", from: "Jan, 2024" },
-      company: { name: "Reconciled", url: "https://reconciled.io" },
+      period: { to: "present", from: "2022" },
+      company: { name: "New School for Social Research", url: "https://cut.social" },
       role: {
-        title: "Founding Engineer",
+        title: "Developer/Researcher",
         description:
-          "Building the first reverse invoice management platform for staffing agencies",
+          "Working on two projects: 1. cut.social, a psychological and behavioral research platform, 2. som3aware, a knowledge engineering and AI platform",
       },
     },
     {
@@ -51,12 +51,12 @@ const ABOUT = {
     },
     {
       id: "4",
-      company: { name: "VOIS", url: "" },
-      period: { to: "Oct, 2021", from: "Jul, 2020" },
+      company: { name: "ICT Research institute", url: "https://en.itrc.ac.ir/" },
+      period: { to: "2012", from: "2013" },
       role: {
-        title: "Software Engineer",
+        title: "Research Engineer/Developer",
         description:
-          "Worked on building and providing technical support for multiple web apps",
+          "Developed an experimental knowledge engineering and semantic methods, primarily focused on ontology and logic.",
       },
     },
   ],
