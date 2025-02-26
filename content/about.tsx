@@ -28,29 +28,49 @@ const ABOUT = {
     },
     {
       id: "2",
-      period: { to: "Dec, 2023", from: "May, 2023" },
-      company: { name: "Nodogoro", url: "https://www.nodogoro.com/" },
+      period: { to: "present", from: "2006" },
+      company: { name: "Freelance", url: "" },
       role: {
-        title: "Software Engineer II",
+        title: "Freelance Software and Web Developer",
         description:
-          "Developed multiple AI-powered applications using OpenAI, LangChain and Next.js",
+          "Developed developed a wide range of web applications using Java, ReactJS, PHP, Static Websites, Google Cloud Platform, and much more.",
       },
     },
     {
       id: "3",
-      period: { to: "May, 2023", from: "Nov, 2021" },
+      period: { to: "2018", from: "2015" },
       company: {
-        name: "New Smart Egypt",
-        url: "https://www.linkedin.com/company/new-smart-egypt-integrated-solutions",
+        name: "BongaMonga®",
+        url: "https://bongamonga.ir",
       },
       role: {
-        title: "Software Engineer I",
+        title: "Software Engineer",
         description:
-          "Worked on building web/mobile apps and integrating between multiple vendor systems",
+          "Worked on building web/mobile realstate online selling and renting platform",
       },
     },
     {
       id: "4",
+      company: { name: "Ratnic", url: "https://ratnic.se/" },
+      period: { to: "2014", from: "2015" },
+      role: {
+        title: "Research Engineer/Developer",
+        description:
+          "Developed a social platform where users could win by completing quizzes.",
+      },
+    },
+    {
+      id: "5",
+      company: { name: "IRS", url: "" },
+      period: { to: "2013", from: "2014" },
+      role: {
+        title: "Software Engineer",
+        description:
+          "Designed and developed a front-end web-application for “Clonet”; a firewall appliance solution.",
+      },
+    },
+    {
+      id: "6",
       company: { name: "ICT Research institute", url: "https://en.itrc.ac.ir/" },
       period: { to: "2012", from: "2013" },
       role: {
