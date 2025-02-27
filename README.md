@@ -1,6 +1,6 @@
 # Portfolio ✨
 
-Original work and forked from [ahmedsomaa/portfolio](https://github.com/ahmedsomaa/portfolio). My personal portfolio built with Next.js 15 & [contentlayer.](https://github.com/radmanesh/portfolio)
+[Personal portfolio](https://github.com/radmanesh/portfolio) built with [Next.js] 15 and [Contentlayer], originally based on [ahmedsomaa/portfolio](https://github.com/ahmedsomaa/portfolio).
 
 ## Built With
 
