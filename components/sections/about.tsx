@@ -14,16 +14,16 @@ export function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
           <p>
             An ambitious frontend software engineer from Iran with 15 years of
-            experience in building web applications, now using <ReactBadge />.
+            experience in building web applications, now mostly using <ReactBadge />.
           </p>
           <p>
-            I am passionate about the intersection between design and
-            programming aspiring to become a design engineer.
+            I am passionate about data analysis and visualization especially coming up with new ways
+            to automatically generate insights from different kind of data.
           </p>
           <p>
-            With a keen eye for the little details, I aim to create beautiful
-            and functional software that is both intuitive and enjoyable for
-            users.
+            With a background in software engineering and data science, I have
+            worked on a wide range of projects, from building web applications to
+            analyzing data and creating visualizations.
           </p>
         </div>
         <div className="flex justify-end">
