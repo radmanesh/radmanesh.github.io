@@ -23,7 +23,7 @@ const ABOUT = {
       role: {
         title: "Developer/Researcher",
         description:
-          "Working on two projects: 1. cut.social, a psychological and behavioral research platform, 2. som3aware, a knowledge engineering and AI platform",
+          "Working on two projects: Cut (Lens), a psychological and behavioral research platform, and Jamasp, a platform to collect wearable devices data.",
       },
     },
     {

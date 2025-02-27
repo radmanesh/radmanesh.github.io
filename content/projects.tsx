@@ -25,7 +25,7 @@ const PROJECTS = [
     title: "Cut (Lens)",
     url: "https://cust.social/",
     logo: <PencilRuler className="project-logo" />,
-    description: "A platform to collect and analyze psychological and behavioral data",
+    description: "A framework to build and run psychological and behavioral studies",
   },
 ] satisfies Project[];
 
