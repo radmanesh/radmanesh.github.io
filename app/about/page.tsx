@@ -31,33 +31,37 @@ export default function AboutPage() {
         <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
           Hello world! I'm Arman Radmanesh, a Full-Stack Software Engineer and Data Analyst currently studying
           Master of Data Science at The Oklahoma University.
-          Currently, I'm working as a GRA at the University of Oklahoma, and as a Research Developer on at{" "}
+          Currently, I'm working as a GRA at the University of Oklahoma, and as a Research Developer on{" "}
           <Link
             href="https://jamasp.app"
             className="underline decoration-dotted decoration-1 underline-offset-4 text-muted-foreground/90"
           >
             Jamasp
           </Link>
-          , is set to transform wearable device research by providing seamless integration from data collection to
-          advanced analysis. Together, our tools embody our commitment to fostering innovation, improving accessibility,
-          and supporting meaningful research that drives societal progress. Whether it’s academic exploration, health
-          sciences, or organizational studies, CutSocial is here to make impactful research more efficient and achievable.
+          , which is a tool that is set to transform wearable device research by providing seamless integration from data collection to
+          advanced analysis. I'm also working on{" "}
+          <Link
+            href="https://cut.social"
+            className="underline decoration-dotted decoration-1 underline-offset-4 text-muted-foreground/90"
+          >
+            Cut (Lens)
+          </Link>
+          , a platform that enables researchers to build and run psychological and behavioral studies.
         </p>
         <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
-          I'm all about creating software that not only works but feels right.
+          I specialize in building high-quality web applications that are both
+          performant and user-friendly.
           My tools of choice are <ReactBadge />, <NextBadge />,{" "}
           <TypeScriptBadge />, and <TailwindCssBadge />
           —technologies that empower me to build fast, responsive, and scalable
-          apps. But it doesn't stop there. I'm also passionate about design
-          engineering—the intersection of clean, elegant code and user-centric
-          design. I believe the best apps are those that blend great usability
-          with a thoughtful aesthetic.
+          apps. I'm passionate about creating software that solves real-world
+          problems and delivers value to users.
         </p>
         <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
-          Outside of coding, I find solace in reading, particularly history and
-          technology-related topics. I also enjoy writing and experimenting with
-          new technologies. I'm a lifelong learner, always excited to dive into
-          new programming paradigms or the latest UX/UI design trends.
+          Outside of coding, I love reading fiction, especially sci-fi and
+          fantasy novels. I'm also a big fan of camping and nature sightseeing.
+          I'm always looking for new opportunities to learn and grow, so feel
+          free to reach out if you'd like to connect!
         </p>
       </div>
       <SectionSubtitle text="Education" />
