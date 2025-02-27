@@ -40,7 +40,7 @@ export function Headline() {
         <Link
           download
           target="_blank noreferrer"
-          href="/docs/ahmed-ismail-resume.pdf"
+          href="/docs/radmanesh-resume.pdf"
         >
           Get my resume
         </Link>
