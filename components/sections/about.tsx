@@ -13,8 +13,8 @@ export function About() {
         <p className="font-semibold md:text-lg">Hello, Arman Radmanesh here!</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
           <p>
-            An ambitious frontend software engineer from Iran with 15 years of
-            experience in building web applications, now mostly using <ReactBadge />.
+            An ambitious full-stack software engineer from Iran with 15 years of
+            experience in building web applications, recently, using <ReactBadge />.
           </p>
           <p>
             I am passionate about data analysis and visualization especially coming up with new ways
