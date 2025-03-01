@@ -1,14 +1,8 @@
-import { Project } from "portfolioManager";
 import {
-  Boxes,
-  Bug,
-  Command,
-  Hash,
-  Megaphone,
-  PencilRuler,
-  ScanFace,
-  ShoppingCart,
+  Brain,
+  Watch
 } from "lucide-react";
+import { Project } from "portfolioManager";
 
 const PROJECTS = [
   {
@@ -16,7 +10,7 @@ const PROJECTS = [
     featured: true,
     title: "Jamasp",
     url: "https://jamasp.app/",
-    logo: <Command className="project-logo" />,
+    logo: <Watch className="project-logo" />,
     description: "A platform to collect ana analyze participants wearable devices data"
   },
   {
@@ -24,7 +18,7 @@ const PROJECTS = [
     featured: true,
     title: "Cut (Lens)",
     url: "https://cust.social/",
-    logo: <PencilRuler className="project-logo" />,
+    logo: <Brain className="project-logo" />,
     description: "A framework to build and run psychological and behavioral studies",
   },
 ] satisfies Project[];
