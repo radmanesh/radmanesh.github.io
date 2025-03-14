@@ -23,7 +23,7 @@ export function About() {
           <p>
             With a background in software engineering and data science, I have
             worked on a wide range of projects, from building web applications to
-            analyzing data and creating visualizations.
+            analyzing data and creating data driven visualizations.
           </p>
         </div>
         <div className="flex justify-end">

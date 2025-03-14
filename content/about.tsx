@@ -52,7 +52,7 @@ const ABOUT = {
     {
       id: "4",
       company: { name: "Ratnic", url: "https://ratnic.se/" },
-      period: { to: "2014", from: "2015" },
+      period: { to: "2015", from: "2014" },
       role: {
         title: "Research Engineer/Developer",
         description:
@@ -62,7 +62,7 @@ const ABOUT = {
     {
       id: "5",
       company: { name: "IRS", url: "" },
-      period: { to: "2013", from: "2014" },
+      period: { to: "2014", from: "2013" },
       role: {
         title: "Software Engineer",
         description:
@@ -72,7 +72,7 @@ const ABOUT = {
     {
       id: "6",
       company: { name: "ICT Research institute", url: "https://en.itrc.ac.ir/" },
-      period: { to: "2012", from: "2013" },
+      period: { to: "2013", from: "2012" },
       role: {
         title: "Research Engineer/Developer",
         description:
