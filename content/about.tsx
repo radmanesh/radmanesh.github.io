@@ -1,4 +1,4 @@
-import { Education, Experience } from "som3aware";
+import { Education, Experience } from "portfolio";
 
 const ABOUT = {
   education: [

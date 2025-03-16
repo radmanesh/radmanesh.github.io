@@ -1,4 +1,4 @@
-import { Project } from "som3aware";
+import { Project } from "portfolio";
 import { ComponentProps } from "react";
 
 // --------- COMPONENT PROPS ---------
@@ -7,7 +7,7 @@ interface ProjectCardProps extends ComponentProps<"a"> {
 }
 
 // --------- COMPONENT LAYOUT ---------
-export function ProjectCard({ project, ...props }: ProjectCardProps) {
+export function ProjectCard({ project, ...props }: Readonly<ProjectCardProps>) {
   return (
     <a href={project.url} {...props}>
       <div className="rounded-lg border text-card-foreground relative overflow-hidden transition-all duration-300 bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 hover:border-zinc-500 dark:hover:border-zinc-400">

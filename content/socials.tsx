@@ -1,4 +1,4 @@
-import { Social } from "som3aware";
+import { Social } from "portfolio";
 
 const SOCIALS = [
   { title: "email", href: "mailto:abokahfa@gmail.com" },
@@ -6,7 +6,10 @@ const SOCIALS = [
   { title: "github", href: "https://github.com/ahmedsomaa" },
   { title: "linkedin", href: "https://linkedin.com/in/som3aware" },
   { title: "hashnode", href: "https://som3aware.hashnode.dev/" },
-  { title: "front-end mentor", href: "https://www.frontendmentor.io/profile/ahmedsomaa" },
+  {
+    title: "front-end mentor",
+    href: "https://www.frontendmentor.io/profile/ahmedsomaa",
+  },
 ] satisfies Social[];
 
 export default SOCIALS;

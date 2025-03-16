@@ -1,4 +1,4 @@
-import { NavigationItem } from "som3aware";
+import { NavigationItem } from "portfolio";
 
 const NAVIGATION_ITEMS = [
   { name: "Home", href: "/" },
