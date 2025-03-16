@@ -33,7 +33,7 @@ const ABOUT = {
       role: {
         title: "Software Engineer II",
         description:
-          "Developed multiple AI-powered applications using OpenAI, LangChain and Next.js",
+          "Developed multiple LLM-powered applications using OpenAI, LangChain and Next.js",
       },
     },
     {
@@ -51,7 +51,7 @@ const ABOUT = {
     },
     {
       id: "4",
-      company: { name: "VOIS", url: "" },
+      company: { name: "VOIS", url: "https://www.linkedin.com/company/vois/" },
       period: { to: "Oct, 2021", from: "Jul, 2020" },
       role: {
         title: "Software Engineer",
