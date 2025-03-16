@@ -32,7 +32,7 @@ function TimelineConnector({ className, ...props }: ComponentProps<"div">) {
     <div
       {...props}
       className={cn(
-        "absolute -start-[6.5px] mt-2 h-3 w-3 rounded-full border border-zinc-400 bg-zinc-200 dark:border-zinc-600 dark:bg-zinc-800",
+        "absolute -start-[7px] mt-2 h-3 w-3 rounded-full border border-zinc-400 bg-zinc-200 dark:border-zinc-600 dark:bg-zinc-800",
         className
       )}
     ></div>
