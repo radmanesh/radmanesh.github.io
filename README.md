@@ -49,5 +49,5 @@ I use contentlayer alongside mdx. Delete the files under `/posts`, and add your 
 
 ### Syntax Highlighting
 
-I made a custom cod block component `/components/code-block.tsx` using shiki. Change your
+I made a custom code block component `/components/code-block.tsx` using shiki. Change your
 light & dark themes there.
