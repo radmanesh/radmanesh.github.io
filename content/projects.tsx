@@ -17,7 +17,7 @@ const PROJECTS = [
     id: "2",
     featured: true,
     title: "Cut (Lens)",
-    url: "https://cust.social/",
+    url: "https://cut.social/",
     logo: <Brain className="project-logo" />,
     description: "A framework to build and run psychological and behavioral studies",
   },
