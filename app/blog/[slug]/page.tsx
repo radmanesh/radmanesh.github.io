@@ -63,7 +63,7 @@ export default async function PostPage({ params }: Readonly<PostPageProps>) {
       <div className="flex justify-start">
         <Link
           href="/blog"
-          className="p-2 border border-border rounded-full bg-zinc-50/80 dark:bg-zinc-900/80 hover:bg-zinc-100 hover:dark:bg-zinc-800 hover:text-accent-foreground"
+          className="p-2 border border-border rounded-full bg-zinc-50/80 dark:bg-zinc-900/80 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-accent-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
         </Link>
@@ -74,7 +74,7 @@ export default async function PostPage({ params }: Readonly<PostPageProps>) {
           height={320}
           src={post.cover}
           alt={`${post.title}'s cover image`}
-          className="rounded-lg w-full shadow-sm shadow-stone-900 dark:shadow-stone-700"
+          className="rounded-lg w-full shadow-xs shadow-stone-900 dark:shadow-stone-700"
         />
         <div className="space-y-1 text-center tracking-tight">
           <h1 className="font-bold text-2xl md:text-3xl">{post.title}</h1>

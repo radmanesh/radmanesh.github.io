@@ -1,12 +1,12 @@
 import {
   Brain,
-  Watch
+  Watch,
 } from "lucide-react";
 import { Project } from "portfolioManager";
 
 const PROJECTS = [
   {
-    id:'1',
+    id: "1",
     featured: true,
     title: "Jamasp",
     url: "https://jamasp.app/",
