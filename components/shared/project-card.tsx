@@ -1,4 +1,4 @@
-import { Project } from "portfolio";
+import { Project } from "portfolioManager";
 import { ComponentProps } from "react";
 
 // --------- COMPONENT PROPS ---------

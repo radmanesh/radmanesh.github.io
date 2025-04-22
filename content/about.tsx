@@ -1,62 +1,82 @@
-import { Education, Experience } from "portfolio";
+import { Education, Experience } from "portfolioManager";
 
 const ABOUT = {
   education: [
     {
       id: "1",
-      institute: "Arizona State University",
-      period: { from: "Jan, 2022", to: "Dec, 2023" },
-      degree: "Masters of Science in Engineering in Software Engineering",
+      institute: "The University of Oklahoma",
+      period: { from: "Jan, 2024", to: "Dec, 2026" },
+      degree: "Masters of Science in Data Science and Analytics",
     },
     {
       id: "2",
-      institute: "The American University in Cairo",
-      period: { from: "Sep, 2014", to: "Aug, 2019" },
-      degree: "Bachelor of Science in Computer Engineering",
+      institute: "Amirkabir University of Technology",
+      period: { from: "Sep, 2004", to: "Aug, 2011" },
+      degree: "Bachelor of Science in Software Engineering",
     },
   ],
   experience: [
     {
       id: "1",
-      period: { to: "present", from: "Jan, 2024" },
-      company: { name: "Reconciled", url: "https://reconciled.io" },
+      period: { to: "present", from: "2022" },
+      company: { name: "New School for Social Research", url: "https://cut.social" },
       role: {
-        title: "Founding Engineer",
+        title: "Developer/Researcher",
         description:
-          "Building the first reverse invoice management platform for staffing agencies",
+          "Working on two projects: Cut (Lens), a psychological and behavioral research platform, and Jamasp, a platform to collect wearable devices data.",
       },
     },
     {
       id: "2",
-      period: { to: "Dec, 2023", from: "May, 2023" },
-      company: { name: "Nodogoro", url: "https://www.nodogoro.com/" },
+      period: { to: "present", from: "2006" },
+      company: { name: "Freelance", url: "" },
       role: {
-        title: "Software Engineer II",
+        title: "Freelance Software and Web Developer",
         description:
-          "Developed multiple LLM-powered applications using OpenAI, LangChain and Next.js",
+          "Developed developed a wide range of web applications using Java, ReactJS, PHP, Static Websites, Google Cloud Platform, and much more.",
       },
     },
     {
       id: "3",
-      period: { to: "May, 2023", from: "Nov, 2021" },
+      period: { to: "2018", from: "2015" },
       company: {
-        name: "New Smart Egypt",
-        url: "https://www.linkedin.com/company/new-smart-egypt-integrated-solutions",
+        name: "BongaMonga®",
+        url: "https://bongamonga.ir",
       },
       role: {
-        title: "Software Engineer I",
+        title: "Software Engineer",
         description:
-          "Worked on building web/mobile apps and integrating between multiple vendor systems",
+          "Worked on building web/mobile realstate online selling and renting platform",
       },
     },
     {
       id: "4",
-      company: { name: "VOIS", url: "https://www.linkedin.com/company/vois/" },
-      period: { to: "Oct, 2021", from: "Jul, 2020" },
+      company: { name: "Ratnic", url: "https://ratnic.se/" },
+      period: { to: "2015", from: "2014" },
+      role: {
+        title: "Research Engineer/Developer",
+        description:
+          "Developed a social platform where users could win by completing quizzes.",
+      },
+    },
+    {
+      id: "5",
+      company: { name: "IRS", url: "" },
+      period: { to: "2014", from: "2013" },
       role: {
         title: "Software Engineer",
         description:
-          "Worked on building and providing technical support for multiple web apps",
+          "Designed and developed a front-end web-application for “Clonet”; a firewall appliance solution.",
+      },
+    },
+    {
+      id: "6",
+      company: { name: "ICT Research institute", url: "https://en.itrc.ac.ir/" },
+      period: { to: "2013", from: "2012" },
+      role: {
+        title: "Research Engineer/Developer",
+        description:
+          "Developed an experimental knowledge engineering and semantic methods, primarily focused on ontology and logic.",
       },
     },
   ],

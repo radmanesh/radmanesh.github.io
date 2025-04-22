@@ -1,4 +1,4 @@
-import { NavigationItem } from "portfolio";
+import { NavigationItem } from "portfolioManager";
 
 const NAVIGATION_ITEMS = [
   { name: "Home", href: "/" },

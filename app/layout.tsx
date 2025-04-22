@@ -7,7 +7,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { MaxWidthWrapper } from "@/components/layout/max-width-wrapper";
-import { FreePalestineBanner } from "@/components/banners/free-palestine";
+import { HeyAllBanner } from "@/components/banners/hey-banner";
 
 // --------- FONTS ---------
 const fontLogo = localFont({
@@ -34,24 +34,32 @@ const fontSans = Karla({
 
 // --------- METADATA ---------
 export const metadata: Metadata = {
-  metadataBase: new URL("https://som3aware.vercel.app/"),
-  title: { default: "Som3aware", template: "%s | Som3aware" },
-  description: "Crafting elegant products that captivate and delight users ✨",
+  metadataBase: new URL("https://radmanesh.vercel.app/"),
+  title: { default: "Radmanesh", template: "%s | Radmanesh" },
+  description: "Personal homepage of Arman Radmanesh ✨",
   keywords: [
-    "Som3aware",
+    "Radmanesh",
     "Software Engineering",
-    "Career",
-    "Events",
+    "Researcher",
+    "Cut.social",
+    "Healthcare",
+    "AI",
+    "Machine Learning",
+    "Data Science",
+    "Web Development",
+    "React",
+    "Next.js",
+    "Node.js",
     "Blog",
     "About",
     "Contact",
   ],
   openGraph: {
-    title: "Som3aware",
+    title: "Radmanesh",
     description:
-      "Crafting elegant products that captivate and delight users ✨",
-    url: "https://som3aware.vercel.app/",
-    siteName: "Som3aware",
+      "Personal homepage of Arman Radmanesh ✨",
+    url: "https://radmanesh.vercel.app/",
+    siteName: "Radmaanesh",
     locale: "en_US",
     type: "website",
   },
@@ -67,11 +75,11 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: "Som3aware",
-    site: "Som3aware",
-    creator: "@som3aware",
+    title: "ArmanRadmanesh",
+    site: "ArmanRadmanesh",
+    creator: "@ArmanRadmanesh",
     description:
-      "Crafting elegant products that captivate and delight users ✨",
+      "My twitter account website",
     card: "summary_large_image",
   },
 };
@@ -85,7 +93,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable} ${fontLogo.variable} font-sans bg-zinc-50 selection:bg-zinc-200 dark:bg-zinc-900 dark:selection:bg-zinc-700 scroll-smooth antialiased`}
+        className={`${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable} ${fontLogo.variable}
+          font-sans bg-zinc-50 selection:bg-zinc-200 dark:bg-zinc-900 dark:selection:bg-zinc-700 scroll-smooth antialiased`}
       >
         <ThemeProvider
           enableSystem
@@ -94,7 +103,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip mb-6">
-            <FreePalestineBanner />
+            <HeyAllBanner />
             <Header />
             <MaxWidthWrapper>{children}</MaxWidthWrapper>
             <Footer />

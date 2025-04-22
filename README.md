@@ -1,6 +1,6 @@
 # Portfolio ✨
 
-My personal portfolio built with Next.js 15 & contentlayer.
+[Personal portfolio](https://github.com/radmanesh/portfolio) built with [Next.js] 15 and [Contentlayer], originally based on [ahmedsomaa/portfolio](https://github.com/ahmedsomaa/portfolio).
 
 ## Built With
 
@@ -17,7 +17,7 @@ My personal portfolio built with Next.js 15 & contentlayer.
 ## Running Locally
 
 ```sh
-git clone https://github.com/ahmedsomaa/portfolio
+git clone https://github.com/radmanesh/portfolio
 cd portfolio
 bun install
 bun run content:build && bun run dev
@@ -49,5 +49,5 @@ I use contentlayer alongside mdx. Delete the files under `/posts`, and add your 
 
 ### Syntax Highlighting
 
-I made a custom code block component `/components/code-block.tsx` using shiki. Change your
+I made a custom cod block component `/components/code-block.tsx` using shiki. Change your
 light & dark themes there.
