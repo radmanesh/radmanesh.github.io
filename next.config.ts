@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/radmanesh.github.io.ts',
-  assetPrefix: '/radmanesh.github.io.ts/',
+  basePath: '/radmanesh.github.io',
+  assetPrefix: '/radmanesh.github.io/',
 };
 
 export default withContentlayer(nextConfig);
