@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/radmanesh.github.io',
+  basePath: '/',
   assetPrefix: '/radmanesh.github.io/',
 };
 
