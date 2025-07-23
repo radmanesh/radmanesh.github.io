@@ -1,0 +1,8 @@
+ignoredBuiltDependencies:
+  - contentlayer2
+  - esbuild
+  - protobufjs
+  - sharp
+
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
