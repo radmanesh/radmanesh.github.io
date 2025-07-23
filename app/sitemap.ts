@@ -5,7 +5,7 @@ import { allPosts } from "contentlayer/generated";
 export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://radmanesh.github.io/radmanesh.github.io.ts";
+  const baseUrl = "https://radmanesh.github.io/";
 
   const staticRoutes = ["", "/about", "/blog", "/projects"].map((route) => ({
     url: `${baseUrl}${route}`,
