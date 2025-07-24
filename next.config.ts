@@ -4,13 +4,6 @@ import { withContentlayer } from "next-contentlayer2";
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
-  output: 'export',
-  trailingSlash: true,
-  images: {
-    unoptimized: true,
-  },
-  basePath: '/',
-  assetPrefix: '/radmanesh.github.io/',
 };
 
 export default withContentlayer(nextConfig);
