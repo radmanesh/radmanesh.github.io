@@ -5,6 +5,7 @@ const NAVIGATION_ITEMS = [
   { name: "About", href: "/about" },
   { name: "Blog", href: "/blog" },
   { name: "Projects", href: "/projects" },
+  { name: "Lab", href: "/lab" },
 ] satisfies NavigationItem[];
 
 export default NAVIGATION_ITEMS;
