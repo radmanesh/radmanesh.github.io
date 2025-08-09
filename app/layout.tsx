@@ -94,7 +94,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable} ${fontLogo.variable}
-          font-sans bg-zinc-50 selection:bg-zinc-200 dark:bg-zinc-900 dark:selection:bg-zinc-700 scroll-smooth antialiased`}
+          font-sans bg-zinc-50 selection:bg-zinc-200 dark:bg-zinc-900 dark:selection:bg-zinc-700 scroll-smooth antialiased min-h-dvh flex flex-col`}
       >
         <ThemeProvider
           enableSystem
@@ -102,12 +102,12 @@ export default function RootLayout({
           defaultTheme="system"
           disableTransitionOnChange
         >
-          <div className="relative flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip mb-6">
-            <HeyAllBanner />
-            <Header />
+          <HeyAllBanner />
+          <Header />
+          <main className="flex-1 min-h-0">
             <MaxWidthWrapper>{children}</MaxWidthWrapper>
-            <Footer />
-          </div>
+          </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

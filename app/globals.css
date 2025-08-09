@@ -136,6 +136,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-y: auto;              /* not 'scroll' */
+    scrollbar-gutter: stable both-edges; /* keep layout stable without forcing overflow */
   }
 
   pre {
