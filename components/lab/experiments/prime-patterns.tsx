@@ -105,9 +105,28 @@ export default function PrimePatterns() {
   const [tooltip, setTooltip] = useState<{ x: number; y: number; point: Point } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [touchMode, setTouchMode] = useState<"pan" | "zoom">("pan");
+  const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 });
 
   const points = useRef<Point[]>([]);
   const primes = useRef<number[]>([]);
+
+  // Set responsive canvas size
+  useEffect(() => {
+    const updateCanvasSize = () => {
+      if (typeof window !== "undefined") {
+        const isMobile = window.innerWidth < 768;
+        setCanvasSize({
+          width: isMobile ? Math.min(350, window.innerWidth - 32) : 800,
+          height: isMobile ? Math.min(350, window.innerWidth - 32) : 600,
+        });
+      }
+    };
+
+    updateCanvasSize();
+    window.addEventListener("resize", updateCanvasSize);
+    return () => window.removeEventListener("resize", updateCanvasSize);
+  }, []);
 
   // Generate points when maxN changes
   useEffect(() => {
@@ -267,6 +286,44 @@ export default function PrimePatterns() {
     }));
   };
 
+  // Touch handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      const touch = e.touches[0];
+      setIsDragging(true);
+      setDragStart({ x: touch.clientX - viewport.x, y: touch.clientY - viewport.y });
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
+
+    if (e.touches.length === 1 && isDragging) {
+      const touch = e.touches[0];
+
+      if (touchMode === "pan") {
+        setViewport(prev => ({
+          ...prev,
+          x: touch.clientX - dragStart.x,
+          y: touch.clientY - dragStart.y,
+        }));
+      } else if (touchMode === "zoom") {
+        // Zoom based on vertical movement
+        const deltaY = touch.clientY - dragStart.y;
+        const scaleFactor = deltaY > 0 ? 0.99 : 1.01;
+        setViewport(prev => ({
+          ...prev,
+          scale: Math.max(1, Math.min(100, prev.scale * scaleFactor)),
+        }));
+        setDragStart({ x: touch.clientX - viewport.x, y: touch.clientY - viewport.y });
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
   const resetView = () => {
     setViewport({ x: 0, y: 0, scale: 20 });
   };
@@ -322,35 +379,64 @@ export default function PrimePatterns() {
             onChange={(e) => setMaxN(Number(e.target.value))}
             min="100"
             max="1000000"
-            step="100"
+            step="1000"
             className="w-full px-2 py-1 rounded border border-zinc-200 dark:border-zinc-700 bg-background"
           />
         </div>
       </div>
 
-      <div className="flex gap-2">
+      {/* Mobile Touch Mode Controls */}
+      <div className="md:hidden">
+        <div className="flex gap-2 mb-2">
+          <button
+            onClick={() => setTouchMode("pan")}
+            className={`px-3 py-1 rounded border text-sm ${
+              touchMode === "pan"
+                ? "bg-blue-500 text-white border-blue-500"
+                : "border-zinc-200 dark:border-zinc-700 bg-background hover:bg-zinc-50 dark:hover:bg-zinc-800"
+            }`}
+          >
+            Pan Mode
+          </button>
+          <button
+            onClick={() => setTouchMode("zoom")}
+            className={`px-3 py-1 rounded border text-sm ${
+              touchMode === "zoom"
+                ? "bg-blue-500 text-white border-blue-500"
+                : "border-zinc-200 dark:border-zinc-700 bg-background hover:bg-zinc-50 dark:hover:bg-zinc-800"
+            }`}
+          >
+            Zoom Mode
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground mb-2">
+          {touchMode === "pan" ? "Touch and drag to move around" : "Touch and drag up/down to zoom in/out"}
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setShowGrid(!showGrid)}
-          className="px-3 py-1 rounded border border-zinc-200 dark:border-zinc-700 bg-background hover:bg-zinc-50 dark:hover:bg-zinc-800"
+          className="px-3 py-1 rounded border border-zinc-200 dark:border-zinc-700 bg-background hover:bg-zinc-50 dark:hover:bg-zinc-800 text-sm"
         >
           {showGrid ? "Hide" : "Show"} Grid
         </button>
 
         <button
           onClick={resetView}
-          className="px-3 py-1 rounded border border-zinc-200 dark:border-zinc-700 bg-background hover:bg-zinc-50 dark:hover:bg-zinc-800"
+          className="px-3 py-1 rounded border border-zinc-200 dark:border-zinc-700 bg-background hover:bg-zinc-50 dark:hover:bg-zinc-800 text-sm"
         >
           Reset View
         </button>
       </div>
 
       {/* Canvas */}
-      <div className="relative">
+      <div className="relative flex justify-center">
         <canvas
           ref={canvasRef}
-          width={800}
-          height={600}
-          className="border border-zinc-200 dark:border-zinc-700 rounded-lg cursor-move"
+          width={canvasSize.width}
+          height={canvasSize.height}
+          className="border border-zinc-200 dark:border-zinc-700 rounded-lg cursor-move touch-none"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -359,6 +445,9 @@ export default function PrimePatterns() {
             setTooltip(null);
           }}
           onWheel={handleWheel}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         />
 
         {/* Tooltip */}
@@ -385,7 +474,8 @@ export default function PrimePatterns() {
 
       {/* Instructions */}
       <div className="text-sm text-muted-foreground space-y-1">
-        <p><strong>Controls:</strong> Scroll to zoom, drag to pan, hover for details</p>
+        <p><strong>Desktop:</strong> Scroll to zoom, drag to pan, hover for details</p>
+        <p className="md:hidden"><strong>Mobile:</strong> Use mode buttons above, then touch and drag</p>
         <p><strong>Primes:</strong> Blue dots show prime numbers</p>
         <p><strong>Residue Classes:</strong> Colors by n mod m</p>
         <p><strong>Prime Gaps:</strong> Colors by gap to next prime (green=twins, red=large)</p>
