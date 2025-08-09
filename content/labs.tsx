@@ -1,4 +1,4 @@
-import { Timer, Keyboard, Crosshair, Brain } from "lucide-react";
+import { Timer, Keyboard, Crosshair, Brain, Grid3X3 } from "lucide-react";
 import type { Experiment } from "portfolioManager";
 
 const LABS = [
@@ -28,6 +28,15 @@ const LABS = [
     mode: "page",
     description:
       "Predicts your next H/T after 5 inputs. Just mathemathics nothing else! I couldn't beat 60%,",
+  },
+  {
+    id: "4",
+    slug: "prime-patterns",
+    title: "Prime Patterns Explorer",
+    logo: <Grid3X3 className="project-logo" />,
+    mode: "page",
+    description:
+      "Interactive Ulam spiral visualization with zoom, pan, and prime pattern coloring modes.",
   },
 ] satisfies Experiment[];
 
