@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useEmotionAPI } from "@/lib/hooks/use-emotion-api";
 
 type Emotion =
   | "neutral"
@@ -24,9 +25,12 @@ export default function EmotionAvatar() {
   const [emotion, setEmotion] = useState<Emotion>("neutral");
   const [speaking, setSpeaking] = useState(false);
   const [gesture, setGesture] = useState<"none" | "nod" | "eyeroll" | "shake" | "tiltBack">("none");
+  const [useAI, setUseAI] = useState(false);
 
-  // Heuristic sentiment/arousal/intent classifier (can be replaced with LLM/API later)
-  const analyze = (orig: string): Emotion => {
+  const { analyzeEmotion, loading, error } = useEmotionAPI();
+
+  // Heuristic sentiment/arousal/intent classifier (fallback when AI is disabled/fails)
+  const analyzeHeuristic = (orig: string): Emotion => {
     const t = orig.toLowerCase();
     const exclam = (orig.match(/!/g) || []).length;
     const qmarks = (orig.match(/\?/g) || []).length;
@@ -115,11 +119,33 @@ export default function EmotionAvatar() {
     window.speechSynthesis.speak(u);
   };
 
-  const send = () => {
+  const send = async () => {
     const text = input.trim();
-    if (!text) return;
-    const emo = analyze(text);
+    if (!text || loading) return;
+
+    setMessages((m) => [...m, { role: "user", text }]);
+    setInput("");
+
+    let emo: Emotion;
+    let botResponse: string;
+
+    if (useAI) {
+      const result = await analyzeEmotion(text);
+      if (result) {
+        emo = result.emotion;
+        botResponse = result.response;
+      } else {
+        // Fallback to heuristic if API fails
+        emo = analyzeHeuristic(text);
+        botResponse = replyFor(emo);
+      }
+    } else {
+      emo = analyzeHeuristic(text);
+      botResponse = replyFor(emo);
+    }
+
     setEmotion(emo);
+
     // Trigger a short contextual gesture
     setGesture(
       emo === "annoyed"
@@ -133,13 +159,11 @@ export default function EmotionAvatar() {
         : "none"
     );
     setTimeout(() => setGesture("none"), 900);
-    setMessages((m) => [...m, { role: "user", text }]);
-    const bot = replyFor(emo);
+
     setTimeout(() => {
-      setMessages((m) => [...m, { role: "agent", text: bot }]);
-      speak(bot);
+      setMessages((m) => [...m, { role: "agent", text: botResponse }]);
+      speak(botResponse);
     }, 240);
-    setInput("");
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -148,9 +172,26 @@ export default function EmotionAvatar() {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
-        Type something with a tone (happy, puzzled, excited, annoyed). The avatar reacts and speaks.
-      </p>
+      <div className="flex items-center gap-4">
+        <p className="text-sm text-muted-foreground flex-1">
+          Type something with a tone. The avatar reacts and speaks.
+        </p>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={useAI}
+            onChange={(e) => setUseAI(e.target.checked)}
+            className="rounded"
+          />
+          Use AI Analysis
+        </label>
+      </div>
+
+      {error && (
+        <div className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-2 rounded border">
+          AI Error: {error} (using fallback)
+        </div>
+      )}
 
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1 rounded-lg border border-zinc-200 dark:border-zinc-700 p-4">
@@ -163,14 +204,16 @@ export default function EmotionAvatar() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKeyDown}
-              className="flex-1 rounded-md border border-zinc-200 dark:border-zinc-700 bg-background px-3 py-2 outline-none"
-              placeholder="Say something like: 'Awesome!!' or 'Wait, what?' or 'Ugh, worst day'"
+              disabled={loading}
+              className="flex-1 rounded-md border border-zinc-200 dark:border-zinc-700 bg-background px-3 py-2 outline-none disabled:opacity-50"
+              placeholder="Say something like: 'Awesome!!' or 'Wait, what?'"
             />
             <button
               onClick={send}
-              className="px-3 py-2 rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+              disabled={loading || !input.trim()}
+              className="px-3 py-2 rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-50"
             >
-              Send
+              {loading ? "..." : "Send"}
             </button>
           </div>
 
@@ -194,7 +237,8 @@ export default function EmotionAvatar() {
       </div>
 
       <div className="text-xs text-muted-foreground">
-        Later: replace heuristic with LLM sentiment and wire an EmoFace/3D adapter.
+        {useAI ? "Using OpenAI for emotion analysis" : "Using heuristic analysis"} •
+        Speech synthesis {typeof window !== "undefined" && "speechSynthesis" in window ? "enabled" : "not supported"}
       </div>
     </div>
   );

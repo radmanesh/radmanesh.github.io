@@ -1,4 +1,4 @@
-import { Timer, Keyboard, Crosshair, Brain, Grid3X3 } from "lucide-react";
+import { Timer, Keyboard, Crosshair, Brain, Grid3X3, Smile } from "lucide-react";
 import type { Experiment } from "portfolioManager";
 
 const LABS = [
@@ -42,10 +42,10 @@ const LABS = [
     id: "5",
     slug: "emotion-avatar",
     title: "Emotion-Reactive Avatar",
-    logo: <Crosshair className="project-logo" />,
+    logo: <Smile className="project-logo" />,
     mode: "page",
     description:
-      "Chat with an avatar that smiles, puzzles, nods, eye-rolls, and speaks based on your tone.",
+      "AI-powered emotional avatar that reacts to your messages with facial expressions and speech.",
   },
 ] satisfies Experiment[];
 
