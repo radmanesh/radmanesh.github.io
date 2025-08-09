@@ -3,6 +3,7 @@ import { Socials } from "@/components/sections/socials";
 import { Headline } from "@/components/sections/headline";
 import { BlogPosts } from "@/components/sections/blog-posts";
 import { FeaturedProjects } from "@/components/sections/featured-projects";
+import { LabExperiments } from "@/components/sections/lab-experiments";
 
 // --------- PAGE ---------
 export default function HomePage() {
@@ -12,6 +13,7 @@ export default function HomePage() {
       <About />
       <FeaturedProjects />
       <BlogPosts />
+      <LabExperiments />
       <Socials />
     </div>
   );
