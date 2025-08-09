@@ -97,7 +97,7 @@ function getGapColor(gap: number): string {
 export default function PrimePatterns() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [viewport, setViewport] = useState<Viewport>({ x: 0, y: 0, scale: 20 });
+  const [viewport, setViewport] = useState<Viewport>({ x: 0, y: 0, scale: 10 });
   const [colorMode, setColorMode] = useState<ColorMode>("primes");
   const [modBase, setModBase] = useState(6);
   const [pointSize, setPointSize] = useState(3);
@@ -226,6 +226,37 @@ export default function PrimePatterns() {
     draw();
   }, [draw]);
 
+  // Redraw when data or canvas dimensions change (e.g., on first load)
+  useEffect(() => {
+    draw();
+  }, [maxN, canvasSize.width, canvasSize.height]);
+
+  // Ensure preventDefault works across browsers by attaching non-passive listeners
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const preventWheel = (e: WheelEvent) => {
+      e.preventDefault();
+    };
+    const preventTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+    const preventTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+
+    canvas.addEventListener("wheel", preventWheel, { passive: false });
+    canvas.addEventListener("touchmove", preventTouchMove, { passive: false });
+    canvas.addEventListener("touchstart", preventTouchStart, { passive: false });
+
+    return () => {
+      canvas.removeEventListener("wheel", preventWheel as EventListener);
+      canvas.removeEventListener("touchmove", preventTouchMove as EventListener);
+      canvas.removeEventListener("touchstart", preventTouchStart as EventListener);
+    };
+  }, []);
+
   // Mouse handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -338,7 +369,7 @@ export default function PrimePatterns() {
   };
 
   const resetView = () => {
-    setViewport({ x: 0, y: 0, scale: 20 });
+    setViewport({ x: 0, y: 0, scale: 10 });
   };
 
   return (
