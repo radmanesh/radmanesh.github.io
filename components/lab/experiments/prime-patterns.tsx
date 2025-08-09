@@ -308,7 +308,6 @@ export default function PrimePatterns() {
   };
 
   const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
     e.stopPropagation();
     const scaleFactor = e.deltaY > 0 ? 0.9 : 1.1;
     setViewport(prev => ({
@@ -319,13 +318,11 @@ export default function PrimePatterns() {
 
   // Prevent parent/page scrolling while hovering over canvas container
   const handleContainerWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
     e.stopPropagation();
   };
 
   // Touch handlers for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
-    e.preventDefault();
     e.stopPropagation();
     if (e.touches.length === 1) {
       const touch = e.touches[0];
@@ -335,7 +332,6 @@ export default function PrimePatterns() {
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault();
     e.stopPropagation();
 
     if (e.touches.length === 1 && isDragging) {
@@ -362,7 +358,6 @@ export default function PrimePatterns() {
 
   const handleTouchEnd = (e?: React.TouchEvent) => {
     if (e) {
-      e.preventDefault();
       e.stopPropagation();
     }
     setIsDragging(false);
