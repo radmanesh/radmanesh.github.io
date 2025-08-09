@@ -96,12 +96,13 @@ function getGapColor(gap: number): string {
 // --------- MAIN COMPONENT ---------
 export default function PrimePatterns() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [viewport, setViewport] = useState<Viewport>({ x: 0, y: 0, scale: 20 });
   const [colorMode, setColorMode] = useState<ColorMode>("primes");
   const [modBase, setModBase] = useState(6);
   const [pointSize, setPointSize] = useState(3);
   const [showGrid, setShowGrid] = useState(false);
-  const [maxN, setMaxN] = useState(1000);
+  const [maxN, setMaxN] = useState(10000);
   const [tooltip, setTooltip] = useState<{ x: number; y: number; point: Point } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -111,16 +112,14 @@ export default function PrimePatterns() {
   const points = useRef<Point[]>([]);
   const primes = useRef<number[]>([]);
 
-  // Set responsive canvas size
+  // Set responsive canvas size based on container width to avoid horizontal overflow
   useEffect(() => {
     const updateCanvasSize = () => {
-      if (typeof window !== "undefined") {
-        const isMobile = window.innerWidth < 768;
-        setCanvasSize({
-          width: isMobile ? Math.min(350, window.innerWidth - 32) : 800,
-          height: isMobile ? Math.min(350, window.innerWidth - 32) : 600,
-        });
-      }
+      const parentWidth = containerRef.current?.clientWidth ?? (typeof window !== "undefined" ? window.innerWidth : 800);
+      // Keep aspect 4:3 like 800x600, clamp to parent width and sensible bounds
+      const clampedW = Math.max(240, Math.min(800, Math.floor(parentWidth)));
+      const clampedH = Math.max(240, Math.min(600, Math.round((clampedW * 3) / 4)));
+      setCanvasSize({ width: clampedW, height: clampedH });
     };
 
     updateCanvasSize();
@@ -279,6 +278,7 @@ export default function PrimePatterns() {
 
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     const scaleFactor = e.deltaY > 0 ? 0.9 : 1.1;
     setViewport(prev => ({
       ...prev,
@@ -286,8 +286,16 @@ export default function PrimePatterns() {
     }));
   };
 
+  // Prevent parent/page scrolling while hovering over canvas container
+  const handleContainerWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   // Touch handlers for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (e.touches.length === 1) {
       const touch = e.touches[0];
       setIsDragging(true);
@@ -297,6 +305,7 @@ export default function PrimePatterns() {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     e.preventDefault();
+    e.stopPropagation();
 
     if (e.touches.length === 1 && isDragging) {
       const touch = e.touches[0];
@@ -320,7 +329,11 @@ export default function PrimePatterns() {
     }
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e?: React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setIsDragging(false);
   };
 
@@ -329,9 +342,9 @@ export default function PrimePatterns() {
   };
 
   return (
-    <div className="space-y-4">
+  <div className="space-y-4 overflow-x-hidden max-w-full">
       {/* Controls */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm min-w-0">
         <div className="space-y-2">
           <label className="block text-muted-foreground">Color Mode</label>
           <select
@@ -414,7 +427,7 @@ export default function PrimePatterns() {
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+  <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setShowGrid(!showGrid)}
           className="px-3 py-1 rounded border border-zinc-200 dark:border-zinc-700 bg-background hover:bg-zinc-50 dark:hover:bg-zinc-800 text-sm"
@@ -430,13 +443,17 @@ export default function PrimePatterns() {
         </button>
       </div>
 
-      {/* Canvas */}
-      <div className="relative flex justify-center">
+    {/* Canvas */}
+      <div
+        ref={containerRef}
+        className="relative flex justify-center w-full max-w-full overflow-x-hidden overscroll-none"
+        onWheel={handleContainerWheel}
+      >
         <canvas
           ref={canvasRef}
           width={canvasSize.width}
           height={canvasSize.height}
-          className="border border-zinc-200 dark:border-zinc-700 rounded-lg cursor-move touch-none"
+          className="block max-w-full border border-zinc-200 dark:border-zinc-700 rounded-lg cursor-move touch-none overscroll-none select-none"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
