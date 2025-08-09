@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
           role: "system",
           content: `You are an emotion analyzer. Return a JSON object with:
           - emotion: one of ["neutral", "happy", "puzzled", "excited", "annoyed", "sad", "surprised", "angry", "bored", "calm", "fearful"]
-          - response: a brief empathetic response (max 50 chars)
+          - response: a brief empathetic response (max 200 chars)
           - confidence: number 0-1
 
           Example: {"emotion": "excited", "response": "That's amazing!", "confidence": 0.9}`
