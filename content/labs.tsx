@@ -1,4 +1,4 @@
-import { Timer, Keyboard, Crosshair } from "lucide-react";
+import { Timer, Keyboard, Crosshair, Brain } from "lucide-react";
 import type { Experiment } from "portfolioManager";
 
 const LABS = [
@@ -19,7 +19,16 @@ const LABS = [
     mode: "page",
     description:
       "Type a short prompt. Measures WPM and accuracy with live feedback.",
-  }
+  },
+  {
+    id: "3",
+    slug: "ht-5gram",
+    title: "H/T 5-gram Predictor",
+    logo: <Brain className="project-logo" />,
+    mode: "page",
+    description:
+      "Predicts your next H/T after 5 inputs. Just mathemathics nothing else! I couldn't beat 60%,",
+  },
 ] satisfies Experiment[];
 
 export default LABS;
