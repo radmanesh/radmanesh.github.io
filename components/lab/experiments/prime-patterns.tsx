@@ -108,6 +108,8 @@ export default function PrimePatterns() {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [touchMode, setTouchMode] = useState<"pan" | "zoom">("pan");
   const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 });
+  // Track last touch Y for one-finger zoom gestures
+  const lastTouchYRef = useRef<number | null>(null);
 
   const points = useRef<Point[]>([]);
   const primes = useRef<number[]>([]);
@@ -231,6 +233,27 @@ export default function PrimePatterns() {
     draw();
   }, [maxN, canvasSize.width, canvasSize.height]);
 
+  // Helper: zoom keeping the canvas point (cx, cy) stationary in screen space
+  const zoomAt = useCallback((cx: number, cy: number, factor: number) => {
+    setViewport((prev) => {
+      const canvas = canvasRef.current;
+      if (!canvas || factor === 1) return prev;
+      const { width, height } = canvas;
+
+      // Current world coordinates at the canvas point
+      const wx = (cx - width / 2 - prev.x) / prev.scale;
+      const wy = (height / 2 + prev.y - cy) / prev.scale; // note inverted Y in draw
+
+      const newScale = Math.max(1, Math.min(100, prev.scale * factor));
+      if (newScale === prev.scale) return prev;
+
+      // Adjust viewport so (wx, wy) stays under (cx, cy)
+      const nx = cx - width / 2 - newScale * wx;
+      const ny = cy - height / 2 + newScale * wy;
+      return { ...prev, x: nx, y: ny, scale: newScale };
+    });
+  }, []);
+
   // Ensure preventDefault works across browsers by attaching non-passive listeners
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -308,12 +331,15 @@ export default function PrimePatterns() {
   };
 
   const handleWheel = (e: React.WheelEvent) => {
-    e.stopPropagation();
-    const scaleFactor = e.deltaY > 0 ? 0.9 : 1.1;
-    setViewport(prev => ({
-      ...prev,
-      scale: Math.max(1, Math.min(100, prev.scale * scaleFactor)),
-    }));
+  e.stopPropagation();
+  const canvas = canvasRef.current;
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+  // Slightly faster zoom
+  const scaleFactor = e.deltaY > 0 ? 0.87 : 1.15;
+  zoomAt(mouseX, mouseY, scaleFactor);
   };
 
   // Prevent parent/page scrolling while hovering over canvas container
@@ -327,7 +353,11 @@ export default function PrimePatterns() {
     if (e.touches.length === 1) {
       const touch = e.touches[0];
       setIsDragging(true);
-      setDragStart({ x: touch.clientX - viewport.x, y: touch.clientY - viewport.y });
+      if (touchMode === "pan") {
+        setDragStart({ x: touch.clientX - viewport.x, y: touch.clientY - viewport.y });
+      } else if (touchMode === "zoom") {
+        lastTouchYRef.current = touch.clientY;
+      }
     }
   };
 
@@ -338,20 +368,30 @@ export default function PrimePatterns() {
       const touch = e.touches[0];
 
       if (touchMode === "pan") {
-        setViewport(prev => ({
+        setViewport((prev) => ({
           ...prev,
           x: touch.clientX - dragStart.x,
           y: touch.clientY - dragStart.y,
         }));
       } else if (touchMode === "zoom") {
-        // Zoom based on vertical movement
-        const deltaY = touch.clientY - dragStart.y;
-        const scaleFactor = deltaY > 0 ? 0.99 : 1.01;
-        setViewport(prev => ({
-          ...prev,
-          scale: Math.max(1, Math.min(100, prev.scale * scaleFactor)),
-        }));
-        setDragStart({ x: touch.clientX - viewport.x, y: touch.clientY - viewport.y });
+        // One-finger vertical zoom: up = zoom in, down = zoom out
+        const lastY = lastTouchYRef.current;
+        if (lastY == null) {
+          lastTouchYRef.current = touch.clientY;
+          return;
+        }
+        const dy = touch.clientY - lastY;
+        // Exponential mapping for smooth and faster control
+        // Negative dy (swipe up) -> factor > 1 ; Positive dy -> factor < 1
+        const factor = Math.exp(-dy * 0.02);
+        const canvas = canvasRef.current;
+        if (canvas) {
+          const rect = canvas.getBoundingClientRect();
+          const cx = touch.clientX - rect.left;
+          const cy = touch.clientY - rect.top;
+          zoomAt(cx, cy, factor);
+        }
+        lastTouchYRef.current = touch.clientY;
       }
     }
   };
@@ -360,7 +400,8 @@ export default function PrimePatterns() {
     if (e) {
       e.stopPropagation();
     }
-    setIsDragging(false);
+  setIsDragging(false);
+  lastTouchYRef.current = null;
   };
 
   const resetView = () => {
