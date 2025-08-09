@@ -25,7 +25,7 @@ export default function EmotionAvatar() {
   const [emotion, setEmotion] = useState<Emotion>("neutral");
   const [speaking, setSpeaking] = useState(false);
   const [gesture, setGesture] = useState<"none" | "nod" | "eyeroll" | "shake" | "tiltBack">("none");
-  const [useAI, setUseAI] = useState(false);
+  const [useAI, setUseAI] = useState(true);
   const [confidence, setConfidence] = useState<number>(0.6);
 
   const { analyzeEmotion, loading, error } = useEmotionAPI();
