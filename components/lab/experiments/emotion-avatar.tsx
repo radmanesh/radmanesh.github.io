@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useEmotionAPI } from "@/lib/hooks/use-emotion-api";
 
 type Emotion =
@@ -27,6 +27,51 @@ export default function EmotionAvatar() {
   const [gesture, setGesture] = useState<"none" | "nod" | "eyeroll" | "shake" | "tiltBack">("none");
   const [useAI, setUseAI] = useState(true);
   const [confidence, setConfidence] = useState<number>(0.6);
+  const [voiceMode, setVoiceMode] = useState(false);
+  const [listening, setListening] = useState(false);
+  const recognitionRef = useRef<any | null>(null);
+
+  // Heuristic confidence estimator used when AI is off or fails
+  function computeHeuristicConfidence(orig: string, target: Emotion): number {
+    const t = orig.toLowerCase();
+    const exclam = (orig.match(/!/g) || []).length;
+    const qmarks = (orig.match(/\?/g) || []).length;
+    const hasEllipsis = t.includes("...") || t.includes("…");
+
+    const POS = ["love", "great", "awesome", "amazing", "nice", "good", "cool", "yay", "thanks", "sweet"];
+    const NEG = ["bad", "hate", "terrible", "worst", "awful", "sucks", "nope"]; // for noise
+    const ANNOY = ["annoy", "ugh", "meh", "eye roll", "eyeroll"];
+    const SAD = ["sad", "down", "depressed", "unhappy", "cry", "upset"];
+    const ANGRY = ["angry", "furious", "mad", "rage", "pissed"];
+    const BORED = ["bored", "boring", "tired", "meh", "whatever", "idc", "idk"];
+    const FEAR = ["scared", "afraid", "nervous", "anxious", "anxiety", "worried", "fear"];
+    const SURP = ["wow", "omg", "whoa", "no way", "unbelievable", "wait what"];
+    const CONF = ["what", "why", "how", "huh", "confused"];
+    const CALM = ["calm", "relax", "chill", "fine", "okay", "ok", "alright"];
+
+    const count = (arr: string[]) => arr.reduce((s, w) => (t.includes(w) ? s + 1 : s), 0);
+
+    const categories: Record<Emotion, number> = {
+      excited: count(POS) + exclam,
+      happy: count(POS),
+      puzzled: count(CONF) + qmarks,
+      annoyed: count(ANNOY) + Math.max(0, count(NEG) - 0),
+      sad: count(SAD),
+      surprised: count(SURP) + exclam,
+      angry: count(ANGRY),
+      bored: count(BORED) + (hasEllipsis ? 1 : 0),
+      calm: count(CALM),
+      fearful: count(FEAR),
+      neutral: 0,
+    };
+
+    const total = Object.values(categories).reduce((a, b) => a + b, 0);
+    const match = categories[target] || 0;
+    if (total === 0) return 0.5;
+    const ratio = match / total; // how dominant target is
+    const score = 0.25 + ratio * 0.75; // keep some base confidence
+    return Math.max(0, Math.min(1, score));
+  }
 
   const { analyzeEmotion, loading, error } = useEmotionAPI();
 
@@ -120,19 +165,19 @@ export default function EmotionAvatar() {
     window.speechSynthesis.speak(u);
   };
 
-  const send = async () => {
-    const text = input.trim();
-    if (!text || loading) return;
+  const processText = async (text: string) => {
+    const clean = text.trim();
+    if (!clean || loading) return;
 
-    setMessages((m) => [...m, { role: "user", text }]);
-    setInput("");
+  setMessages((m) => [...m, { role: "user", text: clean }]);
+  setInput("");
 
   let emo: Emotion;
   let conf: number = 0.6;
     let botResponse: string;
 
     if (useAI) {
-      const result = await analyzeEmotion(text);
+      const result = await analyzeEmotion(clean);
       if (result) {
         emo = result.emotion;
         botResponse = result.response;
@@ -144,9 +189,9 @@ export default function EmotionAvatar() {
         conf = computeHeuristicConfidence(text, emo);
       }
     } else {
-      emo = analyzeHeuristic(text);
+  emo = analyzeHeuristic(clean);
       botResponse = replyFor(emo);
-      conf = computeHeuristicConfidence(text, emo);
+  conf = computeHeuristicConfidence(clean, emo);
     }
 
     setEmotion(emo);
@@ -164,13 +209,107 @@ export default function EmotionAvatar() {
         ? "tiltBack"
         : "none"
     );
-    setTimeout(() => setGesture("none"), 900);
+  setTimeout(() => setGesture("none"), 900);
 
     setTimeout(() => {
       setMessages((m) => [...m, { role: "agent", text: botResponse }]);
       speak(botResponse);
     }, 240);
   };
+
+  const send = async () => {
+    await processText(input);
+  };
+
+  // Speech recognition helpers
+  const startListening = () => {
+    if (typeof window === "undefined") return;
+    const SR: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SR) return;
+    // If currently speaking, don't start yet
+    if (speaking) return;
+
+    if (!recognitionRef.current) {
+      const rec = new SR();
+      rec.continuous = false; // turn-taking, not dictation
+      rec.interimResults = true;
+      rec.lang = "en-US";
+      rec.onstart = () => setListening(true);
+      rec.onerror = () => setListening(false);
+  rec.onend = () => setListening(false);
+      rec.onresult = (event: any) => {
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        // Show interim transcript in the input
+        setInput(transcript);
+        const isFinal = event.results[event.results.length - 1].isFinal;
+        if (isFinal) {
+          // Stop mic before processing
+          try {
+            rec.stop();
+          } catch {}
+          setListening(false);
+          processText(transcript);
+        }
+      };
+      recognitionRef.current = rec;
+    }
+
+    try {
+      recognitionRef.current.start();
+    } catch {
+      // may throw if already started
+    }
+  };
+
+  const stopListening = () => {
+    const rec = recognitionRef.current;
+    if (rec) {
+      try {
+        rec.stop();
+      } catch {}
+    }
+    setListening(false);
+  };
+
+  const toggleVoiceMode = () => {
+    const next = !voiceMode;
+    setVoiceMode(next);
+    if (next) {
+      startListening();
+    } else {
+      stopListening();
+    }
+  };
+
+  // Pause listening while TTS is speaking; resume afterward if voice mode is on
+  useEffect(() => {
+    if (speaking) {
+      stopListening();
+    } else if (voiceMode) {
+      // small delay to avoid picking up the tail of TTS
+      const t = setTimeout(() => startListening(), 250);
+      return () => clearTimeout(t);
+    }
+  }, [speaking]);
+
+  // Auto-start listening when voice mode is on and we're not speaking or already listening
+  useEffect(() => {
+    if (voiceMode && !speaking && !listening) {
+      const t = setTimeout(() => startListening(), 150);
+      return () => clearTimeout(t);
+    }
+  }, [voiceMode, speaking, listening]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopListening();
+      recognitionRef.current = null;
+    };
+  }, []);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") send();
@@ -180,48 +319,6 @@ export default function EmotionAvatar() {
   const pal = getEmotionPalette(emotion);
   const textColor = getContrastingTextColor(pal.accent);
   const displayPercent = Math.round(confidence * 100);
-
-  // Heuristic confidence estimator used when AI is off or fails
-  const computeHeuristicConfidence = (orig: string, target: Emotion): number => {
-    const t = orig.toLowerCase();
-    const exclam = (orig.match(/!/g) || []).length;
-    const qmarks = (orig.match(/\?/g) || []).length;
-    const hasEllipsis = t.includes("...") || t.includes("…");
-
-    const POS = ["love", "great", "awesome", "amazing", "nice", "good", "cool", "yay", "thanks", "sweet"];
-    const NEG = ["bad", "hate", "terrible", "worst", "awful", "sucks", "nope"]; // for noise
-    const ANNOY = ["annoy", "ugh", "meh", "eye roll", "eyeroll"];
-    const SAD = ["sad", "down", "depressed", "unhappy", "cry", "upset"];
-    const ANGRY = ["angry", "furious", "mad", "rage", "pissed"];
-    const BORED = ["bored", "boring", "tired", "meh", "whatever", "idc", "idk"];
-    const FEAR = ["scared", "afraid", "nervous", "anxious", "anxiety", "worried", "fear"];
-    const SURP = ["wow", "omg", "whoa", "no way", "unbelievable", "wait what"];
-    const CONF = ["what", "why", "how", "huh", "confused"];
-    const CALM = ["calm", "relax", "chill", "fine", "okay", "ok", "alright"];
-
-    const count = (arr: string[]) => arr.reduce((s, w) => (t.includes(w) ? s + 1 : s), 0);
-
-    const categories: Record<Emotion, number> = {
-      excited: count(POS) + exclam,
-      happy: count(POS),
-      puzzled: count(CONF) + qmarks,
-      annoyed: count(ANNOY) + Math.max(0, count(NEG) - 0),
-      sad: count(SAD),
-      surprised: count(SURP) + exclam,
-      angry: count(ANGRY),
-      bored: count(BORED) + (hasEllipsis ? 1 : 0),
-      calm: count(CALM),
-      fearful: count(FEAR),
-      neutral: 0,
-    };
-
-    const total = Object.values(categories).reduce((a, b) => a + b, 0);
-    const match = categories[target] || 0;
-    if (total === 0) return 0.5;
-    const ratio = match / total; // how dominant target is
-    const score = 0.25 + ratio * 0.75; // keep some base confidence
-    return Math.max(0, Math.min(1, score));
-  };
 
   return (
     <div className="space-y-4">
@@ -267,6 +364,19 @@ export default function EmotionAvatar() {
               className="px-3 py-2 rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-50"
             >
               {loading ? "..." : "Send"}
+            </button>
+            <button
+              onClick={toggleVoiceMode}
+              disabled={loading || (typeof window !== "undefined" && !("SpeechRecognition" in window || ("webkitSpeechRecognition" in (window as any))))}
+              className={[
+                "px-3 py-2 rounded-md border",
+                voiceMode
+                  ? "border-red-300 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/20"
+                  : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800",
+              ].join(" ")}
+              title={voiceMode ? "Stop voice conversation" : "Start voice conversation"}
+            >
+              {voiceMode ? (listening ? "Stop (listening)" : "Stop (waiting)") : "Voice"}
             </button>
           </div>
 
