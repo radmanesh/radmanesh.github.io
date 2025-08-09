@@ -38,6 +38,15 @@ const LABS = [
     description:
       "Interactive Ulam spiral visualization with zoom, pan, and prime pattern coloring modes.",
   },
+  {
+    id: "5",
+    slug: "emotion-avatar",
+    title: "Emotion-Reactive Avatar",
+    logo: <Crosshair className="project-logo" />,
+    mode: "page",
+    description:
+      "Chat with an avatar that smiles, puzzles, nods, eye-rolls, and speaks based on your tone.",
+  },
 ] satisfies Experiment[];
 
 export default LABS;
