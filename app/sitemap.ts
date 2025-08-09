@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 
 import { allPosts } from "contentlayer/generated";
+import LABS from "@/content/labs";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://radmanesh.vercel.app";
@@ -15,5 +16,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(post.publishedAt).toISOString(),
   }));
 
-  return [...staticRoutes, ...blogPostRoutes];
+  const labExperimentRoutes = LABS.map((exp) => ({
+    url: `${baseUrl}/lab/${exp.slug}`,
+    lastModified: new Date().toISOString(),
+  }));
+
+  return [...staticRoutes, ...blogPostRoutes, ...labExperimentRoutes];
 }
