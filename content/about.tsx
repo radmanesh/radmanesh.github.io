@@ -23,7 +23,7 @@ const ABOUT = {
       role: {
         title: "Developer/Researcher",
         description:
-          "Working on two projects: Cut (Lens), a psychological and behavioral research platform, and Jamasp, a platform to collect wearable devices data.",
+          "Building two research platforms: Cut (Lens) for psychological and behavioral studies, and Jamasp for wearables data collection to analysis.",
       },
     },
     {
@@ -33,7 +33,7 @@ const ABOUT = {
       role: {
         title: "Freelance Software and Web Developer",
         description:
-          "Developed developed a wide range of web applications using Java, ReactJS, PHP, Static Websites, Google Cloud Platform, and much more.",
+          "Delivered a wide range of web apps using Java, React, PHP, static sites, and GCP—across greenfield builds and modernizations.",
       },
     },
     {
@@ -46,7 +46,7 @@ const ABOUT = {
       role: {
         title: "Software Engineer",
         description:
-          "Worked on building web/mobile realstate online selling and renting platform",
+          "Built a web/mobile real‑estate platform for listings, search, and rentals.",
       },
     },
     {
@@ -56,7 +56,7 @@ const ABOUT = {
       role: {
         title: "Research Engineer/Developer",
         description:
-          "Developed a social platform where users could win by completing quizzes.",
+          "Developed a social platform with quiz‑driven engagement and rewards.",
       },
     },
     {
@@ -66,7 +66,7 @@ const ABOUT = {
       role: {
         title: "Software Engineer",
         description:
-          "Designed and developed a front-end web-application for “Clonet”; a firewall appliance solution.",
+          "Designed and developed the front‑end for Clonet, a firewall appliance solution.",
       },
     },
     {
@@ -76,7 +76,7 @@ const ABOUT = {
       role: {
         title: "Research Engineer/Developer",
         description:
-          "Developed an experimental knowledge engineering and semantic methods, primarily focused on ontology and logic.",
+          "Explored knowledge engineering and semantic methods with a focus on ontology and logic.",
       },
     },
   ],

@@ -29,39 +29,37 @@ export default function AboutPage() {
       <SectionTitle text="About me" />
       <div className="grid grid-cols-1 gap-4">
         <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
-          Hello world! I'm Arman Radmanesh, a Full-Stack Software Engineer and Data Analyst currently studying
-          Master of Data Science at The Oklahoma University.
-          Currently, I'm working as a GRA at the University of Oklahoma, and as a Research Developer on{" "}
+          I’m Arman Radmanesh — a full‑stack software engineer and data analyst, currently pursuing
+          an M.S. in Data Science and Analytics at the University of Oklahoma. I split my time between
+          research and product, focusing on tools that make data collection, analysis, and insight generation
+          simpler and more trustworthy.
+        </p>
+        <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
+          I build dependable web apps end‑to‑end—fast, accessible, and maintainable. Day‑to‑day I work with
+          <ReactBadge />, <NextBadge />, <TypeScriptBadge />, and <TailwindCssBadge /> to deliver responsive,
+          scalable interfaces backed by clean APIs and data workflows.
+        </p>
+        <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
+          Recently, I’ve been developing two research platforms:
+          {" "}
           <Link
             href="https://jamasp.app"
             className="underline decoration-dotted decoration-1 underline-offset-4 text-muted-foreground/90"
           >
             Jamasp
           </Link>
-          , which is a tool that is set to transform wearable device research by providing seamless integration from data collection to
-          advanced analysis. I'm also working on{" "}
+          {" "}
+          (wearables data to analysis) and
+          {" "}
           <Link
             href="https://cut.social"
             className="underline decoration-dotted decoration-1 underline-offset-4 text-muted-foreground/90"
           >
             Cut (Lens)
           </Link>
-          , a platform that enables researchers to build and run psychological and behavioral studies.
-        </p>
-        <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
-          I specialize in building high-quality web applications that are both
-          performant and user-friendly.
-          My tools of choice are <ReactBadge />, <NextBadge />,{" "}
-          <TypeScriptBadge />, and <TailwindCssBadge />
-          —technologies that empower me to build fast, responsive, and scalable
-          apps. I'm passionate about creating software that solves real-world
-          problems and delivers value to users.
-        </p>
-        <p className="text-base text-justify text-muted-foreground tracking-tight font-normal">
-          Outside of coding, I love reading fiction, especially sci-fi and
-          fantasy novels. I'm also a big fan of camping and nature sightseeing.
-          I'm always looking for new opportunities to learn and grow, so feel
-          free to reach out if you'd like to connect!
+          {" "}
+          (build and run behavioral studies). Beyond code, I enjoy sci‑fi and fantasy, and I recharge
+          outdoors—camping and chasing big skies. Always open to interesting collaborations.
         </p>
       </div>
       <SectionSubtitle text="Education" />

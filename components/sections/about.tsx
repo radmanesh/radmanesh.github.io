@@ -10,20 +10,22 @@ export function About() {
     <Section>
       <SectionTitle text="Meet me" />
       <div className="grid grid-cols-1 gap-4 leading-relaxed md:leading-normal tracking-tight text-muted-foreground selection:text-muted-foreground/80">
-        <p className="font-semibold md:text-lg">Hello, Arman Radmanesh here!</p>
+        <p className="font-semibold md:text-lg">Hi, I’m Arman Radmanesh.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
           <p>
-            An ambitious full-stack software engineer from Iran with 15 years of
-            experience in building web applications, recently, using <ReactBadge />.
+            I’m a full‑stack software engineer and data analyst with 15+ years of experience
+            building web applications—lately with <ReactBadge /> and friends. I care about clear UX,
+            reliable systems, and shipping features that matter.
           </p>
           <p>
-            I am passionate about data analysis and visualization especially coming up with new ways
-            to automatically generate insights from different kind of data.
+            I love turning messy data into useful stories: from clean pipelines to concise
+            visualizations and insight generation. My work spans research tooling and
+            production products.
           </p>
           <p>
-            With a background in software engineering and data science, I have
-            worked on a wide range of projects, from building web applications to
-            analyzing data and creating data driven visualizations.
+            Trained in software engineering and data science, I’ve delivered platforms end‑to‑end—
+            designing APIs, crafting front‑ends, and building data‑driven experiences. Curious by
+            default, pragmatic when it counts.
           </p>
         </div>
         <div className="flex justify-end">
