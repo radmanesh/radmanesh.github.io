@@ -5,8 +5,8 @@ import { Section, SectionTitle } from "@/components/shared/section";
 
 // --------- COMPONENT ---------
 export function LabExperiments() {
-  // Show only the ht-5gram experiment for now
-  const featuredExperiment = LABS.find((exp) => exp.slug === "ht-5gram");
+  // Show the first available experiment
+  const featuredExperiment = LABS[0];
 
   if (!featuredExperiment) return null;
 
