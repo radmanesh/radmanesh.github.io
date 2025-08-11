@@ -1,18 +1,23 @@
 import { useState, useCallback } from "react";
 
 type Emotion = "neutral" | "happy" | "puzzled" | "excited" | "annoyed" | "sad" | "surprised" | "angry" | "bored" | "calm" | "fearful";
+type Gesture = "none" | "nod" | "eyeroll" | "shake" | "tiltBack";
 
 interface EmotionResponse {
   emotion: Emotion;
   response: string;
   confidence: number;
+  gesture: Gesture;
 }
 
 export function useEmotionAPI() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const analyzeEmotion = useCallback(async (message: string): Promise<EmotionResponse | null> => {
+  const analyzeEmotion = useCallback(async (
+    message: string,
+    conversationHistory: Array<{role: "user" | "agent"; text: string}> = []
+  ): Promise<EmotionResponse | null> => {
     if (!message.trim()) return null;
 
     setLoading(true);
@@ -24,7 +29,10 @@ export function useEmotionAPI() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({
+          message,
+          conversationHistory
+        }),
       });
 
       if (!response.ok) {

@@ -15,6 +15,7 @@ type Emotion =
   | "bored"
   | "calm"
   | "fearful";
+type Gesture = "none" | "nod" | "eyeroll" | "shake" | "tiltBack";
 type Msg = { role: "user" | "agent"; text: string };
 
 export default function EmotionAvatar() {
@@ -24,7 +25,7 @@ export default function EmotionAvatar() {
   const [input, setInput] = useState("");
   const [emotion, setEmotion] = useState<Emotion>("neutral");
   const [speaking, setSpeaking] = useState(false);
-  const [gesture, setGesture] = useState<"none" | "nod" | "eyeroll" | "shake" | "tiltBack">("none");
+  const [gesture, setGesture] = useState<Gesture>("none");
   const [useAI, setUseAI] = useState(true);
   const [confidence, setConfidence] = useState<number>(0.6);
   const [voiceMode, setVoiceMode] = useState(false);
@@ -83,6 +84,24 @@ export default function EmotionAvatar() {
     const ratio = match / total; // how dominant target is
     const score = 0.25 + ratio * 0.75; // keep some base confidence
     return Math.max(0, Math.min(1, score));
+  }
+
+  // Heuristic gesture assignment for fallback mode
+  function getHeuristicGesture(emo: Emotion): Gesture {
+    switch (emo) {
+      case "annoyed":
+        return "eyeroll";
+      case "angry":
+        return "shake";
+      case "happy":
+      case "excited":
+        return "nod";
+      case "surprised":
+      case "fearful":
+        return "tiltBack";
+      default:
+        return "none";
+    }
   }
 
   const { analyzeEmotion, loading, error } = useEmotionAPI();
@@ -191,47 +210,41 @@ export default function EmotionAvatar() {
     const clean = text.trim();
     if (!clean || loading) return;
 
-  setMessages((m) => [...m, { role: "user", text: clean }]);
-  setInput("");
+    setMessages((m) => [...m, { role: "user", text: clean }]);
+    setInput("");
 
-  let emo: Emotion;
-  let conf: number = 0.6;
+    let emo: Emotion;
+    let conf: number = 0.6;
+    let gest: Gesture = "none";
     let botResponse: string;
 
     if (useAI) {
-      const result = await analyzeEmotion(clean);
+      const result = await analyzeEmotion(clean, messages);
       if (result) {
         emo = result.emotion;
         botResponse = result.response;
         conf = Math.max(0, Math.min(1, Number(result.confidence ?? 0.6)));
+        gest = result.gesture || "none";
       } else {
         // Fallback to heuristic if API fails
         emo = analyzeHeuristic(text);
         botResponse = replyFor(emo);
         conf = computeHeuristicConfidence(text, emo);
+        gest = getHeuristicGesture(emo);
       }
     } else {
-  emo = analyzeHeuristic(clean);
+      emo = analyzeHeuristic(clean);
       botResponse = replyFor(emo);
-  conf = computeHeuristicConfidence(clean, emo);
+      conf = computeHeuristicConfidence(clean, emo);
+      gest = getHeuristicGesture(emo);
     }
 
     setEmotion(emo);
     setConfidence(conf);
 
-    // Trigger a short contextual gesture
-    setGesture(
-      emo === "annoyed"
-        ? "eyeroll"
-        : emo === "angry"
-        ? "shake"
-        : emo === "happy" || emo === "excited"
-        ? "nod"
-        : emo === "surprised" || emo === "fearful"
-        ? "tiltBack"
-        : "none"
-    );
-  setTimeout(() => setGesture("none"), 900);
+    // Apply LLM-controlled gesture
+    setGesture(gest);
+    setTimeout(() => setGesture("none"), 900);
 
     setTimeout(() => {
       setMessages((m) => [...m, { role: "agent", text: botResponse }]);
@@ -259,7 +272,7 @@ export default function EmotionAvatar() {
       rec.lang = "en-US";
       rec.onstart = () => setListening(true);
       rec.onerror = () => setListening(false);
-  rec.onend = () => setListening(false);
+      rec.onend = () => setListening(false);
       rec.onresult = (event: any) => {
         let transcript = "";
         for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -348,7 +361,7 @@ export default function EmotionAvatar() {
     <div className="space-y-4">
       <div className="flex items-center gap-4">
         <p className="text-sm text-muted-foreground flex-1">
-          Type something with a tone. The avatar reacts and speaks.
+          Type something with a tone. The avatar reacts and speaks with AI-controlled gestures based on conversation context.
         </p>
         <label className="flex items-center gap-2 text-sm">
           <input
@@ -447,6 +460,10 @@ export default function EmotionAvatar() {
             </span>
             <span className="opacity-80 hidden sm:inline">•</span>
             <span className="opacity-90">
+              Gesture: <b>{gesture}</b>
+            </span>
+            <span className="opacity-80 hidden sm:inline">•</span>
+            <span className="opacity-90">
               Speaking: <b>{speaking ? "yes" : "no"}</b>
             </span>
             <span className="opacity-80 hidden sm:inline">•</span>
@@ -470,7 +487,7 @@ export default function EmotionAvatar() {
       </div>
 
       <div className="text-xs text-muted-foreground flex flex-wrap gap-1">
-        <span>{useAI ? "Using OpenAI for emotion analysis" : "Using heuristic analysis"}</span>
+        <span>{useAI ? "Using OpenAI with conversation context for emotion analysis and gesture control" : "Using heuristic analysis"}</span>
         <span>•</span>
         <span>Speech synthesis {typeof window !== "undefined" && "speechSynthesis" in window ? "enabled" : "not supported"}</span>
       </div>
@@ -485,7 +502,7 @@ function SvgAvatar({
 }: {
   emotion: Emotion;
   speaking: boolean;
-  gesture: "none" | "nod" | "eyeroll" | "shake" | "tiltBack";
+  gesture: Gesture;
 }) {
   const [blink, setBlink] = useState(false);
 
