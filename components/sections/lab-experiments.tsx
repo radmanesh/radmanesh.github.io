@@ -5,8 +5,8 @@ import { Section, SectionTitle } from "@/components/shared/section";
 
 // --------- COMPONENT ---------
 export function LabExperiments() {
-  // Show the first available experiment
-  const featuredExperiment = LABS[0];
+  // Show the last available experiment
+  const featuredExperiment = LABS[LABS.length - 1];
 
   if (!featuredExperiment) return null;
 
