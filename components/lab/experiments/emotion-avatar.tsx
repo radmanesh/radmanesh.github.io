@@ -29,7 +29,19 @@ export default function EmotionAvatar() {
   const [confidence, setConfidence] = useState<number>(0.6);
   const [voiceMode, setVoiceMode] = useState(false);
   const [listening, setListening] = useState(false);
+  const [speechInitialized, setSpeechInitialized] = useState(false);
   const recognitionRef = useRef<any | null>(null);
+
+  // Initialize speech synthesis on first user interaction (required for mobile)
+  const initializeSpeech = () => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window) || speechInitialized) return;
+
+    // Create a silent utterance to initialize the speech API
+    const testUtterance = new SpeechSynthesisUtterance("");
+    testUtterance.volume = 0;
+    window.speechSynthesis.speak(testUtterance);
+    setSpeechInitialized(true);
+  };
 
   // Heuristic confidence estimator used when AI is off or fails
   function computeHeuristicConfidence(orig: string, target: Emotion): number {
@@ -158,11 +170,21 @@ export default function EmotionAvatar() {
 
   const speak = (text: string) => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+
     const u = new SpeechSynthesisUtterance(text);
+    u.rate = 0.9;
+    u.pitch = 1.0;
+    u.volume = 1.0;
     u.onstart = () => setSpeaking(true);
     u.onend = () => setSpeaking(false);
+    u.onerror = () => setSpeaking(false);
+
     window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
+
+    // Small delay to ensure cancellation is processed
+    setTimeout(() => {
+      window.speechSynthesis.speak(u);
+    }, 100);
   };
 
   const processText = async (text: string) => {
@@ -218,6 +240,7 @@ export default function EmotionAvatar() {
   };
 
   const send = async () => {
+    initializeSpeech(); // Initialize speech on user interaction
     await processText(input);
   };
 
@@ -275,6 +298,7 @@ export default function EmotionAvatar() {
   };
 
   const toggleVoiceMode = () => {
+    initializeSpeech(); // Initialize speech on user interaction
     const next = !voiceMode;
     setVoiceMode(next);
     if (next) {
@@ -349,7 +373,7 @@ export default function EmotionAvatar() {
         </div>
 
         <div className="flex-1 rounded-lg border border-zinc-200 dark:border-zinc-700 p-4 flex flex-col">
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -358,26 +382,28 @@ export default function EmotionAvatar() {
               className="flex-1 rounded-md border border-zinc-200 dark:border-zinc-700 bg-background px-3 py-2 outline-none disabled:opacity-50"
               placeholder="Say something like: 'Awesome!!' or 'Wait, what?'"
             />
-            <button
-              onClick={send}
-              disabled={loading || !input.trim()}
-              className="px-3 py-2 rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-50"
-            >
-              {loading ? "..." : "Send"}
-            </button>
-            <button
-              onClick={toggleVoiceMode}
-              disabled={loading || (typeof window !== "undefined" && !("SpeechRecognition" in window || ("webkitSpeechRecognition" in (window as any))))}
-              className={[
-                "px-3 py-2 rounded-md border",
-                voiceMode
-                  ? "border-red-300 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/20"
-                  : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800",
-              ].join(" ")}
-              title={voiceMode ? "Stop voice conversation" : "Start voice conversation"}
-            >
-              {voiceMode ? (listening ? "Stop (listening)" : "Stop (waiting)") : "Voice"}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={send}
+                disabled={loading || !input.trim()}
+                className="px-3 py-2 rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-50 flex-shrink-0"
+              >
+                {loading ? "..." : "Send"}
+              </button>
+              <button
+                onClick={toggleVoiceMode}
+                disabled={loading || (typeof window !== "undefined" && !("SpeechRecognition" in window || ("webkitSpeechRecognition" in (window as any))))}
+                className={[
+                  "px-3 py-2 rounded-md border flex-shrink-0 text-sm",
+                  voiceMode
+                    ? "border-red-300 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/20"
+                    : "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800",
+                ].join(" ")}
+                title={voiceMode ? "Stop voice conversation" : "Start voice conversation"}
+              >
+                {voiceMode ? (listening ? "🎤 Stop" : "⏸️ Stop") : "🎤 Voice"}
+              </button>
+            </div>
           </div>
 
           <div className="mt-4 space-y-2 overflow-auto max-h-64">
@@ -411,19 +437,19 @@ export default function EmotionAvatar() {
           style={{ backgroundColor: pal.accent, opacity: confidence, transition: "opacity 200ms ease" }}
         />
 
-        <div className="relative px-4 py-3 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-sm">
+        <div className="relative px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2 text-sm">
             <span className="text-base">{emotionEmoji(emotion)}</span>
             <span className="font-medium">Avatar state</span>
-            <span className="opacity-80">•</span>
+            <span className="opacity-80 hidden sm:inline">•</span>
             <span className="opacity-90">
               Emotion: <b>{emotion}</b>
             </span>
-            <span className="opacity-80">•</span>
+            <span className="opacity-80 hidden sm:inline">•</span>
             <span className="opacity-90">
               Speaking: <b>{speaking ? "yes" : "no"}</b>
             </span>
-            <span className="opacity-80">•</span>
+            <span className="opacity-80 hidden sm:inline">•</span>
             <span className="opacity-90">
               Confidence: <b>{displayPercent}%</b>
             </span>
@@ -443,9 +469,10 @@ export default function EmotionAvatar() {
         </div>
       </div>
 
-      <div className="text-xs text-muted-foreground">
-        {useAI ? "Using OpenAI for emotion analysis" : "Using heuristic analysis"} •
-        Speech synthesis {typeof window !== "undefined" && "speechSynthesis" in window ? "enabled" : "not supported"}
+      <div className="text-xs text-muted-foreground flex flex-wrap gap-1">
+        <span>{useAI ? "Using OpenAI for emotion analysis" : "Using heuristic analysis"}</span>
+        <span>•</span>
+        <span>Speech synthesis {typeof window !== "undefined" && "speechSynthesis" in window ? "enabled" : "not supported"}</span>
       </div>
     </div>
   );
