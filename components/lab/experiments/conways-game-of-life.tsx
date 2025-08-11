@@ -305,6 +305,7 @@ export default function ConwaysGameOfLife() {
   // Zoom functionality
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -327,6 +328,13 @@ export default function ConwaysGameOfLife() {
 
       return { ...prev, x: nx, y: ny, scale: newScale };
     });
+  };
+
+  // Container wheel handler to prevent page scroll
+  const handleContainerWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleWheel(e);
   };
 
   // Control functions
@@ -511,6 +519,8 @@ export default function ConwaysGameOfLife() {
       <div
         ref={containerRef}
         className="relative flex justify-center w-full max-w-full overflow-hidden"
+        onWheel={handleContainerWheel}
+        style={{ touchAction: 'none' }}
       >
         <canvas
           ref={canvasRef}
@@ -521,9 +531,9 @@ export default function ConwaysGameOfLife() {
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
-          onWheel={handleWheel}
           style={{
-            cursor: mode === "design" ? "crosshair" : "grab"
+            cursor: mode === "design" ? "crosshair" : "grab",
+            touchAction: 'none'
           }}
         />
       </div>
