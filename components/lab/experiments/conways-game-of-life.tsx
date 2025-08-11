@@ -116,6 +116,7 @@ export default function ConwaysGameOfLife() {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawMode, setDrawMode] = useState<"alive" | "dead">("alive");
+  const [isMounted, setIsMounted] = useState(false);
 
   // Set responsive canvas size
   useEffect(() => {
@@ -130,6 +131,47 @@ export default function ConwaysGameOfLife() {
     window.addEventListener("resize", updateCanvasSize);
     return () => window.removeEventListener("resize", updateCanvasSize);
   }, []);
+
+  // Prevent page scroll when wheeling over canvas
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheelCapture = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      const scaleFactor = e.deltaY > 0 ? 0.9 : 1.1;
+
+      setViewport(prev => {
+        const { width, height } = canvas;
+        const wx = (mouseX - width / 2 - prev.x) / prev.scale;
+        const wy = (mouseY - height / 2 - prev.y) / prev.scale;
+
+        const newScale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, prev.scale * scaleFactor));
+        if (newScale === prev.scale) return prev;
+
+        const nx = mouseX - width / 2 - newScale * wx;
+        const ny = mouseY - height / 2 - newScale * wy;
+
+        return { ...prev, x: nx, y: ny, scale: newScale };
+      });
+    };
+
+    // Add wheel listener with passive: false to allow preventDefault
+    container.addEventListener('wheel', handleWheelCapture, { passive: false });
+    
+    return () => {
+      container.removeEventListener('wheel', handleWheelCapture);
+    };
+  }, [MIN_ZOOM, MAX_ZOOM]);
 
   // Animation loop for running mode
   useEffect(() => {
@@ -234,6 +276,30 @@ export default function ConwaysGameOfLife() {
     draw();
   }, [draw]);
 
+  // Initial render effect
+  useEffect(() => {
+    // Ensure initial render after canvas is mounted
+    setIsMounted(true);
+    const timer = setTimeout(() => {
+      draw();
+    }, 50);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Mount effect to trigger initial draw
+  useEffect(() => {
+    if (isMounted) {
+      draw();
+    }
+  }, [isMounted, draw]);
+
+  // Canvas resize effect
+  useEffect(() => {
+    // Redraw when canvas size changes
+    const timer = setTimeout(() => draw(), 10);
+    return () => clearTimeout(timer);
+  }, [canvasSize, draw]);
+
   // Convert canvas coordinates to grid coordinates
   const canvasToGrid = useCallback((canvasX: number, canvasY: number) => {
     const canvas = canvasRef.current;
@@ -300,41 +366,6 @@ export default function ConwaysGameOfLife() {
   const handleMouseUp = () => {
     setIsDragging(false);
     setIsDrawing(false);
-  };
-
-  // Zoom functionality
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    const scaleFactor = e.deltaY > 0 ? 0.9 : 1.1;
-
-    setViewport(prev => {
-      const { width, height } = canvas;
-      const wx = (mouseX - width / 2 - prev.x) / prev.scale;
-      const wy = (mouseY - height / 2 - prev.y) / prev.scale;
-
-      const newScale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, prev.scale * scaleFactor));
-      if (newScale === prev.scale) return prev;
-
-      const nx = mouseX - width / 2 - newScale * wx;
-      const ny = mouseY - height / 2 - newScale * wy;
-
-      return { ...prev, x: nx, y: ny, scale: newScale };
-    });
-  };
-
-  // Container wheel handler to prevent page scroll
-  const handleContainerWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    handleWheel(e);
   };
 
   // Control functions
@@ -519,7 +550,6 @@ export default function ConwaysGameOfLife() {
       <div
         ref={containerRef}
         className="relative flex justify-center w-full max-w-full overflow-hidden"
-        onWheel={handleContainerWheel}
         style={{ touchAction: 'none' }}
       >
         <canvas
