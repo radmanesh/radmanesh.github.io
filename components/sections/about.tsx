@@ -14,7 +14,7 @@ export function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
           <p>
             I’m a full‑stack software engineer and data analyst with 15+ years of experience
-            building web applications—lately with <ReactBadge /> and friends. I care about clear UX,
+            building web applications—lately with <ReactBadge /> and cloud technologies. I care about clear UX,
             reliable systems, and shipping features that matter.
           </p>
           <p>

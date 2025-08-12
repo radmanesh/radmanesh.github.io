@@ -5,7 +5,7 @@ const ABOUT = {
     {
       id: "1",
       institute: "The University of Oklahoma",
-      period: { from: "Jan, 2024", to: "Dec, 2026" },
+      period: { from: "Dec, 2024", to: "Dec, 2026" },
       degree: "Masters of Science in Data Science and Analytics",
     },
     {
