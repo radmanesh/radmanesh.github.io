@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 
 type Emotion = "neutral" | "happy" | "puzzled" | "excited" | "annoyed" | "sad" | "surprised" | "angry" | "bored" | "calm" | "fearful";
-type Gesture = "none" | "nod" | "eyeroll" | "shake" | "tiltBack";
+type Gesture = "none" | "nod" | "eyeroll" | "shake" | "tiltBack" | "eyesWide" | "leanIn" | "tiltSide";
 
 interface EmotionResponse {
   emotion: Emotion;

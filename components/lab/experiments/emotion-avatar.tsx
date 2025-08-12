@@ -15,8 +15,24 @@ type Emotion =
   | "bored"
   | "calm"
   | "fearful";
-type Gesture = "none" | "nod" | "eyeroll" | "shake" | "tiltBack";
+type Gesture = "none" | "nod" | "eyeroll" | "shake" | "tiltBack" | "eyesWide" | "leanIn" | "tiltSide";
 type Msg = { role: "user" | "agent"; text: string };
+
+// Shared lexical lists for heuristic emotion + confidence estimation
+const WORD_LISTS = {
+  POS: ["love", "great", "awesome", "amazing", "nice", "good", "cool", "yay", "thanks", "sweet"],
+  NEG: ["bad", "hate", "terrible", "worst", "awful", "sucks", "nope"],
+  ANNOY: ["annoy", "ugh", "meh", "eye roll", "eyeroll"],
+  SAD: ["sad", "down", "depressed", "unhappy", "cry", "upset"],
+  ANGRY: ["angry", "furious", "mad", "rage", "pissed"],
+  BORED: ["bored", "boring", "tired", "meh", "whatever", "idc", "idk"],
+  FEAR: ["scared", "afraid", "nervous", "anxious", "anxiety", "worried", "fear"],
+  SURP: ["wow", "omg", "whoa", "no way", "unbelievable", "wait what"],
+  CONF: ["what", "why", "how", "huh", "confused"],
+  CALM: ["calm", "relax", "chill", "fine", "okay", "ok", "alright"],
+} as const;
+
+const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 
 export default function EmotionAvatar() {
   const [messages, setMessages] = useState<Msg[]>([
@@ -32,6 +48,7 @@ export default function EmotionAvatar() {
   const [listening, setListening] = useState(false);
   const [speechInitialized, setSpeechInitialized] = useState(false);
   const recognitionRef = useRef<any | null>(null);
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   // Initialize speech synthesis on first user interaction (required for mobile)
   const initializeSpeech = () => {
@@ -50,19 +67,8 @@ export default function EmotionAvatar() {
     const exclam = (orig.match(/!/g) || []).length;
     const qmarks = (orig.match(/\?/g) || []).length;
     const hasEllipsis = t.includes("...") || t.includes("…");
-
-    const POS = ["love", "great", "awesome", "amazing", "nice", "good", "cool", "yay", "thanks", "sweet"];
-    const NEG = ["bad", "hate", "terrible", "worst", "awful", "sucks", "nope"]; // for noise
-    const ANNOY = ["annoy", "ugh", "meh", "eye roll", "eyeroll"];
-    const SAD = ["sad", "down", "depressed", "unhappy", "cry", "upset"];
-    const ANGRY = ["angry", "furious", "mad", "rage", "pissed"];
-    const BORED = ["bored", "boring", "tired", "meh", "whatever", "idc", "idk"];
-    const FEAR = ["scared", "afraid", "nervous", "anxious", "anxiety", "worried", "fear"];
-    const SURP = ["wow", "omg", "whoa", "no way", "unbelievable", "wait what"];
-    const CONF = ["what", "why", "how", "huh", "confused"];
-    const CALM = ["calm", "relax", "chill", "fine", "okay", "ok", "alright"];
-
-    const count = (arr: string[]) => arr.reduce((s, w) => (t.includes(w) ? s + 1 : s), 0);
+    const { POS, NEG, ANNOY, SAD, ANGRY, BORED, FEAR, SURP, CONF, CALM } = WORD_LISTS;
+    const count = (arr: readonly string[]) => arr.reduce((s, w) => (t.includes(w) ? s + 1 : s), 0);
 
     const categories: Record<Emotion, number> = {
       excited: count(POS) + exclam,
@@ -89,16 +95,21 @@ export default function EmotionAvatar() {
   // Heuristic gesture assignment for fallback mode
   function getHeuristicGesture(emo: Emotion): Gesture {
     switch (emo) {
+      case "surprised":
+        return "eyesWide"; // stronger visual surprise
+      case "puzzled":
+        return "tiltSide"; // inquisitive tilt
+      case "calm":
+        return "leanIn"; // attentive listening
+      case "fearful":
+        return "tiltBack";
       case "annoyed":
         return "eyeroll";
       case "angry":
         return "shake";
-      case "happy":
       case "excited":
+      case "happy":
         return "nod";
-      case "surprised":
-      case "fearful":
-        return "tiltBack";
       default:
         return "none";
     }
@@ -112,19 +123,8 @@ export default function EmotionAvatar() {
     const exclam = (orig.match(/!/g) || []).length;
     const qmarks = (orig.match(/\?/g) || []).length;
     const hasEllipsis = t.includes("...") || t.includes("…");
-
-    const POS = ["love", "great", "awesome", "amazing", "nice", "good", "cool", "yay", "thanks", "sweet"];
-    const NEG = ["bad", "hate", "terrible", "worst", "awful", "sucks", "nope"];
-    const ANNOY = ["annoy", "ugh", "meh", "eye roll", "eyeroll"];
-    const SAD = ["sad", "down", "depressed", "unhappy", "cry", "upset"];
-    const ANGRY = ["angry", "furious", "mad", "rage", "pissed"];
-    const BORED = ["bored", "boring", "tired", "meh", "whatever", "idc", "idk"];
-    const FEAR = ["scared", "afraid", "nervous", "anxious", "anxiety", "worried", "fear"];
-    const SURP = ["wow", "omg", "whoa", "no way", "unbelievable", "wait what"];
-    const CONF = ["what", "why", "how", "huh", "confused"];
-    const CALM = ["calm", "relax", "chill", "fine", "okay", "ok", "alright"];
-
-    const count = (arr: string[]) => arr.reduce((s, w) => (t.includes(w) ? s + 1 : s), 0);
+    const { POS, NEG, ANNOY, SAD, ANGRY, BORED, FEAR, SURP, CONF, CALM } = WORD_LISTS;
+    const count = (arr: readonly string[]) => arr.reduce((s, w) => (t.includes(w) ? s + 1 : s), 0);
     const pos = count(POS);
     const neg = count(NEG);
     const annoyed = count(ANNOY);
@@ -242,9 +242,10 @@ export default function EmotionAvatar() {
     setEmotion(emo);
     setConfidence(conf);
 
-    // Apply LLM-controlled gesture
-    setGesture(gest);
-    setTimeout(() => setGesture("none"), 900);
+  // Apply LLM-controlled gesture (debounce identical rapid repeats)
+  setGesture((prev) => (prev === gest ? prev : gest));
+  const gestureDuration = gest === "leanIn" ? 1400 : 1000; // leanIn feels nicer a tad longer
+  setTimeout(() => setGesture("none"), gestureDuration);
 
     setTimeout(() => {
       setMessages((m) => [...m, { role: "agent", text: botResponse }]);
@@ -330,7 +331,7 @@ export default function EmotionAvatar() {
       const t = setTimeout(() => startListening(), 250);
       return () => clearTimeout(t);
     }
-  }, [speaking]);
+  }, [speaking, voiceMode]);
 
   // Auto-start listening when voice mode is on and we're not speaking or already listening
   useEffect(() => {
@@ -351,6 +352,14 @@ export default function EmotionAvatar() {
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") send();
   };
+
+  // Keep recent conversation visible by auto-scrolling to the bottom on new messages
+  useEffect(() => {
+    if (!chatEndRef.current) return;
+    // Respect reduced motion if set
+    const prefersReduced = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    chatEndRef.current.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "end" });
+  }, [messages]);
 
   // Derive palette for status box color and contrast text
   const pal = getEmotionPalette(emotion);
@@ -434,6 +443,7 @@ export default function EmotionAvatar() {
                 </span>
               </div>
             ))}
+            <div ref={chatEndRef} />
           </div>
         </div>
       </div>
@@ -443,11 +453,11 @@ export default function EmotionAvatar() {
         className="relative rounded-lg border overflow-hidden"
         style={{ backgroundColor: "transparent", color: textColor, borderColor: pal.accent }}
       >
-        {/* Accent overlay with confidence-controlled opacity */}
+        {/* Accent overlay with confidence-controlled opacity and smooth color changes */}
         <div
           className="absolute inset-0"
           aria-hidden="true"
-          style={{ backgroundColor: pal.accent, opacity: confidence, transition: "opacity 200ms ease" }}
+          style={{ backgroundColor: pal.accent, opacity: confidence, transition: "background-color 240ms ease, opacity 200ms ease" }}
         />
 
         <div className="relative px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -505,6 +515,22 @@ function SvgAvatar({
   gesture: Gesture;
 }) {
   const [blink, setBlink] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const handler = () => setReducedMotion(mq.matches);
+    try {
+      mq.addEventListener("change", handler);
+      return () => mq.removeEventListener("change", handler);
+    } catch {
+      // Safari fallback
+      mq.addListener(handler);
+      return () => mq.removeListener(handler);
+    }
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -524,8 +550,17 @@ function SvgAvatar({
 
   // Head transform
   const headRotate =
-    gesture === "nod" ? 8 : gesture === "tiltBack" ? -6 : gesture === "shake" ? -5 : 0;
-  const headDy = gesture === "nod" ? 3 : 0;
+    gesture === "nod"
+      ? 6
+      : gesture === "tiltBack"
+      ? -4
+      : gesture === "tiltSide"
+      ? -6
+      : gesture === "shake"
+      ? -4
+      : 0;
+  const headDy = gesture === "nod" ? 2 : gesture === "leanIn" ? 4 : 0;
+  const headScale = gesture === "leanIn" ? 1.02 : 1;
 
   // Brow tilt by emotion (approximation)
   const browTilt =
@@ -621,18 +656,20 @@ function SvgAvatar({
   const ringScale = speaking ? 1.06 : 1;
   const ringOpacity = speaking ? 0.18 : 0.12;
 
+  const gestureClass = reducedMotion ? "gesture-none" : `gesture-${gesture}`;
+  const svgStyle = { ["--avatar-accent" as any]: pal.accent } as React.CSSProperties;
   return (
-    <svg viewBox="0 0 200 200" className="w-full h-auto">
+    <svg viewBox="0 0 200 200" className={`w-full h-auto ${gestureClass} emotion-${emotion}`} style={svgStyle}>
       <defs>
         <radialGradient id="skinShading" cx="30%" cy="30%" r="70%">
-          <stop offset="0%" stopColor={pal.skinLight} />
-          <stop offset="70%" stopColor={pal.skinBase} />
-          <stop offset="100%" stopColor={pal.skinShadow} />
+          <stop offset="0%" stopColor={pal.skinLight} style={{ transition: "stop-color 240ms ease" }} />
+          <stop offset="70%" stopColor={pal.skinBase} style={{ transition: "stop-color 240ms ease" }} />
+          <stop offset="100%" stopColor={pal.skinShadow} style={{ transition: "stop-color 240ms ease" }} />
         </radialGradient>
 
         <radialGradient id="bgRingGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={pal.accent} stopOpacity="0.35" />
-          <stop offset="100%" stopColor={pal.accent} stopOpacity="0" />
+          <stop offset="0%" stopColor="var(--avatar-accent)" stopOpacity="0.35" style={{ transition: "stop-color 220ms ease" }} />
+          <stop offset="100%" stopColor="var(--avatar-accent)" stopOpacity="0" style={{ transition: "stop-color 220ms ease" }} />
         </radialGradient>
 
         <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
@@ -658,15 +695,18 @@ function SvgAvatar({
 
       {/* Emotion background ring */}
       <g transform={`translate(100,100) scale(${ringScale})`} style={{ transition: "transform 220ms ease" }}>
-        <circle r="78" fill="url(#bgRingGrad)" opacity={ringOpacity} />
-        <circle r="72" fill="none" stroke={pal.accent} strokeOpacity="0.25" strokeWidth="2" />
+        <circle r="78" fill="url(#bgRingGrad)" opacity={ringOpacity} style={{ transition: "opacity 220ms ease" }} />
+        <circle r="72" fill="none" stroke="var(--avatar-accent)" strokeOpacity="0.25" strokeWidth="2" style={{ transition: "stroke 220ms ease, opacity 220ms ease" }} />
       </g>
 
-      <g
-        transform={`translate(100,100) rotate(${headRotate}) translate(0,${headDy})`}
-        style={{ transition: "transform 250ms ease" }}
-        filter="url(#softShadow)"
-      >
+      {/* Head wrapper: outer centers at (100,100), middle animates via CSS, inner applies base pose */}
+      <g transform={`translate(100,100)`}>
+        <g className="avatar-head-anim">
+          <g
+            transform={`rotate(${headRotate}) translate(0,${headDy}) scale(${headScale})`}
+            style={{ transition: "transform 250ms ease" }}
+            filter="url(#softShadow)"
+          >
         {/* Hair tuft */}
         <path
           d="M-28,-62 C-20,-78 10,-78 18,-62 C8,-66 -6,-62 -20,-58"
@@ -674,16 +714,17 @@ function SvgAvatar({
           stroke={pal.hairStroke}
           strokeWidth="2"
           strokeLinecap="round"
+          style={{ transition: "fill 240ms ease, stroke 240ms ease" }}
         />
 
         {/* Ears */}
-        <g fill="url(#skinShading)" stroke={pal.stroke} strokeWidth="1.2" opacity="0.95">
+        <g fill="url(#skinShading)" stroke={pal.stroke} strokeWidth="1.2" opacity="0.95" style={{ transition: "stroke 240ms ease" }}>
           <ellipse cx="-62" cy="-2" rx="8" ry="12" />
           <ellipse cx="62" cy="-2" rx="8" ry="12" />
         </g>
 
         {/* Head */}
-        <circle cx="0" cy="0" r="60" fill="url(#skinShading)" stroke={pal.stroke} strokeWidth="1.2" filter="url(#grain)" />
+        <circle cx="0" cy="0" r="60" fill="url(#skinShading)" stroke={pal.stroke} strokeWidth="1.2" filter="url(#grain)" style={{ transition: "stroke 240ms ease" }} />
 
         {/* Face highlight */}
         <ellipse cx="-18" cy="-28" rx="24" ry="12" fill="#fff" opacity="0.14" />
@@ -699,7 +740,7 @@ function SvgAvatar({
               strokeWidth="3.2"
               strokeLinecap="round"
               transform={`rotate(${isAnnoyed ? 0 : browTilt})`}
-              style={{ transition: "transform 200ms ease" }}
+              style={{ transition: "transform 200ms ease, stroke 240ms ease" }}
             >
               <path d={leftBrow} />
               <path d={rightBrow} />
@@ -707,15 +748,23 @@ function SvgAvatar({
           );
         })()}
 
-        {/* Eyes */}
-        <g>
-          <ellipse cx="-20" cy="-5" rx="12" ry={eyeOpen} fill={pal.eyeWhite} stroke="#d0d0d0" />
-          <ellipse cx="20" cy="-5" rx="12" ry={eyeOpen} fill={pal.eyeWhite} stroke="#d0d0d0" />
-          <circle cx={-20 + pupilDx} cy={-5 + pupilDy} r={eyeOpen > 0.6 ? 4 : 0.8} fill="#111" />
-          <circle cx={20 + pupilDx} cy={-5 + pupilDy} r={eyeOpen > 0.6 ? 4 : 0.8} fill="#111" />
-          {/* Eye highlights */}
-          <circle cx={-22 + pupilDx} cy={-7 + pupilDy} r="1.2" fill="#fff" opacity="0.9" />
-          <circle cx={18 + pupilDx} cy={-7 + pupilDy} r="1.2" fill="#fff" opacity="0.9" />
+          {/* Eyes */}
+          <g className="eyes-group">
+          {(() => {
+            const widen = gesture === "eyesWide" ? 1.25 : 1;
+            const rx = 12 * widen;
+            const ry = eyeOpen * widen;
+            return (
+              <>
+                <ellipse cx="-20" cy="-5" rx={rx} ry={ry} fill={pal.eyeWhite} stroke="#d0d0d0" />
+                <ellipse cx="20" cy="-5" rx={rx} ry={ry} fill={pal.eyeWhite} stroke="#d0d0d0" />
+                <circle className="avatar-pupil" cx={-20 + pupilDx} cy={-5 + pupilDy} r={ry > 0.6 ? 4 : 0.8} fill="#111" />
+                <circle className="avatar-pupil" cx={20 + pupilDx} cy={-5 + pupilDy} r={ry > 0.6 ? 4 : 0.8} fill="#111" />
+                <circle cx={-22 + pupilDx} cy={-7 + pupilDy} r="1.2" fill="#fff" opacity="0.9" />
+                <circle cx={18 + pupilDx} cy={-7 + pupilDy} r="1.2" fill="#fff" opacity="0.9" />
+              </>
+            );
+          })()}
         </g>
 
         {/* Nose */}
@@ -723,8 +772,8 @@ function SvgAvatar({
 
         {/* Cheeks */}
         <g opacity={emotion === "happy" || emotion === "excited" || emotion === "angry" ? blushOpacity : 0.08}>
-          <circle cx="-34" cy="8" r="8" fill={pal.blush} />
-          <circle cx="34" cy="8" r="8" fill={pal.blush} />
+          <circle cx="-34" cy="8" r="8" fill={pal.blush} style={{ transition: "fill 240ms ease, opacity 240ms ease" }} />
+          <circle cx="34" cy="8" r="8" fill={pal.blush} style={{ transition: "fill 240ms ease, opacity 240ms ease" }} />
         </g>
 
         {/* Mouth (curved path + inner) */}
@@ -747,7 +796,9 @@ function SvgAvatar({
         <path d="M-18,42 Q0,48 18,42" stroke="#000" strokeOpacity="0.08" strokeWidth="4" />
 
         {/* Shirt */}
-        <path d="M-30,60 Q0,40 30,60" fill={pal.shirt} stroke={pal.shirtStroke} />
+        <path d="M-30,60 Q0,40 30,60" fill={pal.shirt} stroke={pal.shirtStroke} style={{ transition: "fill 240ms ease, stroke 240ms ease" }} />
+          </g>
+        </g>
       </g>
 
       <text x="100" y="185" textAnchor="middle" fill="#6b7280" fontSize="10">

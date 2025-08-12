@@ -20,28 +20,49 @@ export async function POST(request: NextRequest) {
     // Build conversation context - include last few messages for better context
     const contextMessages = [];
 
-    // Add system prompt
+    // Add system prompt (expanded gestures + refined guidance)
     contextMessages.push({
       role: "system" as const,
-      content: `You are an emotion analyzer for an avatar that reacts to conversation. Analyze the current message in context of the conversation history and return a JSON object with:
-      - emotion: one of ["neutral", "happy", "puzzled", "excited", "annoyed", "sad", "surprised", "angry", "bored", "calm", "fearful"]
-      - response: a brief empathetic response (max 200 chars)
-      - confidence: number 0-1
-      - gesture: one of ["none", "nod", "eyeroll", "shake", "tiltBack"]
+      content: `You are an EMOTION & GESTURE inference engine for a reactive avatar.
+Return ONLY a single compact JSON object (no backticks, no prose) with keys:
+  emotion: one of ["neutral","happy","puzzled","excited","annoyed","sad","surprised","angry","bored","calm","fearful"]
+  response: empathetic, context-aware reply (max 180 chars, no emojis)
+  confidence: number 0-1 (higher = clearer emotional signal)
+  gesture: one of ["none","nod","eyeroll","shake","tiltBack","eyesWide","leanIn","tiltSide"]
 
-      Gesture guidelines:
-      - "nod": for agreement, happiness, excitement, understanding
-      - "eyeroll": for annoyance, mild frustration, "really?"
-      - "shake": for disagreement, anger, disapproval, "no way"
-      - "tiltBack": for surprise, confusion, being taken aback
-      - "none": for neutral, calm, or subtle emotions
+Gesture semantics (choose the MOST natural & least repetitive):
+  nod: affirmation, agreement, positive reinforcement, excited acknowledgment
+  eyeroll: mild frustration, dismissiveness, "really?"
+  shake: strong disagreement, rejection, emphatic "no"
+  tiltBack: taken aback, mild surprise, brief confusion, slight shock
+  eyesWide: strong surprise / awe / sudden revelation / big "whoa"
+  leanIn: curiosity, interest, engagement, encouraging the user, attentive listening
+  tiltSide: puzzlement, reflective thinking, seeking clarification, mild uncertainty
+  none: neutral / calm / low-salience emotion
 
-      Consider the conversation flow - emotions and gestures should feel natural in context.
-      Example: {"emotion": "excited", "response": "That's amazing!", "confidence": 0.9, "gesture": "nod"}`
+Selection guidance:
+  - Prefer none if ambiguous.
+  - eyesWide vs tiltBack: eyesWide for bigger / more intense surprise.
+  - leanIn for calm but engaged / curious follow ups.
+  - tiltSide for lighter confusion; heavier confusion may pair with puzzled emotion + tiltSide or tiltBack.
+  - Avoid overusing nod; vary with leanIn / tiltSide when appropriate.
+
+Emotion guidance:
+  - excited vs surprised: excited implies positive arousal; surprised can be neutral/mixed.
+  - puzzled vs annoyed: puzzled seeks understanding; annoyed shows mild negative frustration.
+  - angry reserved for stronger hostility – don't escalate from annoyed too easily.
+
+Output format example:
+{"emotion":"excited","response":"That's fantastic progress—nice work!","confidence":0.88,"gesture":"nod"}
+
+STRICT RULES:
+  - Output MUST be valid JSON (single object)
+  - No trailing commas, no commentary, no markdown.
+  - confidence realistic (avoid 1.0 unless unequivocal).`
     });
 
-    // Add recent conversation history (last 4 messages max to keep context relevant)
-    const recentHistory = conversationHistory.slice(-4);
+    // Add recent conversation history (last 10 messages for richer context)
+    const recentHistory = conversationHistory.slice(-10);
     recentHistory.forEach((msg: any) => {
       contextMessages.push({
         role: msg.role === "agent" ? "assistant" : "user",
@@ -58,8 +79,8 @@ export async function POST(request: NextRequest) {
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: contextMessages,
-      max_tokens: 150,
-      temperature: 0.3,
+      max_tokens: 180,
+      temperature: 0.35,
     });
 
     const result = completion.choices[0]?.message?.content;

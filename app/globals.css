@@ -211,3 +211,77 @@
     @apply text-xs border border-border bg-muted/80 rounded-md p-1;
   }
 }
+
+/* Gesture animations for Emotion Avatar */
+@layer utilities {
+  /* Performance hint for smoother animations */
+  svg .avatar-head-anim, svg .eyes-group, svg .avatar-pupil { will-change: transform; }
+
+  @keyframes avatar-nod {
+  0%,100% { transform: translateY(0) rotate(0deg) scale(1); }
+  20% { transform: translateY(5px) rotate(6deg) scale(1.005); }
+  45% { transform: translateY(-3px) rotate(-3deg) scale(1.002); }
+  70% { transform: translateY(2px) rotate(2deg) scale(1.003); }
+  }
+  @keyframes avatar-nod-joy {
+    0%,100% { transform: translateY(0) rotate(0deg) scale(1); }
+    22% { transform: translateY(6px) rotate(7deg) scale(1.01); }
+    48% { transform: translateY(-3px) rotate(-3deg) scale(1.005); }
+    72% { transform: translateY(2px) rotate(2deg) scale(1.006); }
+  }
+  @keyframes avatar-shake {
+  0%,100% { transform: translateX(0); }
+  15% { transform: translateX(-5px); }
+  30% { transform: translateX(5px); }
+  45% { transform: translateX(-4px); }
+  60% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+  }
+  @keyframes avatar-shake-soft {
+    0%,100% { transform: translateX(0); }
+    18% { transform: translateX(-3px); }
+    36% { transform: translateX(3px); }
+    54% { transform: translateX(-2px); }
+    72% { transform: translateX(2px); }
+  }
+  @keyframes avatar-eyeroll {
+    0% { transform: translate(0,0); }
+    35% { transform: translate(6px,-2px); }
+    55% { transform: translate(5px,-3px); }
+    100% { transform: translate(0,0); }
+  }
+  @keyframes avatar-eyeswide {
+    0% { transform: scale(1); }
+    35% { transform: scale(1.1); }
+    65% { transform: scale(1.16); }
+    100% { transform: scale(1); }
+  }
+  @keyframes avatar-leanin {
+    0% { transform: translateY(0) scale(1); }
+    40% { transform: translateY(4px) scale(1.02); }
+    100% { transform: translateY(0) scale(1); }
+  }
+  @keyframes avatar-tiltside-pulse {
+    0%,100% { transform: rotate(-8deg); }
+    50% { transform: rotate(-6deg); }
+  }
+  @keyframes avatar-tiltback-sway {
+    0%,100% { transform: rotate(-4deg) translateY(0); }
+    35% { transform: rotate(-5deg) translateY(-2px); }
+    70% { transform: rotate(-3deg) translateY(1px); }
+  }
+
+  /* Scope animations to .gesture-* namespaces to avoid interfering globally */
+  svg.gesture-nod .avatar-head-anim { animation: avatar-nod 720ms cubic-bezier(.22,.61,.36,1); transform-origin: center; transform-box: fill-box; }
+  svg.gesture-shake .avatar-head-anim { animation: avatar-shake 620ms cubic-bezier(.22,.61,.36,1); transform-origin: center; transform-box: fill-box; }
+  svg.gesture-leanIn .avatar-head-anim { animation: avatar-leanin 980ms cubic-bezier(.22,.61,.36,1); transform-origin: center; transform-box: fill-box; }
+  svg.gesture-tiltSide .avatar-head-anim { animation: avatar-tiltside-pulse 1200ms ease-in-out; transform-origin: center; transform-box: fill-box; }
+  svg.gesture-eyesWide .eyes-group { animation: avatar-eyeswide 850ms ease; transform-origin: center; transform-box: fill-box; }
+  svg.gesture-eyeroll .avatar-pupil { animation: avatar-eyeroll 900ms ease; transform-origin: center; transform-box: fill-box; }
+
+  /* Emotion-specific refinements */
+  svg.emotion-happy.gesture-nod .avatar-head-anim,
+  svg.emotion-excited.gesture-nod .avatar-head-anim { animation-name: avatar-nod-joy; animation-duration: 760ms; }
+  svg.emotion-fearful.gesture-shake .avatar-head-anim { animation-name: avatar-shake-soft; animation-duration: 680ms; }
+  svg.emotion-fearful.gesture-tiltBack .avatar-head-anim { animation: avatar-tiltback-sway 900ms ease-in-out; }
+}
