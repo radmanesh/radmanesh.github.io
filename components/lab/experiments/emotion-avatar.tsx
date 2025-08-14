@@ -691,6 +691,18 @@ function SvgAvatar({
           </feComponentTransfer>
           <feBlend in="SourceGraphic" in2="noise" mode="overlay" />
         </filter>
+
+        {/* Hair shading + highlight */}
+        <linearGradient id="hairGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#3a3a3a" />
+          <stop offset="65%" stopColor={pal.hair} />
+          <stop offset="100%" stopColor="#1f1f1f" />
+        </linearGradient>
+        <radialGradient id="hairShine" cx="35%" cy="12%" r="60%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.38" />
+          <stop offset="60%" stopColor="#ffffff" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
       </defs>
 
       {/* Emotion background ring */}
@@ -707,15 +719,75 @@ function SvgAvatar({
             style={{ transition: "transform 250ms ease" }}
             filter="url(#softShadow)"
           >
-        {/* Hair tuft */}
-        <path
-          d="M-28,-62 C-20,-78 10,-78 18,-62 C8,-66 -6,-62 -20,-58"
-          fill={pal.hair}
-          stroke={pal.hairStroke}
-          strokeWidth="2"
-          strokeLinecap="round"
-          style={{ transition: "fill 240ms ease, stroke 240ms ease" }}
-        />
+        {/* Hair: parted crown with semi‑long twin braids and subtle nod sway */}
+        <g className="hair-sway" style={{ transformBox: "fill-box", transformOrigin: "50% 15%" }}>
+          {/* Crown / top hair wrapping the head */}
+          <path
+            d="M-60,-2
+               Q-56,-36 -32,-54
+               Q-10,-68 0,-70
+               Q 30,-64 50,-50
+               Q 62,-40 62,-6
+               Q 40,-24 8,-18
+               Q -10,-16 -32,-20
+               Q -48,-24 -60,-2 Z"
+            fill="url(#hairGrad)"
+            stroke={pal.hairStroke}
+            strokeWidth="2"
+            style={{ transition: "fill 240ms ease, stroke 240ms ease" }}
+          />
+
+          {/* Middle part highlight */}
+          <path d="M-2,-62 Q0,-66 2,-62" fill="none" stroke="#ffffff" strokeOpacity="0.35" strokeWidth="1.2" strokeLinecap="round" />
+
+          {/* Left braid anchor: translate to near left temple; animate around anchor on nod */}
+          <g transform="translate(-44,-10)">
+            {gesture === "nod" && (
+              <>
+                <animateTransform attributeName="transform" type="rotate" values="0; -6; 3; -1; 0" keyTimes="0; 0.3; 0.6; 0.85; 1" dur="760ms" additive="sum" repeatCount="1" />
+                <animateTransform attributeName="transform" type="translate" values="0 0; -0.8 1.6; 0 0" keyTimes="0; 0.45; 1" dur="760ms" additive="sum" repeatCount="1" />
+              </>
+            )}
+            {/* Left braid segments (alternating leaves) */}
+            <g>
+              <path d="M0,0 C-9,6 -9,14 0,20 C9,14 9,6 0,0 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              <path d="M0,18 C9,24 9,32 0,38 C-9,32 -9,24 0,18 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              <path d="M0,36 C-9,42 -9,50 0,56 C9,50 9,42 0,36 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              <path d="M0,54 C9,60 9,68 0,74 C-9,68 -9,60 0,54 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              <path d="M0,72 C-8,78 -8,86 0,92 C8,86 8,78 0,72 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              {/* end knot */}
+              <ellipse cx="0" cy="98" rx="8" ry="4" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.4" />
+              {/* tie */}
+              <rect x="-7" y="88" width="14" height="6" rx="3" fill={pal.accent} opacity="0.6" />
+            </g>
+          </g>
+
+          {/* Right braid anchor */}
+          <g transform="translate(44,-10)">
+            {gesture === "nod" && (
+              <>
+                <animateTransform attributeName="transform" type="rotate" values="0; 6; -3; 1; 0" keyTimes="0; 0.32; 0.62; 0.86; 1" dur="780ms" additive="sum" repeatCount="1" />
+                <animateTransform attributeName="transform" type="translate" values="0 0; 0.8 1.4; 0 0" keyTimes="0; 0.45; 1" dur="780ms" additive="sum" repeatCount="1" />
+              </>
+            )}
+            <g>
+              <path d="M0,0 C9,6 9,14 0,20 C-9,14 -9,6 0,0 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              <path d="M0,18 C-9,24 -9,32 0,38 C9,32 9,24 0,18 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              <path d="M0,36 C9,42 9,50 0,56 C-9,50 -9,42 0,36 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              <path d="M0,54 C-9,60 -9,68 0,74 C9,68 9,60 0,54 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              <path d="M0,72 C8,78 8,86 0,92 C-8,86 -8,78 0,72 Z" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.6" />
+              <ellipse cx="0" cy="98" rx="8" ry="4" fill={pal.hair} stroke={pal.hairStroke} strokeWidth="1.4" />
+              <rect x="-7" y="88" width="14" height="6" rx="3" fill={pal.accent} opacity="0.6" />
+            </g>
+          </g>
+
+          {/* Subtle crown highlight */}
+          <path d="M-28,-40 Q0,-56 28,-42" fill="none" stroke="url(#hairShine)" strokeWidth="6" strokeLinecap="round" opacity="0.35" />
+
+          {/* A few wispy strands near the temples */}
+          <path d="M-56,-6 Q-60,6 -54,12" fill="none" stroke={pal.hairStroke} strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
+          <path d="M56,-6 Q60,6 54,12" fill="none" stroke={pal.hairStroke} strokeWidth="1.6" strokeLinecap="round" opacity="0.7" />
+        </g>
 
         {/* Ears */}
         <g fill="url(#skinShading)" stroke={pal.stroke} strokeWidth="1.2" opacity="0.95" style={{ transition: "stroke 240ms ease" }}>
@@ -739,7 +811,7 @@ function SvgAvatar({
               stroke={pal.brow}
               strokeWidth="3.2"
               strokeLinecap="round"
-              transform={`rotate(${isAnnoyed ? 0 : browTilt})`}
+              transform={`translate(0, ${blink ? 2 : 0}) rotate(${isAnnoyed ? 0 : browTilt})`}
               style={{ transition: "transform 200ms ease, stroke 240ms ease" }}
             >
               <path d={leftBrow} />
@@ -748,8 +820,8 @@ function SvgAvatar({
           );
         })()}
 
-          {/* Eyes */}
-          <g className="eyes-group">
+        {/* Eyes */}
+        <g className="eyes-group">
           {(() => {
             const widen = gesture === "eyesWide" ? 1.25 : 1;
             const rx = 12 * widen;
@@ -776,19 +848,44 @@ function SvgAvatar({
           <circle cx="34" cy="8" r="8" fill={pal.blush} style={{ transition: "fill 240ms ease, opacity 240ms ease" }} />
         </g>
 
-        {/* Mouth (curved path + inner) */}
+        {/* Mouth: ellipse while speaking (animated), curved path otherwise */}
         <g transform="translate(0,18)">
-          <path
-            d={mouthPath(-24, 0, 24, 0, smile, Math.max(2, mouthOpen))}
-            fill={mouthOpen >= 6 ? pal.innerMouth : "none"}
-            stroke={pal.stroke}
-            strokeWidth="3"
-            strokeLinecap="round"
-            filter="url(#innerMouth)"
-          />
-          {/* Tongue when open */}
-          {mouthOpen >= 6 && (
-            <path d="M-10,4 Q0,9 10,4" fill="none" stroke={pal.tongue} strokeWidth="3" strokeLinecap="round" />
+          {speaking ? (
+            <g>
+              <ellipse
+                cx="0"
+                cy="0"
+                rx="12"
+                ry="3"
+                fill={pal.innerMouth}
+                stroke={pal.stroke}
+                strokeWidth="3"
+                filter="url(#innerMouth)"
+              >
+                {/* While speaking, run animation even if prefers-reduced-motion is on (accessibility: short, gentle loop) */}
+                {!(reducedMotion && !speaking) && (
+                  <>
+                    {/* Fatten (less elongated) then return */}
+                    <animate attributeName="ry" values="3;8;3" keyTimes="0;0.5;1" dur="0.68s" begin="0s" restart="always" repeatCount="indefinite" />
+                    <animate attributeName="rx" values="12;9;12" keyTimes="0;0.5;1" dur="0.68s" begin="0s" restart="always" repeatCount="indefinite" />
+                  </>
+                )}
+              </ellipse>
+              {!(reducedMotion && !speaking) && (
+                <animateTransform attributeName="transform" type="translate" values="0 0; 0 1.2; 0 0" keyTimes="0; 0.5; 1" dur="0.68s" begin="0s" restart="always" repeatCount="indefinite" additive="sum" />
+              )}
+            </g>
+          ) : (
+            <>
+              <path
+                d={mouthPath(-24, 0, 24, 0, smile, Math.max(2, mouthOpen))}
+                fill={mouthOpen >= 6 ? pal.innerMouth : "none"}
+                stroke={pal.stroke}
+                strokeWidth="3"
+                strokeLinecap="round"
+                filter="url(#innerMouth)"
+              />
+            </>
           )}
         </g>
 
